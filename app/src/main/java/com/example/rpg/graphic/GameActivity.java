@@ -17,7 +17,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity implements Serializable {
-    public static GameActivity game_activity = new GameActivity();
+    public GameActivity game_activity = new GameActivity();
     public ImageView jyari1 = findViewById(R.id.jyari1);
     public ImageView jyari2 = findViewById(R.id.jyari2);
     public ImageView jyari3 = findViewById(R.id.jyari3);
