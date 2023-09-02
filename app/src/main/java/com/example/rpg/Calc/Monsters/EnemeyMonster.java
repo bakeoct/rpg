@@ -56,6 +56,7 @@ public class EnemeyMonster implements Serializable {
         }
         this.x = x;
         this.y = y;
+        System.out.println("a");
     }
     public void setImageResource(String place,GameActivity gameActivity,ImageView enemy_monster){
         if (gameActivity.cara_now.equals("dragon_king")){
