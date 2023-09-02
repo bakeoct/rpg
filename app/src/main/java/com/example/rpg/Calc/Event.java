@@ -112,7 +112,7 @@ public class Event implements Serializable{
         }
     }
     public int eventMonster(int monsteri,World_map world_map){
-        String monster_get_map_code = map.getMapCode(enemey_monster.x, enemey_monster.y,enemey_monster.area,world_map);
+        String monster_get_map_code = map.getMapCode(this.enemey_monster.x, this.enemey_monster.y,this.enemey_monster.area,world_map);
         if (monster_get_map_code.equals("errer")) {
             monsteri--;
             enemey_monster.x = enemey_monster.monster_serve_x;

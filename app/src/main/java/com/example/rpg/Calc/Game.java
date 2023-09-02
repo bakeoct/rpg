@@ -29,14 +29,13 @@ public class Game implements Serializable {
     public Ship ship = new Ship();
     public Ladder ladder = new Ladder();
     public Map map =new Map();
-    public EnemeyMonster enemey_monster;
     public World_map world_map = new World_map();
     public static MissionDragonKing mission_dragon_king =new MissionDragonKing();
     public Store store = new Store(p,ship,ladder,mission_dragon_king);
-    public Event event =new Event(p,map,ladder,ship,mission_dragon_king,enemey_monster);
+    public Event event =new Event(p,map,ladder,ship,mission_dragon_king,enemeyMonster);
     public String serve_get_map_code = map.getMapCode(p.x, p.y, p.area,world_map);
     public Game(EnemeyMonster enemey_monster) {
-        this.enemey_monster = enemey_monster;
+        enemeyMonster = enemey_monster;
     }
     public void readSave(){
         game = saveWriteAndRead.read();
@@ -49,19 +48,19 @@ public class Game implements Serializable {
             p.serve_y = p.y;
             int monsteri = 0;
             while (monsteri == 0) {
-                this.enemey_monster.walk(game_activity,enemy_monster);
+                enemeyMonster.walk(game_activity,enemy_monster);
                 monsteri++;
                 monsteri = event.eventMonster(monsteri,world_map);
-                this.enemey_monster.graphic_walk(gridLayout,enemy_monster);
+                enemeyMonster.graphic_walk(gridLayout,enemy_monster);
             }
-            this.enemey_monster.monster_serve_x = this.enemey_monster.x;
-            this.enemey_monster.monster_serve_y = this.enemey_monster.y;
-            //if (p.x == this.enemey_monster.x && p.y == this.enemey_monster.y && p.area.equals(this.enemey_monster.area)) {
+            enemeyMonster.monster_serve_x = enemeyMonster.x;
+            enemeyMonster.monster_serve_y = enemeyMonster.y;
+            //if (p.x == enemeyMonster.x && p.y == enemeyMonster.y && p.area.equals(enemeyMonster.area)) {
                // System.out.println("!");
               //  System.out.println("モンスターと出会った！！");
               //  p.turnBattle(get_enemey_monster,mission_dragon_king);
               //  get_enemey_monster = getMonsterRandomly(gameActivity);
-              //  this.enemey_monster.randomNewEnemeyMonster(world_map);
+              //  enemeyMonster.randomNewEnemeyMonster(world_map);
            // }
     }
 }
