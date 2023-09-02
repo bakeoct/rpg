@@ -3,6 +3,7 @@ package com.example.rpg.Calc;
 import com.example.rpg.Calc.Error.Finish;
 import com.example.rpg.Calc.Item.*;
 import com.example.rpg.Calc.Mission.MissionDragonKing;
+import com.example.rpg.Calc.map.World_map;
 import com.example.rpg.Calc.map.cave.Cave1;
 import com.example.rpg.Calc.map.cave.Cave1_1;
 import com.example.rpg.Calc.map.Map;
@@ -30,9 +31,9 @@ public class Event implements Serializable{
         this.mission_dragon_king = missionDragonKing;
         this.enemey_monster = enemeyMonster;
     }
-    public void eventPerson(String serveget_map_code,Store store) {
+    public void eventPerson(String serveget_map_code, Store store, World_map world_map) {
         //これをmapに送って二つメソッド動かす
-        String get_map_code = map.getMapCode(p.x, p.y,p.area);
+        String get_map_code = map.getMapCode(p.x, p.y,p.area,world_map);
         if (get_map_code.equals("崖")) {
             if (!(get_map_code.equals(serveget_map_code))) {
                 notPoint(ladder,ON_GRAVEL_AUDIO);
@@ -110,8 +111,8 @@ public class Event implements Serializable{
             p.y = p.serve_y;
         }
     }
-    public int eventMonster(int monsteri){
-        String monster_get_map_code = map.getMapCode(enemey_monster.x, enemey_monster.y,enemey_monster.area);
+    public int eventMonster(int monsteri,World_map world_map){
+        String monster_get_map_code = map.getMapCode(enemey_monster.x, enemey_monster.y,enemey_monster.area,world_map);
         if (monster_get_map_code.equals("errer")) {
             monsteri--;
             enemey_monster.x = enemey_monster.monster_serve_x;

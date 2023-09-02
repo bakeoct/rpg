@@ -5,30 +5,24 @@ import com.example.rpg.Calc.Item.*;
 import com.example.rpg.Calc.Mission.MissionDragonKing;
 import com.example.rpg.Calc.Mission.MissionSab;
 import com.example.rpg.Calc.Monsters.*;
+import com.example.rpg.Calc.map.World_map;
 import com.example.rpg.R;
 import com.example.rpg.graphic.GameActivity;
 
 import static com.example.rpg.Calc.BattleManager.*;
 import static com.example.rpg.Calc.map.PersonHome1.people_home1;
-import static com.example.rpg.Calc.map.World_map.calc_world_map;
-import static com.example.rpg.Calc.map.World_map.graphic_world_map;
 import static com.example.rpg.Calc.map.cave.Cave1.cave1;
 import static com.example.rpg.Calc.map.cave.Cave1_1.cave1_1;
 
+import android.widget.GridLayout;
 import android.widget.ImageView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Person2 implements Serializable {
-    public static Person2 p;
-    static {
-        try {
-            p = new Person2("takumi","dannsei",new MetalSlime(),new Gorlem());
-        } catch (Finish finish) {
-            finish.printStackTrace();
-        }
-    }
+    public static Person2 p = new Person2("takumi","dannsei",new MetalSlime(),new Gorlem());
+
     public Level level =new Level();
     public ArrayList<Monster2> monsters2 =new ArrayList<Monster2>();
     public int lv=1;
@@ -49,7 +43,7 @@ public class Person2 implements Serializable {
     public int serve_x = 12;
     public int serve_y = 6;
     public int choose_item;
-    public Person2(String namae, String seibetu2, MetalSlime metal_slime, Gorlem gorlem) throws Finish {
+    public Person2(String namae, String seibetu2, MetalSlime metal_slime, Gorlem gorlem) {
         this.name = namae;
         this.seibetu = seibetu2;
         this.monsters2.add(metal_slime);
@@ -89,26 +83,23 @@ public class Person2 implements Serializable {
                     System.out.println("そして、" + namae + "君は" + field_item.name + "を持っています");
                 }
             }
-            if (this.seibetu.equals("finish")) {
-                throw new Finish();
-            }
             if (!(this.seibetu.equals("dannsei") || this.seibetu.equals("josei"))) {
                 System.out.println("(josei)または(dannsei)を入力してください。");
             }
     }
-    public void walk(String place, GameActivity gameActivity){
+    public void walk(String place, ImageView yuusya){
         if (place.equals("right")){
             this.x++;
-            gameActivity.yuusya.setImageResource(R.drawable.yuusya_right);
+            yuusya.setImageResource(R.drawable.yuusya_right);
         }else if (place.equals("left")) {
             this.x--;
-            gameActivity.yuusya.setImageResource(R.drawable.yuusya_left);
+            yuusya.setImageResource(R.drawable.yuusya_left);
         }else if (place.equals("over")){
             this.y++;
-            gameActivity.yuusya.setImageResource(R.drawable.yuusya);
+            yuusya.setImageResource(R.drawable.yuusya);
         }else if (place.equals("under")) {
             this.y--;
-            gameActivity.yuusya.setImageResource(R.drawable.yuusya_usiro);
+            yuusya.setImageResource(R.drawable.yuusya_usiro);
         }
     }
     public void turnBattle(Monster2 enemeymonster,  MissionDragonKing missionDragon_king) {
@@ -147,10 +138,10 @@ public class Person2 implements Serializable {
             System.out.println("負けてしまった");
         }
     }
-    public void graphic_walk(GameActivity gameActivity){
+    public void graphic_walk(GridLayout gridLayout,ImageView yuusya){
         if (area.equals("メインマップ")){
-            gameActivity.yuusya.setX(graphic_world_map[y][x].getX());
-            gameActivity.yuusya.setY(graphic_world_map[y][x].getY());
+            yuusya.setX(gridLayout.getX());
+            yuusya.setY(gridLayout.getY());
         }
     }
 }

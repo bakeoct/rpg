@@ -48,7 +48,7 @@ public abstract class Monster2 implements Serializable {
         return monster.name;
     }
 
-    public static Monster2 getMonsterRandomly(GameActivity gameActivity) {
+    public static Monster2 getMonsterRandomly(GameActivity gameActivity,ImageView enemy_monster) {
         Random random = new Random();
         ArrayList<Monster2> monster2List = new ArrayList<>();
         monster2List.add(new DragonKing());
@@ -57,21 +57,21 @@ public abstract class Monster2 implements Serializable {
         monster2List.add(new Gorlem());
         //0~3 no random na value get
         int randomNum = random.nextInt(monster2List.size());
-        setImageResource(randomNum,gameActivity);
+        setImageResource(randomNum,gameActivity,enemy_monster);
         return monster2List.get(randomNum);
     }
-    public static void setImageResource(int randomNum,GameActivity gameActivity){
+    public static void setImageResource(int randomNum,GameActivity gameActivity,ImageView enemy_monster){
         if (randomNum == 0) {
-            gameActivity.enemy_monster.setImageResource(R.drawable.dragon_king);
+            enemy_monster.setImageResource(R.drawable.dragon_king);
             gameActivity.cara_now = "dragon_king";
         }else if (randomNum == 1){
-            gameActivity.enemy_monster.setImageResource(R.drawable.metal_slime);
+            enemy_monster.setImageResource(R.drawable.metal_slime);
             gameActivity.cara_now = "metal_slime";
         }else if (randomNum == 2){
-            gameActivity.enemy_monster.setImageResource(R.drawable.puti_slime);
+            enemy_monster.setImageResource(R.drawable.puti_slime);
             gameActivity.cara_now = "puti_slime";
         }else {
-            gameActivity.enemy_monster.setImageResource(R.drawable.gorlem);
+            enemy_monster.setImageResource(R.drawable.gorlem);
             gameActivity.cara_now = "gorlem";
         }
     }

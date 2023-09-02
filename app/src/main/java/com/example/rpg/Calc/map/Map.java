@@ -21,10 +21,10 @@ import static com.example.rpg.Calc.map.World_map.*;
         public static final String SN = "stone";//Stone;
         public static final String BCV1 = "back_cave_1";//BackCave1;
 
-        public String getMapCode(int pointx, int pointy,String area) {
+        public String getMapCode(int pointx, int pointy,String area,World_map world_map) {
             String map_place_code = null;
             if (area.equals("メインマップ")){
-                map_place_code = calc_world_map[pointy][pointx];
+                map_place_code = world_map.world_map[pointy][pointx];
             }else if (area.equals("民家1")){
                 map_place_code = people_home1[pointy][pointx];
             }else if (area.equals("洞窟1")){

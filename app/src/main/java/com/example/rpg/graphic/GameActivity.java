@@ -1,374 +1,117 @@
 package com.example.rpg.graphic;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.ImageView;
+
+import static com.example.rpg.Calc.Game.get_enemey_monster;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 import androidx.appcompat.app.AppCompatActivity;
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
 import com.example.rpg.Calc.Error.Finish;
+import com.example.rpg.Calc.map.World_map;
 import com.example.rpg.R;
 import com.example.rpg.save.SaveWriteAndRead;
-
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity implements Serializable {
-    public static GameActivity game_activity = new GameActivity();
-    public ImageView jyari1 = findViewById(R.id.jyari1);
-    public ImageView jyari2 = findViewById(R.id.jyari2);
-    public ImageView jyari3 = findViewById(R.id.jyari3);
-    public ImageView jyari4 = findViewById(R.id.jyari4);
-    public ImageView jyari5 = findViewById(R.id.jyari5);
-    public ImageView jyari6 = findViewById(R.id.jyari6);
-    public ImageView jyari7 = findViewById(R.id.jyari7);
-    public ImageView jyari8 = findViewById(R.id.jyari8);
-    public ImageView jyari9 = findViewById(R.id.jyari9);
-    public ImageView jyari10 = findViewById(R.id.jyari10);
-    public ImageView jyari11 = findViewById(R.id.jyari11);
-    public ImageView jyari12 = findViewById(R.id.jyari12);
-    public ImageView jyari13 = findViewById(R.id.jyari13);
-    public ImageView jyari14 = findViewById(R.id.jyari14);
-    public ImageView jyari15 = findViewById(R.id.jyari15);
-    public ImageView jyari16 = findViewById(R.id.jyari16);
-    public ImageView jyari17 = findViewById(R.id.jyari17);
-    public ImageView jyari18 = findViewById(R.id.jyari18);
-    public ImageView sea1 = findViewById(R.id.sea1);
-    public ImageView sea2 = findViewById(R.id.sea2);
-    public ImageView sea3 = findViewById(R.id.sea3);
-    public ImageView sea4 = findViewById(R.id.sea4);
-    public ImageView sea5 = findViewById(R.id.sea5);
-    public ImageView sea6 = findViewById(R.id.sea6);
-    public ImageView sea7 = findViewById(R.id.sea7);
-    public ImageView sea8 = findViewById(R.id.sea8);
-    public ImageView sea9 = findViewById(R.id.sea9);
-    public ImageView sea10 = findViewById(R.id.sea10);
-    public ImageView sea11 = findViewById(R.id.sea11);
-    public ImageView sea12 = findViewById(R.id.sea12);
-    public ImageView sea13 = findViewById(R.id.sea13);
-    public ImageView sea14 = findViewById(R.id.sea14);
-    public ImageView sea15 = findViewById(R.id.sea15);
-    public ImageView sea16 = findViewById(R.id.sea16);
-    public ImageView sea17 = findViewById(R.id.sea17);
-    public ImageView sea18 = findViewById(R.id.sea18);
-    public ImageView glass1 = findViewById(R.id.glass1);
-    public ImageView glass2 = findViewById(R.id.glass2);
-    public ImageView glass3 = findViewById(R.id.glass3);
-    public ImageView glass4 = findViewById(R.id.glass4);
-    public ImageView glass5 = findViewById(R.id.glass5);
-    public ImageView glass6 = findViewById(R.id.glass6);
-    public ImageView glass7 = findViewById(R.id.glass7);
-    public ImageView glass8 = findViewById(R.id.glass8);
-    public ImageView glass9 = findViewById(R.id.glass9);
-    public ImageView glass10 = findViewById(R.id.glass10);
-    public ImageView glass11 = findViewById(R.id.glass11);
-    public ImageView glass12 = findViewById(R.id.galss12);
-    public ImageView glass13 = findViewById(R.id.glass13);
-    public ImageView glass14 = findViewById(R.id.glass14);
-    public ImageView glass15 = findViewById(R.id.glass15);
-    public ImageView glass16 = findViewById(R.id.glass16);
-    public ImageView glass17 = findViewById(R.id.glass17);
-    public ImageView glass18 = findViewById(R.id.glass18);
-    public ImageView glass19 = findViewById(R.id.glass19);
-    public ImageView glass20 = findViewById(R.id.glass20);
-    public ImageView glass21 = findViewById(R.id.glass21);
-    public ImageView glass22 = findViewById(R.id.glass22);
-    public ImageView glass23 = findViewById(R.id.glass23);
-    public ImageView glass24 = findViewById(R.id.glass24);
-    public ImageView glass25 = findViewById(R.id.glass25);
-    public ImageView glass26 = findViewById(R.id.glass26);
-    public ImageView glass27 = findViewById(R.id.glass27);
-    public ImageView glass28 = findViewById(R.id.glass28);
-    public ImageView glass29 = findViewById(R.id.glass29);
-    public ImageView glass30 = findViewById(R.id.glass30);
-    public ImageView glass31 = findViewById(R.id.glass31);
-    public ImageView glass32 = findViewById(R.id.glass32);
-    public ImageView glass33 = findViewById(R.id.glass33);
-    public ImageView glass34 = findViewById(R.id.glass34);
-    public ImageView glass35 = findViewById(R.id.glass35);
-    public ImageView glass36 = findViewById(R.id.glass36);
-    public ImageView glass37 = findViewById(R.id.glass37);
-    public ImageView glass38 = findViewById(R.id.glass38);
-    public ImageView glass39 = findViewById(R.id.glass39);
-    public ImageView glass40 = findViewById(R.id.glass40);
-    public ImageView glass41 = findViewById(R.id.glass41);
-    public ImageView glass42 = findViewById(R.id.glass42);
-    public ImageView glass43 = findViewById(R.id.glass43);
-    public ImageView glass44 = findViewById(R.id.glass44);
-    public ImageView glass45 = findViewById(R.id.glass45);
-    public ImageView glass46 = findViewById(R.id.glass46);
-    public ImageView glass47 = findViewById(R.id.glass47);
-    public ImageView glass48 = findViewById(R.id.glass48);
-    public ImageView glass49 = findViewById(R.id.glass49);
-    public ImageView glass50 = findViewById(R.id.glass50);
-    public ImageView glass51 = findViewById(R.id.glass51);
-    public ImageView glass52 = findViewById(R.id.glass52);
-    public ImageView glass53 = findViewById(R.id.glass53);
-    public ImageView glass54 = findViewById(R.id.glass54);
-    public ImageView glass55 = findViewById(R.id.glass55);
-    public ImageView glass56 = findViewById(R.id.glass56);
-    public ImageView glass57 = findViewById(R.id.glass57);
-    public ImageView glass58 = findViewById(R.id.glass58);
-    public ImageView glass59 = findViewById(R.id.glass59);
-    public ImageView glass60 = findViewById(R.id.glass60);
-    public ImageView glass61 = findViewById(R.id.glass61);
-    public ImageView glass62 = findViewById(R.id.glass62);
-    public ImageView glass63 = findViewById(R.id.glass63);
-    public ImageView glass64 = findViewById(R.id.glass64);
-    public ImageView glass65 = findViewById(R.id.glass65);
-    public ImageView glass66 = findViewById(R.id.glass66);
-    public ImageView glass67 = findViewById(R.id.glass67);
-    public ImageView glass68 = findViewById(R.id.glass68);
-    public ImageView glass69 = findViewById(R.id.glass69);
-    public ImageView glass70 = findViewById(R.id.glass70);
-    public ImageView glass71 = findViewById(R.id.glass71);
-    public ImageView glass72 = findViewById(R.id.glass72);
-    public ImageView glass73 = findViewById(R.id.glass73);
-    public ImageView glass74 = findViewById(R.id.glass74);
-    public ImageView glass75 = findViewById(R.id.glass75);
-    public ImageView glass76 = findViewById(R.id.glass76);
-    public ImageView glass77 = findViewById(R.id.glass77);
-    public ImageView glass78 = findViewById(R.id.glass78);
-    public ImageView glass79 = findViewById(R.id.glass79);
-    public ImageView glass80 = findViewById(R.id.glass80);
-    public ImageView glass81 = findViewById(R.id.glass81);
-    public ImageView glass82 = findViewById(R.id.glass82);
-    public ImageView glass83 = findViewById(R.id.glass83);
-    public ImageView glass84 = findViewById(R.id.glass84);
-    public ImageView glass85 = findViewById(R.id.glass85);
-    public ImageView glass86 = findViewById(R.id.glass86);
-    public ImageView glass87 = findViewById(R.id.glass87);
-    public ImageView glass88 = findViewById(R.id.glass88);
-    public ImageView glass89 = findViewById(R.id.glass89);
-    public ImageView glass90 = findViewById(R.id.glass90);
-    public ImageView glass91 = findViewById(R.id.glass91);
-    public ImageView glass92 = findViewById(R.id.glass92);
-    public ImageView glass93 = findViewById(R.id.glass93);
-    public ImageView glass94 = findViewById(R.id.glass94);
-    public ImageView glass95 = findViewById(R.id.glass95);
-    public ImageView glass96 = findViewById(R.id.glass96);
-    public ImageView glass97 = findViewById(R.id.glass97);
-    public ImageView glass98 = findViewById(R.id.glass98);
-    public ImageView glass99 = findViewById(R.id.glass99);
-    public ImageView glass100 = findViewById(R.id.glass100);
-    public ImageView glass101 = findViewById(R.id.glass101);
-    public ImageView glass102 = findViewById(R.id.glass102);
-    public ImageView glass103 = findViewById(R.id.glass103);
-    public ImageView glass104 = findViewById(R.id.glass104);
-    public ImageView glass105 = findViewById(R.id.glass105);
-    public ImageView glass108 = findViewById(R.id.glass108);
-    public ImageView glass109 = findViewById(R.id.glass109);
-    public ImageView glass110 = findViewById(R.id.glass110);
-    public ImageView glass111 = findViewById(R.id.glass111);
-    public ImageView glass112 = findViewById(R.id.glass112);
-    public ImageView glass113 = findViewById(R.id.glass113);
-    public ImageView glass114 = findViewById(R.id.glass114);
-    public ImageView glass115 = findViewById(R.id.glass115);
-    public ImageView glass116 = findViewById(R.id.glass116);
-    public ImageView glass117 = findViewById(R.id.glass117);
-    public ImageView glass118 = findViewById(R.id.glass118);
-    public ImageView glass119 = findViewById(R.id.glass119);
-    public ImageView glass120 = findViewById(R.id.glass120);
-    public ImageView glass121 = findViewById(R.id.glass121);
-    public ImageView glass122 = findViewById(R.id.glass122);
-    public ImageView glass123 = findViewById(R.id.glass123);
-    public ImageView glass124 = findViewById(R.id.glass124);
-    public ImageView glass125 = findViewById(R.id.glass125);
-    public ImageView glass126 = findViewById(R.id.glass126);
-    public ImageView glass127 = findViewById(R.id.glass127);
-    public ImageView glass128 = findViewById(R.id.glass128);
-    public ImageView glass129 = findViewById(R.id.glass129);
-    public ImageView glass130 = findViewById(R.id.glass130);
-    public ImageView glass131 = findViewById(R.id.glass131);
-    public ImageView glass132 = findViewById(R.id.glass132);
-    public ImageView glass133 = findViewById(R.id.glass133);
-    public ImageView glass134 = findViewById(R.id.glass134);
-    public ImageView glass135 = findViewById(R.id.glass135);
-    public ImageView glass136 = findViewById(R.id.glass136);
-    public ImageView glass137 = findViewById(R.id.glass137);
-    public ImageView glass138 = findViewById(R.id.glass138);
-    public ImageView glass139 = findViewById(R.id.glass139);
-    public ImageView glass140 = findViewById(R.id.glass140);
-    public ImageView glass141 = findViewById(R.id.glass141);
-    public ImageView glass142 = findViewById(R.id.glass142);
-    public ImageView glass143 = findViewById(R.id.glass143);
-    public ImageView glass144 = findViewById(R.id.glass144);
-    public ImageView glass145 = findViewById(R.id.glass145);
-    public ImageView glass146 = findViewById(R.id.glass146);
-    public ImageView glass147 = findViewById(R.id.glass147);
-    public ImageView glass148 = findViewById(R.id.glass148);
-    public ImageView glass149 = findViewById(R.id.glass149);
-    public ImageView glass150 = findViewById(R.id.glass150);
-    public ImageView glass151 = findViewById(R.id.glass151);
-    public ImageView glass152 = findViewById(R.id.glass152);
-    public ImageView glass153 = findViewById(R.id.glass153);
-    public ImageView glass154 = findViewById(R.id.glass154);
-    public ImageView glass155 = findViewById(R.id.glass155);
-    public ImageView glass156 = findViewById(R.id.glass156);
-    public ImageView glass157 = findViewById(R.id.glass157);
-    public ImageView glass158 = findViewById(R.id.glass158);
-    public ImageView glass159 = findViewById(R.id.glass159);
-    public ImageView glass160 = findViewById(R.id.glass160);
-    public ImageView glass161 = findViewById(R.id.glass161);
-    public ImageView glass162 = findViewById(R.id.glass162);
-    public ImageView glass163 = findViewById(R.id.glass163);
-    public ImageView glass164 = findViewById(R.id.glass164);
-    public ImageView glass165 = findViewById(R.id.glass165);
-    public ImageView glass166 = findViewById(R.id.glass166);
-    public ImageView glass167 = findViewById(R.id.glass167);
-    public ImageView glass168 = findViewById(R.id.glass168);
-    public ImageView glass169 = findViewById(R.id.glass169);
-    public ImageView glass170 = findViewById(R.id.glass170);
-    public ImageView glass171 = findViewById(R.id.glass171);
-    public ImageView glass172 = findViewById(R.id.glass172);
-    public ImageView glass173 = findViewById(R.id.glass173);
-    public ImageView glass174 = findViewById(R.id.glass174);
-    public ImageView glass175 = findViewById(R.id.glass175);
-    public ImageView glass176 = findViewById(R.id.glass176);
-    public ImageView glass177 = findViewById(R.id.glass177);
-    public ImageView glass178 = findViewById(R.id.glass178);
-    public ImageView glass179 = findViewById(R.id.glass179);
-    public ImageView glass180 = findViewById(R.id.glass180);
-    public ImageView glass181 = findViewById(R.id.glass181);
-    public ImageView glass182 = findViewById(R.id.glass182);
-    public ImageView glass183 = findViewById(R.id.glass183);
-    public ImageView glass184 = findViewById(R.id.glass184);
-    public ImageView glass185 = findViewById(R.id.glass185);
-    public ImageView glass186 = findViewById(R.id.glass186);
-    public ImageView glass187 = findViewById(R.id.glass187);
-    public ImageView glass188 = findViewById(R.id.glass188);
-    public ImageView glass189 = findViewById(R.id.glass189);
-    public ImageView glass190 = findViewById(R.id.glass190);
-    public ImageView glass191 = findViewById(R.id.glass191);
-    public ImageView glass192 = findViewById(R.id.glass192);
-    public ImageView glass193 = findViewById(R.id.glass193);
-    public ImageView glass194 = findViewById(R.id.glass194);
-    public ImageView glass195 = findViewById(R.id.glass195);
-    public ImageView glass196 = findViewById(R.id.glass196);
-    public ImageView glass197 = findViewById(R.id.glass197);
-    public ImageView ererr1 = findViewById(R.id.ererr1);
-    public ImageView ererr2 = findViewById(R.id.ererr2);
-    public ImageView ererr3 = findViewById(R.id.ererr3);
-    public ImageView ererr4 = findViewById(R.id.ererr4);
-    public ImageView ererr5 = findViewById(R.id.ererr5);
-    public ImageView ererr6 = findViewById(R.id.ererr6);
-    public ImageView ererr7 = findViewById(R.id.ererr7);
-    public ImageView ererr8 = findViewById(R.id.ererr8);
-    public ImageView ererr9 = findViewById(R.id.ererr9);
-    public ImageView ererr10 = findViewById(R.id.ererr10);
-    public ImageView ererr11 = findViewById(R.id.ererr11);
-    public ImageView ererr12 = findViewById(R.id.ererr12);
-    public ImageView ererr13 = findViewById(R.id.ererr13);
-    public ImageView ererr14 = findViewById(R.id.ererr14);
-    public ImageView ererr15 = findViewById(R.id.ererr15);
-    public ImageView ererr16 = findViewById(R.id.ererr16);
-    public ImageView ererr17 = findViewById(R.id.ererr17);
-    public ImageView ererr18 = findViewById(R.id.ererr18);
-    public ImageView ererr19 = findViewById(R.id.ererr19);
-    public ImageView ererr20 = findViewById(R.id.ererr20);
-    public ImageView ererr21 = findViewById(R.id.ererr21);
-    public ImageView ererr22 = findViewById(R.id.ererr22);
-    public ImageView ererr23 = findViewById(R.id.ererr23);
-    public ImageView ererr24 = findViewById(R.id.ererr24);
-    public ImageView ererr25 = findViewById(R.id.ererr25);
-    public ImageView ererr26 = findViewById(R.id.ererr26);
-    public ImageView ererr27 = findViewById(R.id.ererr27);
-    public ImageView ererr28 = findViewById(R.id.ererr28);
-    public ImageView ererr29 = findViewById(R.id.ererr29);
-    public ImageView ererr30 = findViewById(R.id.ererr30);
-    public ImageView ererr31 = findViewById(R.id.ererr31);
-    public ImageView ererr32 = findViewById(R.id.ererr32);
-    public ImageView ererr33 = findViewById(R.id.ererr33);
-    public ImageView ererr34 = findViewById(R.id.ererr34);
-    public ImageView ererr35 = findViewById(R.id.ererr35);
-    public ImageView ererr36 = findViewById(R.id.ererr36);
-    public ImageView ererr37 = findViewById(R.id.ererr37);
-    public ImageView ererr38 = findViewById(R.id.ererr38);
-    public ImageView ererr39 = findViewById(R.id.ererr39);
-    public ImageView ererr40 = findViewById(R.id.ererr40);
-    public ImageView ererr41 = findViewById(R.id.ererr41);
-    public ImageView ererr42 = findViewById(R.id.ererr42);
-    public ImageView ererr43 = findViewById(R.id.ererr43);
-    public ImageView ererr44 = findViewById(R.id.ererr44);
-    public ImageView ererr45 = findViewById(R.id.ererr45);
-    public ImageView ererr46 = findViewById(R.id.ererr46);
-    public ImageView ererr47 = findViewById(R.id.ererr47);
-    public ImageView ererr48 = findViewById(R.id.ererr48);
-    public ImageView ererr49 = findViewById(R.id.ererr49);
-    public ImageView ererr50 = findViewById(R.id.ererr50);
-    public ImageView ererr51 = findViewById(R.id.ererr51);
-    public ImageView ererr52 = findViewById(R.id.ererr52);
-    public ImageView ererr53 = findViewById(R.id.ererr53);
-    public ImageView ererr54 = findViewById(R.id.ererr54);
-    public ImageView ererr55 = findViewById(R.id.ererr55);
-    public ImageView ererr56 = findViewById(R.id.ererr56);
-    public ImageView ererr57 = findViewById(R.id.ererr57);
-    public ImageView ererr58 = findViewById(R.id.ererr58);
-    public ImageView ererr59 = findViewById(R.id.ererr59);
-    public ImageView ererr60 = findViewById(R.id.ererr60);
-    public ImageView ererr61 = findViewById(R.id.ererr61);
-    public ImageView ererr62 = findViewById(R.id.ererr62);
-    public ImageView ererr63 = findViewById(R.id.ererr63);
-    public ImageView ererr64 = findViewById(R.id.ererr64);
-    public ImageView ererr65 = findViewById(R.id.ererr65);
-    public ImageView ererr66 = findViewById(R.id.ererr66);
-    public ImageView ererr67 = findViewById(R.id.ererr67);
-    public ImageView ererr68 = findViewById(R.id.ererr68);
-    public ImageView store1 = findViewById(R.id.store1);
-    public ImageView home1 = findViewById(R.id.home1);
-    public ImageView cave_entrance1 = findViewById(R.id.cave_entrance1);
-    public ImageView enemy_monster = findViewById(R.id.enemy_monster);
     public String cara_now = null;
     public String place = null;
-    public ImageView yuusya = findViewById(R.id.yuusya);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        int imageSize = getResources().getDimensionPixelSize(R.dimen.image_size);
+        int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView right = findViewById(R.id.right);
         ImageView over = findViewById(R.id.over);
         ImageView under = findViewById(R.id.under);
         ImageView left = findViewById(R.id.left);
         ImageView setting = findViewById(R.id.setting);
         ImageView do_button = findViewById(R.id.do_button);
+        GridLayout gridLayout = findViewById(R.id.gridLayout);
+        ImageView enemy_monster = findViewById(R.id.enemy_monster);
+        ImageView yuusya = findViewById(R.id.yuusya);
+        GameActivity game_activity = new GameActivity();
+        get_enemey_monster = getMonsterRandomly(game_activity,enemy_monster);
+        String[][] map = new World_map().world_map;
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                Drawable myImageDrawable = drawMap(map,i,j);
+                GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+                layoutParams.width = imageSize;
+                layoutParams.height = imageSize;
+                layoutParams.setMargins(margin, margin, margin, margin);
+                ImageView imageView = new ImageView(this);
+                imageView.setImageDrawable(myImageDrawable);
+                imageView.setLayoutParams(layoutParams);
+                gridLayout.addView(imageView);
+            }
+        }
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 place = "right";
-                game.gameTurn(place,game_activity);
+                game.gameTurn(place, game_activity,gridLayout,enemy_monster,yuusya);
             }
         });
         over.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 place = "over";
-                game.gameTurn(place,game_activity);
+                game.gameTurn(place, game_activity,gridLayout,enemy_monster,yuusya);
             }
         });
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 place = "left";
-                game.gameTurn(place,game_activity);
+                game.gameTurn(place, game_activity,gridLayout,enemy_monster,yuusya);
             }
         });
         under.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 place = "under";
-                game.gameTurn(place,game_activity);
+                game.gameTurn(place, game_activity,gridLayout,enemy_monster,yuusya);
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 saveWriteAndRead.write();
                 finish();
             }
         });
+    }
+    public Drawable drawMap(String[][] map,int i,int j){
+        Drawable myImageDrawable = null;
+        if (map[i][j].equals("海")) {
+            myImageDrawable = getResources().getDrawable(R.drawable.sea, null);
+        } else if (map[i][j].equals("山")) {
+            myImageDrawable = getResources().getDrawable(R.drawable.glass, null);
+        } else if (map[i][j].equals("崖")) {
+            myImageDrawable = getResources().getDrawable(R.drawable.jyari, null);
+        } else if (map[i][j].equals("glass")) {
+            myImageDrawable = getResources().getDrawable(R.drawable.glass, null);
+        } else if (map[i][j].equals("errer")) {
+            myImageDrawable = getResources().getDrawable(R.drawable.errerzone, null);
+        } else if (map[i][j].equals("store")) {
+            myImageDrawable = getResources().getDrawable(R.drawable.store, null);
+        } else if (map[i][j].equals("stone")) {
+            myImageDrawable = getResources().getDrawable(R.drawable.stone, null);
+        } else if (map[i][j].equals("cave1")) {
+            myImageDrawable = getResources().getDrawable(R.drawable.cave_entrance, null);
+        } else if (map[i][j].equals("people_home_1")) {
+            myImageDrawable = getResources().getDrawable(R.drawable.home, null);
+        }
+        return myImageDrawable;
     }
 }
