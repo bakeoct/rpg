@@ -1,12 +1,15 @@
 package com.example.rpg.graphic;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-
+import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemeyMonster;
 import static com.example.rpg.Calc.Game.get_enemey_monster;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +18,7 @@ import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
 import com.example.rpg.Calc.Error.Finish;
 import com.example.rpg.Calc.map.World_map;
 import com.example.rpg.R;
-import com.example.rpg.save.SaveWriteAndRead;
+import static com.example.rpg.Calc.Person2.p;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -28,7 +31,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        int imageSize = getResources().getDimensionPixelSize(R.dimen.image_size);
+        int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView right = findViewById(R.id.right);
         ImageView over = findViewById(R.id.over);
@@ -46,8 +49,8 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             for (int j = 0; j < map[i].length; j++) {
                 Drawable myImageDrawable = drawMap(map,i,j);
                 GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
-                layoutParams.width = imageSize;
-                layoutParams.height = imageSize;
+                layoutParams.width = image_size;
+                layoutParams.height = image_size;
                 layoutParams.setMargins(margin, margin, margin, margin);
                 ImageView imageView = new ImageView(this);
                 imageView.setImageDrawable(myImageDrawable);
@@ -55,32 +58,43 @@ public class GameActivity extends AppCompatActivity implements Serializable {
                 gridLayout.addView(imageView);
             }
         }
+        //
+
+
+        //gridlayoutは敵と勇者の画像の座標になっているから前の授業では画面外に敵と勇者が行ってしまっただから今は手動でgridlayoutの左上に行くように調節して動かしてるからそこの解決をする
+
+
+        //
+        enemy_monster.setX(image_size * enemeyMonster.x);
+        enemy_monster.setY(image_size * enemeyMonster.y);
+        yuusya.setX(image_size * p.x);
+        yuusya.setY(image_size * p.y);
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 place = "right";
-                game.gameTurn(place, game_activity,gridLayout,enemy_monster,yuusya);
+                game.gameTurn(place, game_activity,gridLayout,enemy_monster,yuusya,image_size);
             }
         });
         over.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 place = "over";
-                game.gameTurn(place, game_activity,gridLayout,enemy_monster,yuusya);
+                game.gameTurn(place, game_activity,gridLayout,enemy_monster,yuusya,image_size);
             }
         });
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 place = "left";
-                game.gameTurn(place, game_activity,gridLayout,enemy_monster,yuusya);
+                game.gameTurn(place, game_activity,gridLayout,enemy_monster,yuusya,image_size);
             }
         });
         under.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 place = "under";
-                game.gameTurn(place, game_activity,gridLayout,enemy_monster,yuusya);
+                game.gameTurn(place, game_activity,gridLayout,enemy_monster,yuusya,image_size);
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
@@ -113,5 +127,9 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             myImageDrawable = getResources().getDrawable(R.drawable.home, null);
         }
         return myImageDrawable;
+    }
+    public void go_store(){
+        Intent intent = new Intent(GameActivity.this , StoreActivity.class);
+        startActivity(intent);
     }
 }

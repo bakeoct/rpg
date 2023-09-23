@@ -40,10 +40,10 @@ public class Game implements Serializable {
     public void readSave(){
         game = saveWriteAndRead.read();
     }
-    public void gameTurn(String place, GameActivity game_activity, GridLayout gridLayout,ImageView enemy_monster,ImageView yuusya) {
+    public void gameTurn(String place, GameActivity game_activity, GridLayout gridLayout,ImageView enemy_monster,ImageView yuusya,int image_size) {
             p.walk(place, yuusya);
-            event.eventPerson(serve_get_map_code, store,world_map);
-            p.graphic_walk(gridLayout,yuusya);
+            event.eventPerson(serve_get_map_code,world_map,game_activity);
+            p.graphic_walk(gridLayout,yuusya,p,image_size);
             p.serve_x = p.x;
             p.serve_y = p.y;
             int monsteri = 0;
@@ -51,7 +51,7 @@ public class Game implements Serializable {
                 enemeyMonster.walk(game_activity,enemy_monster);
                 monsteri++;
                 monsteri = event.eventMonster(monsteri,world_map);
-                enemeyMonster.graphic_walk(gridLayout,enemy_monster);
+                enemeyMonster.graphic_walk(gridLayout,enemy_monster,enemeyMonster,image_size);
             }
             enemeyMonster.monster_serve_x = enemeyMonster.x;
             enemeyMonster.monster_serve_y = enemeyMonster.y;

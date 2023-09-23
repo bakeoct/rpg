@@ -1,5 +1,7 @@
 package com.example.rpg.Calc;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import com.example.rpg.Calc.Error.Finish;
 import com.example.rpg.Calc.Item.*;
 import com.example.rpg.Calc.Mission.MissionDragonKing;
@@ -10,10 +12,16 @@ import com.example.rpg.Calc.map.Map;
 import com.example.rpg.Calc.map.PersonHome1;
 import com.example.rpg.Calc.Monsters.EnemeyMonster;
 import com.example.rpg.Calc.Monsters.Monster2;
+import com.example.rpg.graphic.GameActivity;
+import com.example.rpg.graphic.MainActivity;
+import com.example.rpg.graphic.StoreActivity;
+
 import java.io.File;
 import java.io.Serializable;
 import java.util.Scanner;
 import static com.example.rpg.Calc.Sound.*;
+
+import android.content.Intent;
 
 public class Event implements Serializable{
     public Person2 p;
@@ -31,7 +39,7 @@ public class Event implements Serializable{
         this.mission_dragon_king = missionDragonKing;
         this.enemey_monster = enemeyMonster;
     }
-    public void eventPerson(String serveget_map_code, Store store, World_map world_map) {
+    public void eventPerson(String serveget_map_code, World_map world_map,GameActivity gameActivity) {
         //これをmapに送って二つメソッド動かす
         String get_map_code = map.getMapCode(p.x, p.y,p.area,world_map);
         if (get_map_code.equals("崖")) {
@@ -60,8 +68,8 @@ public class Event implements Serializable{
         } else if (get_map_code .equals("treasure_chest_ladder")) {
             item_box ="宝箱";
             openTreasureChest(ladder,OPEN_TREASURE_CHEST_AUDIO);
-        } else if (get_map_code .equals("store")) {
-            store.shoppingStore();
+        } else if (get_map_code.equals("store")) {
+            gameActivity.go_store();
             for (Monster2 monster : p.monsters2) {
                 System.out.println(monster.name);
             }

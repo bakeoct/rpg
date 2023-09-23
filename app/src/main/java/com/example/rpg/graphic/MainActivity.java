@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                     game.readSave();
-                    Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                    startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                startActivity(intent);
             }
         });
     }

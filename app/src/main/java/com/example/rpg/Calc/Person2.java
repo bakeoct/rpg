@@ -8,7 +8,6 @@ import com.example.rpg.Calc.Monsters.*;
 import com.example.rpg.Calc.map.World_map;
 import com.example.rpg.R;
 import com.example.rpg.graphic.GameActivity;
-
 import static com.example.rpg.Calc.BattleManager.*;
 import static com.example.rpg.Calc.map.PersonHome1.people_home1;
 import static com.example.rpg.Calc.map.cave.Cave1.cave1;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 
 public class Person2 implements Serializable {
     public static Person2 p = new Person2("takumi","dannsei",new MetalSlime(),new Gorlem());
-
     public Level level =new Level();
     public ArrayList<Monster2> monsters2 =new ArrayList<Monster2>();
     public int lv=1;
@@ -94,10 +92,10 @@ public class Person2 implements Serializable {
         }else if (place.equals("left")) {
             this.x--;
             yuusya.setImageResource(R.drawable.yuusya_left);
-        }else if (place.equals("over")){
+        }else if (place.equals("under")){
             this.y++;
             yuusya.setImageResource(R.drawable.yuusya);
-        }else if (place.equals("under")) {
+        }else if (place.equals("over")) {
             this.y--;
             yuusya.setImageResource(R.drawable.yuusya_usiro);
         }
@@ -138,10 +136,10 @@ public class Person2 implements Serializable {
             System.out.println("負けてしまった");
         }
     }
-    public void graphic_walk(GridLayout gridLayout,ImageView yuusya){
+    public void graphic_walk(GridLayout gridLayout,ImageView yuusya,Person2 p,int image_size){
         if (area.equals("メインマップ")){
-            yuusya.setX(gridLayout.getX());
-            yuusya.setY(gridLayout.getY());
+            yuusya.setX(gridLayout.getX() + image_size * p.x);
+            yuusya.setY(gridLayout.getY() + image_size * p.y);
         }
     }
 }

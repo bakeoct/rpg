@@ -23,6 +23,10 @@
             android:name=".graphic.GameActivity"
             android:screenOrientation="landscape"
             />
+        <activity
+            android:name=".graphic.StoreActivity"
+            android:screenOrientation="landscape"
+            />
     </application>
 
 </manifest>
