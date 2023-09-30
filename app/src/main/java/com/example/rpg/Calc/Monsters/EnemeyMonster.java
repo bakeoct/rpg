@@ -102,6 +102,8 @@ public class EnemeyMonster implements Serializable {
     }
     public void graphic_walk(GridLayout gridLayout, ImageView enemy_monster,EnemeyMonster enemey_monster, int image_size){
         if (area.equals("メインマップ")){
+            System.out.println(gridLayout.getX());
+            System.out.println(gridLayout.getY());
             enemy_monster.setX(gridLayout.getX() + image_size * enemey_monster.x);
             enemy_monster.setY(gridLayout.getY() + image_size * enemey_monster.y);
         }

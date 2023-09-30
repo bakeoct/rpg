@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemeyMonster;
@@ -58,17 +59,31 @@ public class GameActivity extends AppCompatActivity implements Serializable {
                 gridLayout.addView(imageView);
             }
         }
-        //
 
 
         //gridlayoutは敵と勇者の画像の座標になっているから前の授業では画面外に敵と勇者が行ってしまっただから今は手動でgridlayoutの左上に行くように調節して動かしてるからそこの解決をする
+        gridLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                float xValue = gridLayout.getX();
+                float yValue = gridLayout.getY();
+                int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
+                GridLayout gridLayout = findViewById(R.id.gridLayout);
+                ImageView enemy_monster = findViewById(R.id.enemy_monster);
+                ImageView yuusya = findViewById(R.id.yuusya);
+                System.out.println(gridLayout.getX());
+                System.out.println(gridLayout.getY());
+                enemy_monster.setX(xValue + image_size * enemeyMonster.x);
+                enemy_monster.setY(gridLayout.getY() + image_size * enemeyMonster.y);
+                yuusya.setX(xValue + image_size * p.x);
+                yuusya.setY(gridLayout.getY() + image_size * p.y);
 
+                // このリスナーは一度だけ実行させたいので、直後でリスナーを削除する
+                gridLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
 
         //
-        enemy_monster.setX(image_size * enemeyMonster.x);
-        enemy_monster.setY(image_size * enemeyMonster.y);
-        yuusya.setX(image_size * p.x);
-        yuusya.setY(image_size * p.y);
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +120,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             }
         });
     }
+
     public Drawable drawMap(String[][] map,int i,int j){
         Drawable myImageDrawable = null;
         if (map[i][j].equals("海")) {
@@ -129,7 +145,8 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         return myImageDrawable;
     }
     public void go_store(){
-        Intent intent = new Intent(GameActivity.this , StoreActivity.class);
-        startActivity(intent);
+        System.out.println(this);
+        Intent intent = new Intent(this , StoreActivity.class);
+//        startActivity(intent);
     }
 }
