@@ -12,6 +12,7 @@ import static com.example.rpg.Calc.BattleManager.*;
 import static com.example.rpg.Calc.map.PersonHome1.people_home1;
 import static com.example.rpg.Calc.map.cave.Cave1.cave1;
 import static com.example.rpg.Calc.map.cave.Cave1_1.cave1_1;
+import static com.example.rpg.graphic.GameActivity.place;
 
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -85,7 +86,7 @@ public class Person2 implements Serializable {
                 System.out.println("(josei)または(dannsei)を入力してください。");
             }
     }
-    public void walk(String place, ImageView yuusya){
+    public void walk(ImageView yuusya){
         if (place.equals("right")){
             this.x++;
             yuusya.setImageResource(R.drawable.yuusya_right);
@@ -137,9 +138,7 @@ public class Person2 implements Serializable {
         }
     }
     public void graphic_walk(GridLayout gridLayout,ImageView yuusya,Person2 p,int image_size){
-        if (area.equals("メインマップ")){
             yuusya.setX(gridLayout.getX() + image_size * p.x);
             yuusya.setY(gridLayout.getY() + image_size * p.y);
-        }
     }
 }

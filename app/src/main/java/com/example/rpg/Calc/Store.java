@@ -25,7 +25,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Store implements Serializable {
-    private final int WC = ViewGroup.LayoutParams.WRAP_CONTENT;
     public int store_lv=1;
     public Person2 p;
     public StoreActivity storeActivity =new StoreActivity();
@@ -60,73 +59,27 @@ public class Store implements Serializable {
         this.monster_items_all.add(gorlem_merchandise);
         this.mission_all.add(missionDragonKing);
     }
-
-    public void buy(LinearLayout shopping_items,LinearLayout serifs) {
-        ArrayList<Item> buyitems = new ArrayList<>();
-            buyitems.clear();
-            for (int j=0;j<items_all.size();j++) {
-                if (items_all.get(j).item_lv <= store_lv) {
-                    TextView shopping_item = storeActivity.shop_item();
-                    shopping_item.setText(items_all.get(j).name);
-                    shopping_items.addView(shopping_item,new LinearLayout.LayoutParams(WC, WC));
-                    buyitems.add(items_all.get(j));
+    public void buy(LinearLayout shopping_items,LinearLayout serifs,ArrayList<Item> buyitems,int shop_J,Button enter,TextView serif,EditText choose_number) {
+        enter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    int buy_number = Integer.parseInt(choose_number.getText().toString());
+                    if (buy_number >= 1) {
+                        buy_click((TextView) shopping_items.getChildAt(shop_J), buyitems, buy_number);
+                    }else {
+                        serif.setText("正の数で答えてくれ");
+                    }
+                }catch (Exception e){
+                    serif.setText("数字で答えてくれ");
                 }
             }
-            for (int j = 0; j < buyitems.size(); j++) {
-                int shop_J = j;
-                shopping_items.getChildAt(shop_J).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        TextView serif = (TextView) serifs.getChildAt(0);
-                        serif.setText("何個買うんだ？");
-                        EditText choose_number = storeActivity.edit_shop();
-                        serifs.addView(choose_number);
-                        Button enter = storeActivity.button_shop();
-                        enter.setText("決定");
-                        serifs.addView(enter);
-                        enter.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                try {
-                                    int buy_number = Integer.parseInt(choose_number.getText().toString());
-                                    if (buy_number >= 1) {
-                                        buy_click((TextView) shopping_items.getChildAt(shop_J), buyitems, buy_number);
-                                    }else {
-                                        serif.setText("正の数で答えてくれ");
-                                    }
-                                }catch (Exception e){
-                                    serif.setText("数字で答えてくれ");
-                                }
-                            }
-                        });
-                        serifs.removeView(choose_number);
-                        serifs.removeView(enter);
-                    }
-                });
-            }
-
+        });
+        serifs.removeView(choose_number);
+        serifs.removeView(enter);
     }
 
-    public void sell (LinearLayout shopping_items,LinearLayout serifs) {
-        ArrayList<Item> sellitems = new ArrayList<>();
-        for (Item item : p.items) {
-            TextView shopping_item = storeActivity.shop_item();
-            shopping_item.setText(item.name);
-            shopping_items.addView(shopping_item,new LinearLayout.LayoutParams(WC, WC));
-            sellitems.add(item);
-        }
-        for (int j=0; j<sellitems.size(); j++) {
-            int sell_items = j;
-            shopping_items.getChildAt(sell_items).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TextView serif = (TextView) serifs.getChildAt(0);
-                    serif.setText("何個買うんだ？");
-                    EditText choose_number = storeActivity.edit_shop();
-                    serifs.addView(choose_number);
-                    Button enter = storeActivity.button_shop();
-                    enter.setText("決定");
-                    serifs.addView(enter);
+    public void sell (LinearLayout shopping_items,LinearLayout serifs,ArrayList<Item> sellitems,int sell_items,Button enter,TextView serif,EditText choose_number) {
                     enter.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -148,9 +101,7 @@ public class Store implements Serializable {
                     });
                     serifs.removeView(choose_number);
                     serifs.removeView(enter);
-                }
-            });
-        }
+
     }
         public void mission () {
             Boolean endflg = false;

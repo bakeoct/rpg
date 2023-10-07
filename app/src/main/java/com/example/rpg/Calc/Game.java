@@ -17,6 +17,7 @@ import static  com.example.rpg.Calc.Inventry.chooseItems;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemeyMonster;
 import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
 import static com.example.rpg.Calc.Person2.p;
+import static com.example.rpg.graphic.GameActivity.monster_cara_now;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 
 import android.widget.GridLayout;
@@ -29,38 +30,38 @@ public class Game implements Serializable {
     public Ship ship = new Ship();
     public Ladder ladder = new Ladder();
     public Map map =new Map();
-    public World_map world_map = new World_map();
     public static MissionDragonKing mission_dragon_king =new MissionDragonKing();
     public Store store = new Store(p,ship,ladder,mission_dragon_king);
     public Event event =new Event(p,map,ladder,ship,mission_dragon_king,enemeyMonster);
-    public String serve_get_map_code = map.getMapCode(p.x, p.y, p.area,world_map);
+    public String serve_get_map_code = map.getMapCode(p.x, p.y, p.area);
     public Game(EnemeyMonster enemey_monster) {
         enemeyMonster = enemey_monster;
     }
     public void readSave(){
         game = saveWriteAndRead.read();
     }
-    public void gameTurn(String place, GameActivity game_activity, GridLayout gridLayout,ImageView enemy_monster,ImageView yuusya,int image_size) {
-            p.walk(place, yuusya);
-            event.eventPerson(serve_get_map_code,world_map,game_activity);
-            p.graphic_walk(gridLayout,yuusya,p,image_size);
-            p.serve_x = p.x;
-            p.serve_y = p.y;
-            int monsteri = 0;
-            while (monsteri == 0) {
-                enemeyMonster.walk(game_activity,enemy_monster);
-                monsteri++;
-                monsteri = event.eventMonster(monsteri,world_map);
-                enemeyMonster.graphic_walk(gridLayout,enemy_monster,enemeyMonster,image_size);
-            }
-            enemeyMonster.monster_serve_x = enemeyMonster.x;
-            enemeyMonster.monster_serve_y = enemeyMonster.y;
-            //if (p.x == enemeyMonster.x && p.y == enemeyMonster.y && p.area.equals(enemeyMonster.area)) {
-               // System.out.println("!");
-              //  System.out.println("モンスターと出会った！！");
-              //  p.turnBattle(get_enemey_monster,mission_dragon_king);
-              //  get_enemey_monster = getMonsterRandomly(gameActivity);
-              //  enemeyMonster.randomNewEnemeyMonster(world_map);
-           // }
+    public void gameTurn(GameActivity game_activity, GridLayout gridLayout,ImageView enemy_monster,ImageView yuusya,int image_size) {
+        p.walk(yuusya);
+        event.eventPerson(serve_get_map_code);
+        p.graphic_walk(gridLayout,yuusya,p,image_size);
+        p.serve_x = p.x;
+        p.serve_y = p.y;
+        int monsteri = 0;
+        while (monsteri == 0) {
+            enemeyMonster.walk(game_activity,enemy_monster,p);
+            monsteri++;
+            monsteri = event.eventMonster(monsteri);
+            enemeyMonster.graphic_walk(gridLayout,enemy_monster,enemeyMonster,image_size,p);
+        }
+        enemeyMonster.monster_serve_x = enemeyMonster.x;
+        enemeyMonster.monster_serve_y = enemeyMonster.y;
+        //if (p.x == enemeyMonster.x && p.y == enemeyMonster.y && p.area.equals(enemeyMonster.area)) {
+        // System.out.println("!");
+        //  System.out.println("モンスターと出会った！！");
+        //  p.turnBattle(get_enemey_monster,mission_dragon_king);
+        //  monster_cara_now = null;
+        //  get_enemey_monster = getMonsterRandomly(gameActivity);
+        //  enemeyMonster.randomNewEnemeyMonster(world_map);
+        // }
     }
 }

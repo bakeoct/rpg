@@ -1,16 +1,16 @@
 package com.example.rpg.Calc.Monsters;
 
 import android.widget.ImageView;
-
+import static com.example.rpg.graphic.GameActivity.monster_cara_now;
 import com.example.rpg.Calc.Item.FightItem;
 import com.example.rpg.Calc.skill.Skill;
 import com.example.rpg.R;
-import com.example.rpg.graphic.GameActivity;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static com.example.rpg.graphic.GameActivity.place;
+import static com.example.rpg.Calc.Monsters.EnemeyMonster.monster_place;
 public abstract class Monster2 implements Serializable {
     public int hp;
     public int limit_hp;
@@ -48,7 +48,7 @@ public abstract class Monster2 implements Serializable {
         return monster.name;
     }
 
-    public static Monster2 getMonsterRandomly(GameActivity gameActivity,ImageView enemy_monster) {
+    public static Monster2 getMonsterRandomly(ImageView enemy_monster) {
         Random random = new Random();
         ArrayList<Monster2> monster2List = new ArrayList<>();
         monster2List.add(new DragonKing());
@@ -57,22 +57,64 @@ public abstract class Monster2 implements Serializable {
         monster2List.add(new Gorlem());
         //0~3 no random na value get
         int randomNum = random.nextInt(monster2List.size());
-        setImageResource(randomNum,gameActivity,enemy_monster);
+        setImageResource(randomNum,enemy_monster);
         return monster2List.get(randomNum);
     }
-    public static void setImageResource(int randomNum,GameActivity gameActivity,ImageView enemy_monster){
-        if (randomNum == 0) {
-            enemy_monster.setImageResource(R.drawable.dragon_king);
-            gameActivity.cara_now = "dragon_king";
-        }else if (randomNum == 1){
-            enemy_monster.setImageResource(R.drawable.metal_slime);
-            gameActivity.cara_now = "metal_slime";
-        }else if (randomNum == 2){
-            enemy_monster.setImageResource(R.drawable.puti_slime);
-            gameActivity.cara_now = "puti_slime";
+    public static void setImageResource(int randomNum,ImageView enemy_monster){
+        if (monster_cara_now == null) {
+            if (randomNum == 0) {
+                enemy_monster.setImageResource(R.drawable.dragon_king);
+                monster_cara_now = "dragon_king";
+            } else if (randomNum == 1) {
+                enemy_monster.setImageResource(R.drawable.metal_slime);
+                monster_cara_now = "metal_slime";
+            } else if (randomNum == 2) {
+                enemy_monster.setImageResource(R.drawable.puti_slime);
+                monster_cara_now = "puti_slime";
+            } else {
+                enemy_monster.setImageResource(R.drawable.gorlem);
+                monster_cara_now = "gorlem";
+            }
+        }else if (monster_cara_now.equals("dragon_king")){
+            if (monster_place.equals("over")) {
+                enemy_monster.setImageResource(R.drawable.dragon_king);
+            } else if (monster_place.equals("right")) {
+                enemy_monster.setImageResource(R.drawable.dragon_king_right);
+            } else if (monster_place.equals("left")) {
+                enemy_monster.setImageResource(R.drawable.dragon_king_left);
+            } else {
+                enemy_monster.setImageResource(R.drawable.dragon_king_under);
+            }
+        }else if (monster_cara_now.equals("metal_slime")){
+            if (monster_place.equals("over")) {
+                enemy_monster.setImageResource(R.drawable.metal_slime);
+            } else if (monster_place.equals("right")) {
+                enemy_monster.setImageResource(R.drawable.metal_slime_right);
+            } else if (monster_place.equals("left")) {
+                enemy_monster.setImageResource(R.drawable.metal_slime_left);
+            } else {
+                enemy_monster.setImageResource(R.drawable.metal_slime_under);
+            }
+        }else if (monster_cara_now.equals("puti_slime")){
+            if (monster_place.equals("over")) {
+                enemy_monster.setImageResource(R.drawable.puti_slime);
+            } else if (monster_place.equals("right")) {
+                enemy_monster.setImageResource(R.drawable.puti_slime_right);
+            } else if (monster_place.equals("left")) {
+                enemy_monster.setImageResource(R.drawable.puti_slime_left);
+            } else {
+                enemy_monster.setImageResource(R.drawable.puti_slime_under);
+            }
         }else {
-            enemy_monster.setImageResource(R.drawable.gorlem);
-            gameActivity.cara_now = "gorlem";
+            if (monster_place.equals("over")) {
+                enemy_monster.setImageResource(R.drawable.gorlem);
+            } else if (monster_place.equals("right")) {
+                enemy_monster.setImageResource(R.drawable.gorlem_right);
+            } else if (monster_place.equals("left")) {
+                enemy_monster.setImageResource(R.drawable.gorlem_left);
+            } else {
+                enemy_monster.setImageResource(R.drawable.gorlem_under);
+            }
         }
     }
 }

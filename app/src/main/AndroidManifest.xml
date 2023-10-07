@@ -27,6 +27,14 @@
             android:name=".graphic.StoreActivity"
             android:screenOrientation="landscape"
             />
+        <activity
+            android:name=".graphic.Cave1Activity"
+            android:screenOrientation="landscape"
+            />
+        <activity
+            android:name=".graphic.Cave1_1Activity"
+            android:screenOrientation="landscape"
+            />
     </application>
 
 </manifest>

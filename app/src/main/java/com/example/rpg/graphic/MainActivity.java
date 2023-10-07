@@ -1,6 +1,9 @@
 package com.example.rpg.graphic;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import static com.example.rpg.Calc.Game.get_enemey_monster;
+import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
 import static com.example.rpg.Calc.Person2.p;
 
 import android.app.Activity;
@@ -27,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         conthinew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    game.readSave();
+                game.readSave();
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 startActivity(intent);
             }

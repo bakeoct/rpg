@@ -10,7 +10,7 @@ import com.example.rpg.Calc.Game;
 import com.example.rpg.graphic.GameActivity;
 
 public class World_map implements Serializable {
-    public String[][] world_map = {
+    public static String[][] world_map = {
             {E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E},
             {E, G, G, G, G, O, G, G, G, G, G, C, M, M, M, M, M, M, PH1, M, M, M, E},
             {E, G, G, G, O, O, O, G, G, G, G, C, C, M, M, M, M, M, M, M, M, M, E},

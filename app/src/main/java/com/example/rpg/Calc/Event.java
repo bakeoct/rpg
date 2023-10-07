@@ -1,25 +1,22 @@
 package com.example.rpg.Calc;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import com.example.rpg.Calc.Error.Finish;
 import com.example.rpg.Calc.Item.*;
 import com.example.rpg.Calc.Mission.MissionDragonKing;
-import com.example.rpg.Calc.map.World_map;
 import com.example.rpg.Calc.map.cave.Cave1;
 import com.example.rpg.Calc.map.cave.Cave1_1;
 import com.example.rpg.Calc.map.Map;
-import com.example.rpg.Calc.map.PersonHome1;
+import static com.example.rpg.Calc.map.PersonHome1.*;
 import com.example.rpg.Calc.Monsters.EnemeyMonster;
 import com.example.rpg.Calc.Monsters.Monster2;
 import com.example.rpg.graphic.GameActivity;
-import com.example.rpg.graphic.MainActivity;
-import com.example.rpg.graphic.StoreActivity;
-
+import static com.example.rpg.Calc.map.cave.Cave1_1.*;
+import static com.example.rpg.Calc.map.cave.Cave1.*;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Scanner;
 import static com.example.rpg.Calc.Sound.*;
+import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_X;
+import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
 
 import android.content.Intent;
 
@@ -39,9 +36,9 @@ public class Event implements Serializable{
         this.mission_dragon_king = missionDragonKing;
         this.enemey_monster = enemeyMonster;
     }
-    public void eventPerson(String serveget_map_code, World_map world_map,GameActivity gameActivity) {
+    public void eventPerson(String serveget_map_code) {
         //これをmapに送って二つメソッド動かす
-        String get_map_code = map.getMapCode(p.x, p.y,p.area,world_map);
+        String get_map_code = map.getMapCode(p.x, p.y,p.area);
         if (get_map_code.equals("崖")) {
             if (!(get_map_code.equals(serveget_map_code))) {
                 notPoint(ladder,ON_GRAVEL_AUDIO);
@@ -66,48 +63,17 @@ public class Event implements Serializable{
             item_box ="宝箱";
             openTreasureChest(ship,OPEN_TREASURE_CHEST_AUDIO);
         } else if (get_map_code .equals("treasure_chest_ladder")) {
-            item_box ="宝箱";
-            openTreasureChest(ladder,OPEN_TREASURE_CHEST_AUDIO);
-        } else if (get_map_code.equals("store")) {
-            gameActivity.go_store();
-            for (Monster2 monster : p.monsters2) {
-                System.out.println(monster.name);
-            }
-            p.x = p.serve_x;
-            p.y = p.serve_y;
+            item_box = "宝箱";
+            openTreasureChest(ladder, OPEN_TREASURE_CHEST_AUDIO);
         } else if (get_map_code.equals("back_world")) {
             if (p.area.equals("民家1")){
-                startAudio(OPEN_DOOR_AUDIO);
-                p.x = PersonHome1.BACK_MAIN_WORLD_INITIAL_X;
-                p.y = PersonHome1.BACK_MAIN_WORLD_INITIAL_Y;
-            }else if (p.area.equals("洞窟1")){
-                startAudio(ON_STONE_AUDIO);
-                p.x = Cave1.BACK_MAIN_WORLD_INITIAL_X;
-                p.y = Cave1.BACK_MAIN_WORLD_INITIAL_Y;
+
             }
-            p.area = "メインマップ";
-        } else if (get_map_code .equals("people_home_1")) {
+        } else if (get_map_code.equals("people_home_1")) {
             p.area = "民家1";
             startAudio(OPEN_DOOR_AUDIO);
-            p.x = PersonHome1.INITIAL_X;
-            p.y = 7;
-        }else if (get_map_code .equals("cave1")) {
-            p.area = "洞窟1";
-            startAudio(ON_STONE_AUDIO);
-            p.x = Cave1.INITIAL_X;
-            p.y = Cave1.INITIAL_Y;
-        } else if (get_map_code .equals("cave1_1")) {
-            p.area = "洞窟1_1";
-            startAudio(ON_STONE_AUDIO);
-            p.x = Cave1_1.INITIAL_X;
-            p.y = Cave1_1.INITIAL_Y;
-        } else if (get_map_code .equals("back_cave_1")) {
-            if (p.area.equals("洞窟1_1")){
-                startAudio(ON_STONE_AUDIO);
-                p.x = Cave1_1.BACK_CAVE1_INITIAL_X;
-                p.y = Cave1_1.BACK_CAVE1_INITIAL_Y;
-            }
-            p.area = "洞窟1";
+            p.x = PERSON_HOME1_INITIAL_X;
+            p.y = PERSON_HOME1_INITIAL_Y;
         } else if (get_map_code.equals("glass")) {
             startAudio(ON_GLASS_AUDIO);
         } else if (get_map_code.equals("stone")) {
@@ -117,39 +83,40 @@ public class Event implements Serializable{
         }  else if (get_map_code .equals("errer")) {
             p.x = p.serve_x;
             p.y = p.serve_y;
+            System.out.println("noooo");
         }
     }
-    public int eventMonster(int monsteri,World_map world_map){
-        String monster_get_map_code = map.getMapCode(this.enemey_monster.x, this.enemey_monster.y,this.enemey_monster.area,world_map);
+    public int eventMonster(int monsteri){
+        String monster_get_map_code = map.getMapCode(this.enemey_monster.x, this.enemey_monster.y,this.enemey_monster.area);
         if (monster_get_map_code.equals("errer")) {
             monsteri--;
             enemey_monster.x = enemey_monster.monster_serve_x;
             enemey_monster.y = enemey_monster.monster_serve_y;
         }else if (monster_get_map_code.equals("back_world")){
             if (enemey_monster.area.equals("民家1")){
-                enemey_monster.x = PersonHome1.BACK_MAIN_WORLD_INITIAL_X;
-                enemey_monster.y = PersonHome1.BACK_MAIN_WORLD_INITIAL_Y;
+                enemey_monster.x = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_X;
+                enemey_monster.y = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_Y;
             }else if (enemey_monster.area.equals("洞窟1")){
-                p.x = Cave1.BACK_MAIN_WORLD_INITIAL_X;
-                p.y = Cave1.BACK_MAIN_WORLD_INITIAL_Y;
+                p.x = CAVE1_BACK_MAIN_WORLD_INITIAL_X;
+                p.y = CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
             }
             enemey_monster.area = "メインマップ";
         }else if (monster_get_map_code.equals("people_home_1")){
             enemey_monster.area = "民家1";
-            enemey_monster.x = PersonHome1.INITIAL_X;
-            enemey_monster.y = PersonHome1.INITIAL_Y;
+            enemey_monster.x = PERSON_HOME1_INITIAL_X;
+            enemey_monster.y = PERSON_HOME1_INITIAL_Y;
         }else if (monster_get_map_code.equals("cave1")) {
             enemey_monster.area = "洞窟1";
-            enemey_monster.x = Cave1.INITIAL_X;
-            enemey_monster.y = Cave1.INITIAL_Y;
+            enemey_monster.x = CAVE1_INITIAL_X;
+            enemey_monster.y = CAVE1_INITIAL_Y;
         } else if (monster_get_map_code.equals("cave1_1")) {
             enemey_monster.area = "洞窟1_1";
-            enemey_monster.x = Cave1_1.INITIAL_X;
-            enemey_monster.y = Cave1_1.INITIAL_Y;
+            enemey_monster.x = CAVE1_1_INITIAL_X;
+            enemey_monster.y = CAVE1_1_INITIAL_Y;
         } else if (monster_get_map_code.equals("back_cave_1")) {
             if (enemey_monster.area.equals("洞窟1_1")){
-                enemey_monster.x = Cave1_1.BACK_CAVE1_INITIAL_X;
-                enemey_monster.y = Cave1_1.BACK_CAVE1_INITIAL_Y;
+                enemey_monster.x = CAVE1_1_BACK_CAVE1_INITIAL_X;
+                enemey_monster.y = CAVE1_1_BACK_CAVE1_INITIAL_Y;
             }
             enemey_monster.area = "洞窟1";
         }
@@ -198,9 +165,9 @@ public class Event implements Serializable{
                     item.have_point++;
                     startAudio(audio_file);
                     if (item instanceof FightItem) {
-                        this.p.fight_items.add((FightItem) item);
+                        p.fight_items.add((FightItem) item);
                     } else if (item instanceof FieldItem) {
-                        this.p.field_items.add((FieldItem) item);
+                        p.field_items.add((FieldItem) item);
                     } else {
                         this.p.monster_items.add((MonsterItem) item);
                     }
