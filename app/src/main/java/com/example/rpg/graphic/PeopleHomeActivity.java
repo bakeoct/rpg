@@ -125,6 +125,8 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
             myImageDrawable = getResources().getDrawable(R.drawable.wood, null);
         } else if (map[i][j].equals("errer")) {
             myImageDrawable = getResources().getDrawable(R.drawable.errerzone, null);
+        } else if (map[i][j].equals("treasure_chest_ship")) {
+            myImageDrawable = getResources().getDrawable(R.drawable.treasure_chest, null);
         }
         return myImageDrawable;
     }

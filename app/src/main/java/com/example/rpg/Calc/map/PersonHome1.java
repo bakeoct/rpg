@@ -10,7 +10,7 @@ public class PersonHome1 implements Serializable {
     public static final String PH1 = "people_home_1";//peopleHome1
     public static String[][] people_home1 = {
             {E,E,E,E,E,E,E,E,E},
-            {E,W,W,W,W,W,W,W,E},
+            {E,W,W,W,TS,W,W,W,E},
             {E,W,W,W,W,W,W,W,E},
             {E,W,W,W,W,W,W,W,E},
             {E,W,W,W,W,W,W,W,E},

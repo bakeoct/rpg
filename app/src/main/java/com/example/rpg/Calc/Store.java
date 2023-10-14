@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import static com.example.rpg.Calc.Game.game;
 import android.widget.TextView;
 import com.example.rpg.Calc.Error.Finish;
 import com.example.rpg.Calc.Item.*;
@@ -19,6 +19,9 @@ import com.example.rpg.Calc.Monsters.*;
 import com.example.rpg.R;
 import com.example.rpg.graphic.StoreActivity;
 import android.view.ViewGroup;
+
+import org.w3c.dom.Text;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
@@ -60,34 +63,40 @@ public class Store implements Serializable {
         this.mission_all.add(missionDragonKing);
     }
     public void buy(LinearLayout shopping_items,LinearLayout serifs,ArrayList<Item> buyitems,int shop_J,Button enter,TextView serif,EditText choose_number) {
-        enter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    int buy_number = Integer.parseInt(choose_number.getText().toString());
-                    if (buy_number >= 1) {
-                        buy_click((TextView) shopping_items.getChildAt(shop_J), buyitems, buy_number);
-                    }else {
-                        serif.setText("正の数で答えてくれ");
+            enter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean correct = false;
+                        try {
+                            int buy_number = Integer.parseInt(choose_number.getText().toString());
+                            if (buy_number >= 1) {
+                                buy_click((TextView) shopping_items.getChildAt(shop_J), buyitems, buy_number,serif);
+                                correct = true;
+                            } else {
+                                serif.setText("正の数で答えてくれ");
+                            }
+                        } catch (Exception e) {
+                            serif.setText("数字で答えてくれ");
+                        }
+                    if (correct) {
+                        choose_number.setVisibility(View.GONE);
+                        enter.setVisibility(View.GONE);
                     }
-                }catch (Exception e){
-                    serif.setText("数字で答えてくれ");
                 }
-            }
-        });
-        serifs.removeView(choose_number);
-        serifs.removeView(enter);
+            });
     }
 
-    public void sell (LinearLayout shopping_items,LinearLayout serifs,ArrayList<Item> sellitems,int sell_items,Button enter,TextView serif,EditText choose_number) {
+    public void sell (LinearLayout shopping_items,LinearLayout serifs,int sell_items,Button enter,TextView serif,EditText choose_number) {
                     enter.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            boolean correct = false;
                             try {
                                 int sell_number = Integer.parseInt(choose_number.getText().toString());
                                 if (sell_number >= 1) {
-                                    if (sellitems.get(sell_items).have_point >= sell_number){
-                                        sell_click((TextView) shopping_items.getChildAt(sell_items), sellitems, sell_number);
+                                    if (game.store.p.items.get(sell_items).have_point >= sell_number){
+                                        sell_click((TextView) shopping_items.getChildAt(sell_items), sell_number,serif);
+                                        correct = true;
                                     }else {
                                         serif.setText("そんなに持ってないぞ");
                                     }
@@ -97,11 +106,12 @@ public class Store implements Serializable {
                             }catch (Exception e){
                                 serif.setText("数字で答えてくれ");
                             }
+                            if (correct) {
+                                choose_number.setVisibility(View.GONE);
+                                enter.setVisibility(View.GONE);
+                            }
                         }
                     });
-                    serifs.removeView(choose_number);
-                    serifs.removeView(enter);
-
     }
         public void mission () {
             Boolean endflg = false;
@@ -127,10 +137,10 @@ public class Store implements Serializable {
         public void go () {
             System.out.println("じゃあな");
         }
-        public void buyMath (Item item, ArrayList <MonsterItem> monster_items_all,int buy_number){
+        public void buyMath (Item item, ArrayList <MonsterItem> monster_items_all, int buy_number, TextView serif){
             if (p.money >= item.buy_price * buy_number) {
                 p.money -= item.buy_price * buy_number;
-                System.out.println(p.name + "は" + item.name + "を" + "買った");
+                serif.setText(p.name + "は" + item.name + "を" + "買った");
                 if (item.have_point == 0) {
                     item.have = true;
                     for (MonsterItem alive_item : monster_items_all) {
@@ -149,14 +159,13 @@ public class Store implements Serializable {
                 }
                 item.have_point += buy_number;
             } else {
-                System.out.println("金が足んねえ");
-                System.out.println("、、、出直して来な");
+                serif.setText("金が足んねえ\n、、、出直して来な");
             }
         }
-        public void sellMath (Item item, ArrayList <MonsterItem> monster_items_all,int sell_number){
+        public void sellMath (Item item, int sell_number,TextView serif){
             p.money += item.sell_price * sell_number;
-            item.have_point -= item.sell_price * sell_number;
-            System.out.println(p.name + "は" + item.name + "を" + "売った");
+            item.have_point -= sell_number;
+            serif.setText(p.name + "は" + item.name + "を" + "売った");
             if (item.have_point == 0) {
                 item.have = false;
                 for (int i = 0; i < p.monsters2.size(); i++) {
@@ -188,18 +197,17 @@ public class Store implements Serializable {
             }
             return monster2;
         }
-        public void buy_click(TextView want_item,ArrayList<Item> buy_items,int buy_number){
+        public void buy_click(TextView want_item,ArrayList<Item> buy_items,int buy_number,TextView serif){
         for (Item item : buy_items) {
             if (want_item.getText().equals(item.name)) {
-                buyMath(item, monster_items_all,buy_number);
-                System.out.println("他はどうだ？");
+                buyMath(item, monster_items_all,buy_number,serif);
             }
         }
     }
-    public void sell_click(TextView want_sell_item,ArrayList<Item> sell_items,int sell_number){
-        for (Item item : sell_items) {
+    public void sell_click(TextView want_sell_item,int sell_number,TextView serif){
+        for (Item item : game.store.p.items) {
             if (want_sell_item.getText().equals(item.name)) {
-                sellMath(item, monster_items_all,sell_number);
+                sellMath(item, sell_number,serif);
                 System.out.println("他はどうだ？");
             }
         }

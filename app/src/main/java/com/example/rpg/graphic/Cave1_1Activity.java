@@ -14,6 +14,7 @@ import static com.example.rpg.graphic.GameActivity.place;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
@@ -26,6 +27,9 @@ import com.example.rpg.R;
 import java.io.Serializable;
 
 public class Cave1_1Activity extends AppCompatActivity implements Serializable {
+    private int chenge_treasure = 0;
+    private ImageView treasure_imageView;
+    private int[] treasure_images = {R.drawable.treasure_chest_open, R.drawable.treasure_chest}; // 切り替える画像リソース
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +58,9 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
                 ImageView imageView = new ImageView(this);
                 imageView.setImageDrawable(myImageDrawable);
                 imageView.setLayoutParams(layoutParams);
+                if (myImageDrawable == getResources().getDrawable(R.drawable.treasure_chest, null)){
+                    treasure_imageView = imageView;
+                }
                 gridLayout.addView(imageView);
             }
         }
@@ -75,6 +82,18 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
                 gridLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (chenge_treasure < 2) {
+                    treasure_imageView.setImageResource(treasure_images[chenge_treasure]);
+                    chenge_treasure++;
+                    handler.postDelayed(this, 1000); // 1秒間隔で実行
+                }
+        }
+    };
+
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,18 +134,23 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 if (map[p.y][p.x].equals("back_cave_1")){
                     goCave1();
+                }else if (map[p.y][p.x].equals("treasure_chest_ladder")){
+                    getTreasure(handler,runnable);
                 }
             }
         });
+
     }
     public Drawable drawMap(String[][] map,int i,int j){
-        Drawable myImageDrawable;
+        Drawable myImageDrawable = null;
         if (map[i][j].equals("stone")) {
             myImageDrawable = getResources().getDrawable(R.drawable.stone, null);
         } else if (map[i][j].equals("errer")) {
             myImageDrawable = getResources().getDrawable(R.drawable.errerzone, null);
-        } else {
+        } else if (map[i][j].equals("back_cave_1")){
             myImageDrawable = getResources().getDrawable(R.drawable.cave_entrance, null);
+        } else if (map[i][j].equals("treasure_chest_ladder")) {
+            myImageDrawable = getResources().getDrawable(R.drawable.treasure_chest, null);
         }
         return myImageDrawable;
     }
@@ -138,5 +162,8 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
         p.area = "洞窟1";
         Intent intent = new Intent(Cave1_1Activity.this, Cave1Activity.class);
         startActivity(intent);
+    }
+    public void getTreasure(Handler handler,Runnable runnable){
+        handler.post(runnable);
     }
 }

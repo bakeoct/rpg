@@ -11,7 +11,7 @@ public class Cave1_1 implements Serializable {
     public static String[][] cave1_1 = {
             {E,E,E,E,E,E,E,E,E},
             {E,SN,SN,SN,SN,SN,SN,SN,E},
-            {E,SN,SN,SN,SN,SN,SN,SN,E},
+            {E,SN,SN,SN,SN,SN,SN,TL,E},
             {E,SN,SN,SN,SN,SN,SN,SN,E},
             {E,SN,SN,SN,SN,SN,SN,SN,E},
             {E,SN,SN,SN,E,E,E,E,E},
