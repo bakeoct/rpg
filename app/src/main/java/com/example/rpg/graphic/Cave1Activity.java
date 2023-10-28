@@ -2,10 +2,10 @@ package com.example.rpg.graphic;
 
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.Game.get_enemey_monster;
+import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_X;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_Y;
 import static com.example.rpg.Calc.map.cave.Cave1_1.*;
-import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemeyMonster;
 import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
 import static com.example.rpg.Calc.Person2.p;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_X;
@@ -68,9 +68,9 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
             public void onGlobalLayout() {
                 System.out.println(gridLayout.getX());
                 System.out.println(gridLayout.getY());
-                if (enemeyMonster.area.equals("洞窟1")) {
-                    enemy_monster.setX(gridLayout.getX() + image_size * enemeyMonster.x);
-                    enemy_monster.setY(gridLayout.getY() + image_size * enemeyMonster.y);
+                if (enemey_monster.area.equals("洞窟1")) {
+                    enemy_monster.setX(gridLayout.getX() + image_size * enemey_monster.x);
+                    enemy_monster.setY(gridLayout.getY() + image_size * enemey_monster.y);
                 }
                 yuusya.setX(gridLayout.getX() + image_size * p.x);
                 yuusya.setY(gridLayout.getY() + image_size * p.y);

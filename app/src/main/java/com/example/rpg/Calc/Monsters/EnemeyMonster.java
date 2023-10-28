@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class EnemeyMonster implements Serializable {
     public static String monster_place;
-    public static EnemeyMonster enemeyMonster =new EnemeyMonster();
+    public static EnemeyMonster enemey_monster =new EnemeyMonster();
     public int x=12;
     public int y=3;
     public int monster_serve_x = 12;
@@ -28,25 +28,25 @@ public class EnemeyMonster implements Serializable {
         if (random_number == 0) {
             this.x++;
             monster_place = "right";
-            if (enemeyMonster.area.equals(p.area)) {
+            if (enemey_monster.area.equals(p.area)) {
                 setImageResource(monster_place, game_activity, enemy_monster);
             }
         }else if (random_number == 1) {
             this.x--;
             monster_place = "left";
-            if (enemeyMonster.area.equals(p.area)) {
+            if (enemey_monster.area.equals(p.area)) {
                 setImageResource(monster_place, game_activity, enemy_monster);
             }
         }else if (random_number == 2){
             this.y++;
             monster_place = "over";
-            if (enemeyMonster.area.equals(p.area)) {
+            if (enemey_monster.area.equals(p.area)) {
                 setImageResource(monster_place, game_activity, enemy_monster);
             }
         }else if (random_number == 3){
             this.y--;
             monster_place = "under";
-            if (enemeyMonster.area.equals(p.area)) {
+            if (enemey_monster.area.equals(p.area)) {
                 setImageResource(monster_place, game_activity, enemy_monster);
             }
         }

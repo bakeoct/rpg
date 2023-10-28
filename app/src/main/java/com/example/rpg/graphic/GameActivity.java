@@ -1,8 +1,8 @@
 package com.example.rpg.graphic;
 
+import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.monster_place;
 import static com.example.rpg.Calc.map.World_map.world_map;
-import static com.example.rpg.graphic.MainActivity.*;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemeyMonster;
 import static com.example.rpg.Calc.Game.get_enemey_monster;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_X;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_Y;
@@ -29,17 +28,19 @@ public class GameActivity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        assignmentItemDrawable();
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
-        ImageView right = findViewById(R.id.right);
-        ImageView over = findViewById(R.id.over);
-        ImageView under = findViewById(R.id.under);
-        ImageView left = findViewById(R.id.left);
-        ImageView setting = findViewById(R.id.setting);
-        ImageView do_button = findViewById(R.id.do_button);
-        GridLayout gridLayout = findViewById(R.id.gridLayout);
-        ImageView enemy_monster = findViewById(R.id.enemy_monster);
-        ImageView yuusya = findViewById(R.id.yuusya);
+        ImageView right = findViewById(R.id.right_game);
+        ImageView over = findViewById(R.id.over_game);
+        ImageView under = findViewById(R.id.under_game);
+        ImageView left = findViewById(R.id.left_game);
+        ImageView setting = findViewById(R.id.setting_inventory);
+        ImageView do_button = findViewById(R.id.do_button_game);
+        GridLayout gridLayout = findViewById(R.id.gridLayout_game);
+        ImageView inventory_button = findViewById(R.id.inventory_button_inventory);
+        ImageView enemy_monster = findViewById(R.id.enemy_monster_game);
+        ImageView yuusya = findViewById(R.id.yuusya_game);
         GameActivity game_activity = new GameActivity();
         System.out.println(monster_place);
         get_enemey_monster = getMonsterRandomly(enemy_monster);
@@ -62,9 +63,9 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             public void onGlobalLayout() {
                 System.out.println(gridLayout.getX());
                 System.out.println(gridLayout.getY());
-                if (enemeyMonster.area.equals("メインマップ")) {
-                    enemy_monster.setX(gridLayout.getX() + image_size * enemeyMonster.x);
-                    enemy_monster.setY(gridLayout.getY() + image_size * enemeyMonster.y);
+                if (enemey_monster.area.equals("メインマップ")) {
+                    enemy_monster.setX(gridLayout.getX() + image_size * enemey_monster.x);
+                    enemy_monster.setY(gridLayout.getY() + image_size * enemey_monster.y);
                 }
                 yuusya.setX(gridLayout.getX() + image_size * p.x);
                 yuusya.setY(gridLayout.getY() + image_size * p.y);
@@ -73,6 +74,8 @@ public class GameActivity extends AppCompatActivity implements Serializable {
                 gridLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
+
+
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +121,13 @@ public class GameActivity extends AppCompatActivity implements Serializable {
                 }
             }
         });
+        inventory_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameActivity.this, InventoryActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     public Drawable drawMap(String[][] map,int i,int j){
         Drawable myImageDrawable = null;
@@ -143,8 +153,8 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         return myImageDrawable;
     }
     public void goStore(){
-            Intent intent = new Intent(GameActivity.this, StoreActivity.class);
-            startActivity(intent);
+        Intent intent = new Intent(GameActivity.this, StoreActivity.class);
+        startActivity(intent);
     }
     public void goCave_1(){
         p.area = "洞窟1";
@@ -154,5 +164,16 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         p.serve_y = CAVE1_INITIAL_Y;
         Intent intent = new Intent(GameActivity.this, Cave1Activity.class);
         startActivity(intent);
+    }
+    private void assignmentItemDrawable(){
+        game.store.ladder.item_drawable = getResources().getDrawable(R.drawable.ladder);
+        game.store.ship.item_drawable = getResources().getDrawable(R.drawable.ship);
+        game.store.steel_armor.item_drawable = getResources().getDrawable(R.drawable.steel_armer);
+        game.store.super_sword.item_drawable = getResources().getDrawable(R.drawable.super_sword);
+        game.store.heal_glass.item_drawable = getResources().getDrawable(R.drawable.heal_glass);
+        game.store.metal_slime_merchandise.item_drawable = getResources().getDrawable(R.drawable.metal_slime);
+        game.store.puti_slime_merchandise.item_drawable = getResources().getDrawable(R.drawable.puti_slime);
+        game.store.dragon_king_merchandise.item_drawable = getResources().getDrawable(R.drawable.dragon_king);
+        game.store.gorlem_merchandise.item_drawable = getResources().getDrawable(R.drawable.gorlem);
     }
 }

@@ -2,13 +2,15 @@ package com.example.rpg.graphic;
 
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.Game.get_enemey_monster;
-import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemeyMonster;
+import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
 import static com.example.rpg.Calc.Person2.p;
+import static com.example.rpg.Calc.Sound.OPEN_TREASURE_CHEST_AUDIO;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_X;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
 import static com.example.rpg.Calc.map.cave.Cave1_1.*;
 import static com.example.rpg.Calc.map.cave.Cave1.cave1;
+import static com.example.rpg.Calc.treasure.TreasureChestLadder.treasure_chest_ladder;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 import static com.example.rpg.graphic.GameActivity.place;
 import android.content.Intent;
@@ -22,14 +24,33 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.rpg.Calc.Item.Ladder;
+import com.example.rpg.Calc.treasure.Treasure;
+import com.example.rpg.Calc.treasure.TreasureChestLadder;
 import com.example.rpg.R;
 
 import java.io.Serializable;
 
 public class Cave1_1Activity extends AppCompatActivity implements Serializable {
-    private int chenge_treasure = 0;
-    private ImageView treasure_imageView;
-    private int[] treasure_images = {R.drawable.treasure_chest_open, R.drawable.treasure_chest}; // 切り替える画像リソース
+    public int chenge_treasure = 0;
+    public ImageView treasure_imageView = null;
+    public int[] treasure_images = {R.drawable.open_treasure_chest, R.drawable.treasure_chest}; // 切り替える画像リソース
+    public final Handler handler = new Handler();
+    public final Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (chenge_treasure < 2) {
+                treasure_imageView.setImageResource(treasure_images[chenge_treasure]);
+                if (chenge_treasure == 0) {
+                    treasure_chest_ladder.openTreasureChest(OPEN_TREASURE_CHEST_AUDIO, p);
+                }
+                chenge_treasure++;
+                handler.postDelayed(runnable, 1000); // 1秒間隔で実行
+            } else {
+                chenge_treasure = 0;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,16 +71,18 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
         String[][] map = cave1_1;
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
+                ImageView imageView = new ImageView(this);
                 Drawable myImageDrawable = drawMap(map,i,j);
                 GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
                 layoutParams.width = image_size;
                 layoutParams.height = image_size;
                 layoutParams.setMargins(margin, margin, margin, margin);
-                ImageView imageView = new ImageView(this);
                 imageView.setImageDrawable(myImageDrawable);
                 imageView.setLayoutParams(layoutParams);
-                if (myImageDrawable == getResources().getDrawable(R.drawable.treasure_chest, null)){
+                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111");
+                if (map[i][j].equals("treasure_chest_ladder")){
                     treasure_imageView = imageView;
+                    System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 }
                 gridLayout.addView(imageView);
             }
@@ -71,9 +94,9 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
             public void onGlobalLayout() {
                 System.out.println(gridLayout.getX());
                 System.out.println(gridLayout.getY());
-                if (enemeyMonster.area.equals("洞窟1_1")) {
-                    enemy_monster.setX(gridLayout.getX() + image_size * enemeyMonster.x);
-                    enemy_monster.setY(gridLayout.getY() + image_size * enemeyMonster.y);
+                if (enemey_monster.area.equals("洞窟1_1")) {
+                    enemy_monster.setX(gridLayout.getX() + image_size * enemey_monster.x);
+                    enemy_monster.setY(gridLayout.getY() + image_size * enemey_monster.y);
                 }
                 yuusya.setX(gridLayout.getX() + image_size * p.x);
                 yuusya.setY(gridLayout.getY() + image_size * p.y);
@@ -82,17 +105,7 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
                 gridLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
-        final Handler handler = new Handler();
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (chenge_treasure < 2) {
-                    treasure_imageView.setImageResource(treasure_images[chenge_treasure]);
-                    chenge_treasure++;
-                    handler.postDelayed(this, 1000); // 1秒間隔で実行
-                }
-        }
-    };
+
 
         right.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +177,6 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
         startActivity(intent);
     }
     public void getTreasure(Handler handler,Runnable runnable){
-        handler.post(runnable);
+       handler.post(runnable);
     }
 }

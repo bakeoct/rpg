@@ -24,8 +24,6 @@ public class StoreActivity extends AppCompatActivity implements Serializable {
         setContentView(R.layout.activity_store);
         ArrayList<TextView> display_buyitems =new ArrayList<>();
         ArrayList<TextView> display_sellitems =new ArrayList<>();
-        ArrayList<TextView> d =new ArrayList<>();
-        FrameLayout content = findViewById(com.google.android.material.R.id.content);
         TextView buy =findViewById(R.id.buy);
         TextView sell =findViewById(R.id.sell);
         TextView talk =findViewById(R.id.talk);
@@ -91,7 +89,7 @@ public class StoreActivity extends AppCompatActivity implements Serializable {
                                     serif.setText("何個買うんだ？");
                                     buy_choose_number.setVisibility(View.VISIBLE);
                                     buy_enter.setVisibility(View.VISIBLE);
-                                    game.store.buy(display_shopping_items, serifs, buyitems, buy_items, buy_enter, serif, buy_choose_number);
+                                    game.store.pushToBuy(display_shopping_items, buyitems, buy_items, buy_enter, serif, buy_choose_number);
                                 }
                             });
                         }
@@ -153,6 +151,7 @@ public class StoreActivity extends AppCompatActivity implements Serializable {
     }
     private void addNewTextViewSell(){
         LinearLayout linearContainer = findViewById(R.id.group_items);
+        System.out.println(game.store.p.items.size()+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         for (int i = 0; i < game.store.p.items.size(); i++) {
             TextView textView = new TextView(this);
             textView.setTextColor(Color.RED);

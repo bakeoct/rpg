@@ -1,6 +1,7 @@
 package com.example.rpg.Calc.Item.monsteritem;
 
 import com.example.rpg.Calc.Item.MonsterItem;
+import com.example.rpg.R;
 
 import java.io.Serializable;
 

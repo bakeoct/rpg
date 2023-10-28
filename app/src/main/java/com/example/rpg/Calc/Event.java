@@ -5,6 +5,8 @@ import com.example.rpg.Calc.Mission.MissionDragonKing;
 import com.example.rpg.Calc.map.cave.Cave1;
 import com.example.rpg.Calc.map.cave.Cave1_1;
 import com.example.rpg.Calc.map.Map;
+
+import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.map.PersonHome1.*;
 import com.example.rpg.Calc.Monsters.EnemeyMonster;
 import com.example.rpg.Calc.Monsters.Monster2;
@@ -22,17 +24,12 @@ import android.content.Intent;
 
 public class Event implements Serializable{
     public Person2 p;
-    public String item_box;
     public Map map;
-    public Ladder ladder;
-    public Ship ship;
     public MissionDragonKing mission_dragon_king;
     public EnemeyMonster enemey_monster;
-    public Event(Person2 p, Map map, Ladder ladder, Ship ship, MissionDragonKing missionDragonKing, EnemeyMonster enemeyMonster){
+    public Event(Person2 p, Map map, MissionDragonKing missionDragonKing, EnemeyMonster enemeyMonster){
         this.p = p;
         this.map = map;
-        this.ladder = ladder;
-        this.ship = ship;
         this.mission_dragon_king = missionDragonKing;
         this.enemey_monster = enemeyMonster;
     }
@@ -41,13 +38,13 @@ public class Event implements Serializable{
         String get_map_code = map.getMapCode(p.x, p.y,p.area);
         if (get_map_code.equals("崖")) {
             if (!(get_map_code.equals(serveget_map_code))) {
-                notPoint(ladder,ON_GRAVEL_AUDIO);
+                notPoint(game.store.ladder,ON_GRAVEL_AUDIO);
             }else {
                 startAudio(ON_GRAVEL_AUDIO);
             }
         } else if (get_map_code.equals("山")) {
             if (!(get_map_code.equals(serveget_map_code))) {
-                notPoint(ladder, ON_FALLEN_LEAVES_AUDIO);
+                notPoint(game.store.ladder, ON_FALLEN_LEAVES_AUDIO);
             }else {
                 startAudio(ON_FALLEN_LEAVES_AUDIO);
             }
@@ -55,16 +52,10 @@ public class Event implements Serializable{
             if (!(get_map_code.equals(serveget_map_code))) {
                 //notPointにもしたのサウンドを出すのを入れる。
                 //notPointのtureをおすと、の場所で押すが選択されたときにの場所にサウンドを入れる。
-                notPoint(ship,IN_SEA_AUDIO);
+                notPoint(game.store.ship,IN_SEA_AUDIO);
             }else {
                 startAudio(IN_SEA_AUDIO);
             }
-        } else if (get_map_code .equals("treasure_chest_ship")) {
-            item_box ="宝箱";
-            openTreasureChest(ship,OPEN_TREASURE_CHEST_AUDIO);
-        } else if (get_map_code .equals("treasure_chest_ladder")) {
-            item_box = "宝箱";
-            openTreasureChest(ladder, OPEN_TREASURE_CHEST_AUDIO);
         } else if (get_map_code.equals("back_world")) {
             if (p.area.equals("民家1")){
 
@@ -123,65 +114,13 @@ public class Event implements Serializable{
         return monsteri;
     }
     public void notPoint(Item item, File audio_file) {
-        Scanner scanner = new Scanner(System.in);
-        //map.oceanxそれかyの中の数字に該当する数字だった場合tureを返す
-            int endflg = 0;
-            //アイテム（はしごや船など）をインベントリで手に持ったまま崖や海のマスに進む
-            while (item == p.have_item && endflg == 0) {
-                System.out.println(item.name + "を使いますか？ 使う「ture」 使わない「false」");
-                if (scanner.next().equals("ture")) {
-                    System.out.println(item.name + "を使った！");
-                    startAudio(audio_file);
-                    endflg++;
-                } else if (scanner.next().equals("false")) {
-                    System.out.println("再度選んでください");
-                    p.x = p.serve_x;
-                    p.y = p.serve_y;
-                    endflg++;
-                } else {
-                    System.out.println("tureかfalseを選んでください");
-                }
-            }
-            if (endflg == 0) {
-                System.out.println("再度選んでください");
-                p.x = p.serve_x;
-                p.y = p.serve_y;
-            }
-    }
-
-    public void openTreasureChest(Item item,File audio_file) {
-        Scanner scanner = new Scanner(System.in);
-        int endflg = 0;
-        while (endflg == 0) {
-            System.out.println("これは" + item_box + "を開けますか？ 開ける「ture」 開けない「false」");
-            if (scanner.next().equals("ture")) {
-                if (item.have_number >= 1) {
-                    System.out.println(item_box + "はすでに空っぽだ。再度選んでください");
-                    endflg++;
-                } else {
-                    System.out.println(item_box + "を開けた！," + item.name + "を手に入れた");
-                    item.have_number++;
-                    item.have = true;
-                    item.have_point++;
-                    startAudio(audio_file);
-                    if (item instanceof FightItem) {
-                        p.fight_items.add((FightItem) item);
-                    } else if (item instanceof FieldItem) {
-                        p.field_items.add((FieldItem) item);
-                    } else {
-                        this.p.monster_items.add((MonsterItem) item);
-                    }
-                    p.items.add(item);
-                    endflg++;
-                }
-            } else if (scanner.next().equals("false")) {
-                System.out.println("再度選んでください");
-                endflg++;
-            } else {
-                System.out.println("tureかfalseを選んでください");
-            }
+        //アイテム（はしごや船など）をインベントリで手に持ったまま崖や海のマスに進む
+        if (item == p.have_item) {
+            startAudio(audio_file);
+        }else {
+            System.out.println("再度選んでください");
+            p.x = p.serve_x;
+            p.y = p.serve_y;
         }
-        p.x = p.serve_x;
-        p.y = p.serve_y;
     }
 }

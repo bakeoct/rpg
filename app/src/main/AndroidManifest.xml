@@ -35,6 +35,14 @@
             android:name=".graphic.Cave1_1Activity"
             android:screenOrientation="landscape"
             />
+        <activity
+            android:name=".graphic.InventoryActivity"
+            android:screenOrientation="landscape"
+            />
+        <activity
+            android:name=".graphic.PeopleHomeActivity"
+            android:screenOrientation="landscape"
+            />
     </application>
 
 </manifest>

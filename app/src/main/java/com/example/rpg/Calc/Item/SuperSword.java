@@ -1,5 +1,7 @@
 package com.example.rpg.Calc.Item;
 
+import com.example.rpg.R;
+
 import java.io.Serializable;
 
 public class SuperSword extends FightItem implements Serializable {
@@ -12,5 +14,6 @@ public class SuperSword extends FightItem implements Serializable {
         this.up_attack = 10000;
         this.item_group = "attack";
         this.can_hold = false;
+
     }
 }

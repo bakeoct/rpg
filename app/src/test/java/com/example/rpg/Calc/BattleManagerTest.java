@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 
 public class BattleManagerTest extends TestCase {
     public void testAttack(){
+
     }
 
     public void testTurn() {
@@ -23,4 +24,5 @@ public class BattleManagerTest extends TestCase {
         assertFalse(BattleManager.judgeSente(g.judge_sente, d.judge_sente));
         assertTrue(BattleManager.judgeSente(d.judge_sente, g.judge_sente));
     }
+
 }

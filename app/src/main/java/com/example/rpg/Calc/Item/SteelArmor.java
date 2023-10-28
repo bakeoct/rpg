@@ -1,5 +1,7 @@
 package com.example.rpg.Calc.Item;
 
+import com.example.rpg.R;
+
 import java.io.Serializable;
 
 public class SteelArmor extends FightItem implements Serializable {
@@ -12,5 +14,6 @@ public class SteelArmor extends FightItem implements Serializable {
         this.up_defence = 60000;
         this.item_group = "armor";
         this.can_hold = false;
+
     }
 }

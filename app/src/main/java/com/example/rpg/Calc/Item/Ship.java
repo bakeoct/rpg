@@ -1,5 +1,7 @@
 package com.example.rpg.Calc.Item;
 
+import com.example.rpg.R;
+
 import java.io.Serializable;
 
 public class Ship extends FieldItem implements Serializable {
@@ -11,5 +13,6 @@ public class Ship extends FieldItem implements Serializable {
         this.item_lv = 999999999;
         this.item_group = "move";
         this.can_hold = true;
+
     }
 }

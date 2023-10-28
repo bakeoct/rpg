@@ -1,6 +1,7 @@
 package com.example.rpg.Calc.Item.monsteritem;
 
 import com.example.rpg.Calc.Item.MonsterItem;
+import com.example.rpg.R;
 
 import java.io.Serializable;
 
@@ -13,5 +14,6 @@ public class DragonKingMerchandise  extends MonsterItem implements Serializable 
         this.item_lv = 1;
         this.item_group = "monster";
         this.can_hold = false;
+
     }
 }

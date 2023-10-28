@@ -1,5 +1,7 @@
 package com.example.rpg.Calc.Item;
 
+import com.example.rpg.R;
+
 import java.io.Serializable;
 
 public class Ladder extends FieldItem implements Serializable {
