@@ -17,13 +17,12 @@ import com.example.rpg.Calc.Person2;
 import com.example.rpg.R;
 
 import java.io.File;
-import java.util.Scanner;
 
 public abstract class Treasure {
     protected Item treasure = null;
     protected boolean open_history = false;
 
-    public void openTreasureChest(File audio_file, Person2 p) {
+    public void openTreasureChest(File audio_file) {
         if (this.open_history) {
         } else {
             this.treasure.have = true;
@@ -31,13 +30,13 @@ public abstract class Treasure {
             this.open_history = true;
             startAudio(audio_file);
             if (this.treasure instanceof FightItem) {
-                p.fight_items.add((FightItem) this.treasure);
+                game.store.p.fight_items.add((FightItem) this.treasure);
             } else if (this.treasure instanceof FieldItem) {
-                p.field_items.add((FieldItem) this.treasure);
+                game.store.p.field_items.add((FieldItem) this.treasure);
             } else {
-                p.monster_items.add((MonsterItem) this.treasure);
+                game.store.p.monster_items.add((MonsterItem) this.treasure);
             }
-            p.items.add(this.treasure);
+            game.store.p.items.add(this.treasure);
         }
     }
 }

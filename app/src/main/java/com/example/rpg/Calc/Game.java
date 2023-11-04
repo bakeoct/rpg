@@ -13,12 +13,16 @@ import com.example.rpg.Calc.map.World_map;
 import com.example.rpg.graphic.GameActivity;
 
 import java.io.Serializable;
+
+import static com.example.rpg.Calc.BattleManager.meet_enemy_monster;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
 import static com.example.rpg.Calc.Person2.p;
+import static com.example.rpg.Calc.map.World_map.world_map;
 import static com.example.rpg.graphic.GameActivity.monster_cara_now;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 
+import android.content.Intent;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 
@@ -52,13 +56,8 @@ public class Game implements Serializable {
         }
         enemey_monster.monster_serve_x = enemey_monster.x;
         enemey_monster.monster_serve_y = enemey_monster.y;
-        //if (p.x == enemeyMonster.x && p.y == enemeyMonster.y && p.area.equals(enemeyMonster.area)) {
-        // System.out.println("!");
-        //  System.out.println("モンスターと出会った！！");
-        //  p.turnBattle(get_enemey_monster,mission_dragon_king);
-        //  monster_cara_now = null;
-        //  get_enemey_monster = getMonsterRandomly(gameActivity);
-        //  enemeyMonster.randomNewEnemeyMonster(world_map);
-        // }
+        if (p.x == enemey_monster.x && p.y == enemey_monster.y && p.area.equals(enemey_monster.area)) {
+          meet_enemy_monster = true;
+         }
     }
 }

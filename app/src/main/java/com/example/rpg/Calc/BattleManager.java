@@ -10,6 +10,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class BattleManager implements Serializable {
+
+    public static boolean meet_enemy_monster = false;
+
     public static int attack(Monster2 hp_monster,Monster2 attack_moster) {
         if (attack_moster.use_skill.offensive_power*attack_moster.attack - hp_monster.defence > 0) {
             if (hp_monster.hp - (attack_moster.use_skill.offensive_power*attack_moster.attack - hp_monster.defence) <= 0) {

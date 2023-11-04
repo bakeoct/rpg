@@ -1,6 +1,6 @@
 package com.example.rpg.Calc;
 
-import com.example.rpg.Calc.Error.Finish;
+import static com.example.rpg.Calc.Monsters.Gorlem.gorlem;
 import com.example.rpg.Calc.Item.*;
 import com.example.rpg.Calc.Mission.MissionDragonKing;
 import com.example.rpg.Calc.Mission.MissionSab;
@@ -9,6 +9,7 @@ import com.example.rpg.Calc.map.World_map;
 import com.example.rpg.R;
 import com.example.rpg.graphic.GameActivity;
 import static com.example.rpg.Calc.BattleManager.*;
+import static com.example.rpg.Calc.Monsters.MetalSlime.metal_slime;
 import static com.example.rpg.Calc.map.PersonHome1.people_home1;
 import static com.example.rpg.Calc.map.cave.Cave1.cave1;
 import static com.example.rpg.Calc.map.cave.Cave1_1.cave1_1;
@@ -21,7 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Person2 implements Serializable {
-    public static Person2 p = new Person2("takumi","dannsei",new MetalSlime(),new Gorlem());
+    public static Person2 p = new Person2("takumi","dannsei");
     public Level level =new Level();
     public ArrayList<Monster2> monsters2 =new ArrayList<Monster2>();
     public int lv=1;
@@ -42,7 +43,7 @@ public class Person2 implements Serializable {
     public int serve_x = 12;
     public int serve_y = 6;
     public int choose_item;
-    public Person2(String namae, String seibetu2, MetalSlime metal_slime, Gorlem gorlem) {
+    public Person2(String namae, String seibetu2) {
         this.name = namae;
         this.seibetu = seibetu2;
         this.monsters2.add(metal_slime);

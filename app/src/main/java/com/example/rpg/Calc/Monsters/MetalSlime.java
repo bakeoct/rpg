@@ -7,6 +7,9 @@ import com.example.rpg.Calc.skill.Throw;
 import java.io.Serializable;
 
 public class MetalSlime extends Monster2  implements Serializable{
+
+    public static MetalSlime metal_slime = new MetalSlime();
+
     public MetalSlime(){
         this.limit_hp=50;
         this.limit_mp=80000;

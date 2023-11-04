@@ -7,6 +7,9 @@ import com.example.rpg.Calc.skill.Throw;
 import java.io.Serializable;
 
 public class PutiSlime extends Monster2 implements Serializable {
+
+    public static PutiSlime puti_slime = new PutiSlime();
+
     public PutiSlime(){
         this.limit_hp=398;
         this.limit_mp=7;

@@ -1,5 +1,6 @@
 package com.example.rpg.graphic;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import static com.example.rpg.Calc.Game.game;
+import static com.example.rpg.graphic.GameActivity.game_activity;
+import static com.example.rpg.graphic.TransitionActivity.transition_activity;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rpg.Calc.Item.Item;
@@ -18,6 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class StoreActivity extends AppCompatActivity implements Serializable {
+    public static StoreActivity store_activity = new StoreActivity();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +137,10 @@ public class StoreActivity extends AppCompatActivity implements Serializable {
                 go_shopping.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        finish();
+                        Intent intent = new Intent(StoreActivity.this, TransitionActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                        transition_activity = game_activity;
                     }
                 });
             }

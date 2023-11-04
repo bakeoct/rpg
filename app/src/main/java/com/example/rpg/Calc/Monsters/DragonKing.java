@@ -6,6 +6,9 @@ import com.example.rpg.Calc.skill.LittleFire;
 import java.io.Serializable;
 
 public class DragonKing extends Monster2 implements Serializable {
+
+    public static DragonKing dragon_king = new DragonKing();
+
     public DragonKing() {
         this.hp=20000000;
         this.mp=2;

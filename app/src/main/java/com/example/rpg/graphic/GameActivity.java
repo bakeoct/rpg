@@ -1,7 +1,17 @@
 package com.example.rpg.graphic;
 
+import static com.example.rpg.Calc.BattleManager.meet_enemy_monster;
+import static com.example.rpg.Calc.Monsters.DragonKing.dragon_king;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.monster_place;
+import static com.example.rpg.Calc.Monsters.MetalSlime.metal_slime;
+import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
+import static com.example.rpg.Calc.Sound.OPEN_DOOR_AUDIO;
+import static com.example.rpg.Calc.Sound.startAudio;
+import static com.example.rpg.Calc.map.PersonHome1.PERSON_HOME1_INITIAL_X;
+import static com.example.rpg.Calc.map.PersonHome1.PERSON_HOME1_INITIAL_Y;
+import static com.example.rpg.graphic.InventoryActivity.inventory_activity;
+import static com.example.rpg.graphic.PeopleHomeActivity.people_home_1_activity;
 import static com.example.rpg.Calc.map.World_map.world_map;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -13,6 +23,11 @@ import android.widget.ImageView;
 import static com.example.rpg.Calc.Game.get_enemey_monster;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_X;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_Y;
+import static com.example.rpg.Calc.map.cave.Cave1.cave1;
+import static com.example.rpg.graphic.Cave1Activity.cave_1_activity;
+import static com.example.rpg.graphic.StoreActivity.store_activity;
+import static com.example.rpg.graphic.TransitionActivity.save_transition_activity;
+import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 import androidx.appcompat.app.AppCompatActivity;
 import static com.example.rpg.Calc.Game.game;
@@ -23,7 +38,8 @@ import java.io.Serializable;
 
 public class GameActivity extends AppCompatActivity implements Serializable {
     public static String monster_cara_now = null;
-    public static String place = null;
+    public static String place = "over";
+    public static GameActivity game_activity = new GameActivity();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +55,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         ImageView do_button = findViewById(R.id.do_button_game);
         GridLayout gridLayout = findViewById(R.id.gridLayout_game);
         ImageView inventory_button = findViewById(R.id.inventory_button_inventory);
-        ImageView enemy_monster = findViewById(R.id.enemy_monster_game);
+        ImageView enemy_monster = findViewById(R.id.enemy_monster);
         ImageView yuusya = findViewById(R.id.yuusya_game);
         GameActivity game_activity = new GameActivity();
         System.out.println(monster_place);
@@ -74,13 +90,12 @@ public class GameActivity extends AppCompatActivity implements Serializable {
                 gridLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
-
-
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 place = "right";
                 game.gameTurn(game_activity,gridLayout, enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(game_activity);
             }
         });
         over.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +103,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "over";
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(game_activity);
             }
         });
         left.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +111,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "left";
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(game_activity);
             }
         });
         under.setOnClickListener(new View.OnClickListener() {
@@ -102,13 +119,17 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "under";
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(game_activity);
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveWriteAndRead.write();
-                finish();
+                Intent intent = new Intent(GameActivity.this, TransitionActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                transition_activity = new MainActivity();
             }
         });
         do_button.setOnClickListener(new View.OnClickListener() {
@@ -118,14 +139,19 @@ public class GameActivity extends AppCompatActivity implements Serializable {
                     goStore();
                 }else if (map[p.y][p.x].equals("cave1")){
                     goCave_1();
+                }else if (map[p.y][p.x].equals("people_home_1")){
+                    goPeople_home_1();
                 }
             }
         });
         inventory_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GameActivity.this, InventoryActivity.class);
+                Intent intent = new Intent(GameActivity.this, TransitionActivity.class);
                 startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                transition_activity = inventory_activity;
+                save_transition_activity = game_activity;
             }
         });
     }
@@ -153,8 +179,10 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         return myImageDrawable;
     }
     public void goStore(){
-        Intent intent = new Intent(GameActivity.this, StoreActivity.class);
+        Intent intent = new Intent(GameActivity.this, TransitionActivity.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        transition_activity = store_activity;
     }
     public void goCave_1(){
         p.area = "洞窟1";
@@ -162,8 +190,21 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         p.y = CAVE1_INITIAL_Y;
         p.serve_x = CAVE1_INITIAL_X;
         p.serve_y = CAVE1_INITIAL_Y;
-        Intent intent = new Intent(GameActivity.this, Cave1Activity.class);
+        Intent intent = new Intent(GameActivity.this, TransitionActivity.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        transition_activity = cave_1_activity;
+
+    }
+    public void goPeople_home_1(){
+        p.area = "民家1";
+        startAudio(OPEN_DOOR_AUDIO);
+        p.x = PERSON_HOME1_INITIAL_X;
+        p.y = PERSON_HOME1_INITIAL_Y;
+        Intent intent = new Intent(GameActivity.this, TransitionActivity.class);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        transition_activity = people_home_1_activity;
     }
     private void assignmentItemDrawable(){
         game.store.ladder.item_drawable = getResources().getDrawable(R.drawable.ladder);

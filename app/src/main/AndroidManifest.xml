@@ -43,6 +43,14 @@
             android:name=".graphic.PeopleHomeActivity"
             android:screenOrientation="landscape"
             />
+        <activity
+            android:name=".graphic.TransitionActivity"
+            android:screenOrientation="landscape"
+            />
+        <activity
+            android:name=".graphic.BattleManagerActivity"
+            android:screenOrientation="landscape"
+            />
     </application>
 
 </manifest>

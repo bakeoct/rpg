@@ -11,6 +11,10 @@ import static com.example.rpg.Calc.Person2.p;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_X;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
 import static com.example.rpg.Calc.map.cave.Cave1.cave1;
+import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
+import static com.example.rpg.graphic.Cave1_1Activity.cave1_1_activity;
+import static com.example.rpg.graphic.GameActivity.game_activity;
+import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 import static com.example.rpg.graphic.GameActivity.place;
 import android.content.Intent;
@@ -30,6 +34,7 @@ import com.example.rpg.R;
 import java.io.Serializable;
 
 public class Cave1Activity extends AppCompatActivity implements Serializable {
+    public static Cave1Activity cave_1_activity = new Cave1Activity();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +48,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
         ImageView setting = findViewById(R.id.setting_cave1);
         ImageView do_button = findViewById(R.id.do_button_cave1);
         GridLayout gridLayout = findViewById(R.id.gridLayout_cave1);
-        ImageView enemy_monster = findViewById(R.id.enemy_monster_cave1);
+        ImageView enemy_monster = findViewById(R.id.enemy_monster);
         ImageView yuusya = findViewById(R.id.yuusya_cave1);
         GameActivity game_activity = new GameActivity();
         yuusya.bringToFront();
@@ -85,6 +90,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
                 place = "right";
                 System.out.println("あああああああああああああああ");
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(cave_1_activity);
             }
         });
         left.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +99,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
                 place = "left";
                 System.out.println("あああああああああああああああ");
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(cave_1_activity);
             }
         });
         under.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +108,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
                 place = "under";
                 System.out.println("あああああああああああああああ");
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(cave_1_activity);
             }
         });
         over.setOnClickListener(new View.OnClickListener() {
@@ -109,13 +117,17 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
                 place = "over";
                 System.out.println("あああああああああああああああ");
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(cave_1_activity);
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveWriteAndRead.write();
-                finish();
+                Intent intent = new Intent(Cave1Activity.this, TransitionActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                transition_activity = new MainActivity();
             }
         });
         do_button.setOnClickListener(new View.OnClickListener() {
@@ -146,8 +158,10 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
         p.y = CAVE1_1_INITIAL_Y;
         p.serve_x = CAVE1_1_INITIAL_X;
         p.serve_y = CAVE1_1_INITIAL_Y;
-        Intent intent = new Intent(Cave1Activity.this, Cave1_1Activity.class);
+        Intent intent = new Intent(Cave1Activity.this, TransitionActivity.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        transition_activity = cave1_1_activity;
     }
     public void goMainMap(){
         p.x = CAVE1_BACK_MAIN_WORLD_INITIAL_X;
@@ -155,7 +169,9 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
         p.serve_x = CAVE1_BACK_MAIN_WORLD_INITIAL_X;
         p.serve_y = CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
         p.area = "メインマップ";
-        Intent intent = new Intent(Cave1Activity.this, GameActivity.class);
+        Intent intent = new Intent(Cave1Activity.this, TransitionActivity.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        transition_activity = game_activity;
     }
 }

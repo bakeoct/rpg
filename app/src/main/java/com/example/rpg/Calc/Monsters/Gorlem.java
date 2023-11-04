@@ -6,6 +6,9 @@ import com.example.rpg.Calc.skill.Throw;
 import java.io.Serializable;
 
 public class Gorlem extends Monster2  implements Serializable {
+
+    public static Gorlem gorlem = new Gorlem();
+
     public Gorlem(){
         this.limit_hp=9000;
         this.limit_mp=300000;

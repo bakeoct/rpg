@@ -6,11 +6,13 @@ import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
 import static com.example.rpg.Calc.Person2.p;
 import static com.example.rpg.Calc.Sound.OPEN_TREASURE_CHEST_AUDIO;
-import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_X;
+import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
+import static com.example.rpg.graphic.Cave1Activity.cave_1_activity;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
 import static com.example.rpg.Calc.map.cave.Cave1_1.*;
 import static com.example.rpg.Calc.map.cave.Cave1.cave1;
 import static com.example.rpg.Calc.treasure.TreasureChestLadder.treasure_chest_ladder;
+import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 import static com.example.rpg.graphic.GameActivity.place;
 import android.content.Intent;
@@ -32,6 +34,7 @@ import com.example.rpg.R;
 import java.io.Serializable;
 
 public class Cave1_1Activity extends AppCompatActivity implements Serializable {
+    public static Cave1_1Activity cave1_1_activity = new Cave1_1Activity();
     public int chenge_treasure = 0;
     public ImageView treasure_imageView = null;
     public int[] treasure_images = {R.drawable.open_treasure_chest, R.drawable.treasure_chest}; // 切り替える画像リソース
@@ -42,7 +45,7 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
             if (chenge_treasure < 2) {
                 treasure_imageView.setImageResource(treasure_images[chenge_treasure]);
                 if (chenge_treasure == 0) {
-                    treasure_chest_ladder.openTreasureChest(OPEN_TREASURE_CHEST_AUDIO, p);
+                    treasure_chest_ladder.openTreasureChest(OPEN_TREASURE_CHEST_AUDIO);
                 }
                 chenge_treasure++;
                 handler.postDelayed(runnable, 1000); // 1秒間隔で実行
@@ -64,11 +67,12 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
         ImageView setting = findViewById(R.id.setting_cave1_1);
         ImageView do_button = findViewById(R.id.do_button_cave1_1);
         GridLayout gridLayout = findViewById(R.id.gridLayout_cave1_1);
-        ImageView enemy_monster = findViewById(R.id.enemy_monster_cave1_1);
+        ImageView enemy_monster = findViewById(R.id.enemy_monster);
         ImageView yuusya = findViewById(R.id.yuusya_cave1_1);
         GameActivity game_activity = new GameActivity();
         get_enemey_monster = getMonsterRandomly(enemy_monster);
         String[][] map = cave1_1;
+
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 ImageView imageView = new ImageView(this);
@@ -79,7 +83,6 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
                 layoutParams.setMargins(margin, margin, margin, margin);
                 imageView.setImageDrawable(myImageDrawable);
                 imageView.setLayoutParams(layoutParams);
-                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa11111");
                 if (map[i][j].equals("treasure_chest_ladder")){
                     treasure_imageView = imageView;
                     System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
@@ -112,6 +115,7 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "right";
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(cave1_1_activity);
             }
         });
         left.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +123,7 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "left";
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(cave1_1_activity);
             }
         });
         under.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +131,7 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "under";
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(cave1_1_activity);
             }
         });
         over.setOnClickListener(new View.OnClickListener() {
@@ -133,13 +139,17 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "over";
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(cave1_1_activity);
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveWriteAndRead.write();
-                finish();
+                Intent intent = new Intent(Cave1_1Activity.this, TransitionActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                transition_activity = new MainActivity();
             }
         });
         do_button.setOnClickListener(new View.OnClickListener() {
@@ -173,8 +183,10 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
         p.serve_x = CAVE1_1_BACK_CAVE1_INITIAL_X;
         p.serve_y = CAVE1_1_BACK_CAVE1_INITIAL_Y;
         p.area = "洞窟1";
-        Intent intent = new Intent(Cave1_1Activity.this, Cave1Activity.class);
+        Intent intent = new Intent(this, TransitionActivity.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        transition_activity = cave_1_activity;
     }
     public void getTreasure(Handler handler,Runnable runnable){
        handler.post(runnable);

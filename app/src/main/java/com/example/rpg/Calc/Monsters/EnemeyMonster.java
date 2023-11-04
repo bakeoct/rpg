@@ -1,6 +1,7 @@
 package com.example.rpg.Calc.Monsters;
 
 import android.app.Person;
+import android.graphics.drawable.Drawable;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 
@@ -15,7 +16,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 public class EnemeyMonster implements Serializable {
-    public static String monster_place;
+    public static String monster_place = "over";
     public static EnemeyMonster enemey_monster =new EnemeyMonster();
     public int x=12;
     public int y=3;
@@ -51,7 +52,7 @@ public class EnemeyMonster implements Serializable {
             }
         }
     }
-    public void randomNewEnemeyMonster(World_map world_map){
+    public void randomNewEnemeyMonster(){
         Random random_new_enemey_monster =new Random();
         Map map =new Map();
         int[] range = map.getRange(this.area);

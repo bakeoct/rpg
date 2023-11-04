@@ -11,6 +11,9 @@ import static com.example.rpg.Calc.map.World_map.world_map;
 import static com.example.rpg.Calc.map.PersonHome1.*;
 import static com.example.rpg.Calc.treasure.TreasureChestLadder.treasure_chest_ladder;
 import static com.example.rpg.Calc.treasure.TreasureChestShip.treasure_chest_ship;
+import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
+import static com.example.rpg.graphic.GameActivity.game_activity;
+import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 import static com.example.rpg.graphic.GameActivity.place;
 import android.content.Intent;
@@ -29,6 +32,7 @@ import com.example.rpg.R;
 import java.io.Serializable;
 
 public class PeopleHomeActivity extends AppCompatActivity implements Serializable {
+    public static PeopleHomeActivity people_home_1_activity = new PeopleHomeActivity();
     public int chenge_treasure = 0;
     public ImageView treasure_imageView = null;
     public int[] treasure_images = {R.drawable.open_treasure_chest, R.drawable.treasure_chest}; // 切り替える画像リソース
@@ -39,7 +43,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
             if (chenge_treasure < 2) {
                 treasure_imageView.setImageResource(treasure_images[chenge_treasure]);
                 if (chenge_treasure == 0) {
-                    treasure_chest_ship.openTreasureChest(OPEN_TREASURE_CHEST_AUDIO, p);
+                    treasure_chest_ship.openTreasureChest(OPEN_TREASURE_CHEST_AUDIO);
                 }
                 chenge_treasure++;
                 handler.postDelayed(runnable, 1000); // 1秒間隔で実行
@@ -61,7 +65,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
         ImageView setting = findViewById(R.id.setting_people_home1);
         ImageView do_button = findViewById(R.id.do_button_people_home1);
         GridLayout gridLayout = findViewById(R.id.gridLayout_people_home1);
-        ImageView enemy_monster = findViewById(R.id.enemy_monster_people_home1);
+        ImageView enemy_monster = findViewById(R.id.enemy_monster);
         ImageView yuusya = findViewById(R.id.yuusya_people_home1);
         GameActivity game_activity = new GameActivity();
         System.out.println(monster_place);
@@ -78,9 +82,14 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
                 ImageView imageView = new ImageView(this);
                 imageView.setImageDrawable(myImageDrawable);
                 imageView.setLayoutParams(layoutParams);
+                if (map[i][j].equals("treasure_chest_ship")){
+                    treasure_imageView = imageView;
+                }
                 gridLayout.addView(imageView);
             }
         }
+        yuusya.bringToFront();
+        enemy_monster.bringToFront();
         //上記のマップ表示を待ち、エンティティをマップにセットする
         gridLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -103,6 +112,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
             public void onClick(View v) {
                 place = "right";
                 game.gameTurn(game_activity,gridLayout, enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(people_home_1_activity);
             }
         });
         over.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +120,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
             public void onClick(View v) {
                 place = "over";
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(people_home_1_activity);
             }
         });
         left.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +128,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
             public void onClick(View v) {
                 place = "left";
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(people_home_1_activity);
             }
         });
         under.setOnClickListener(new View.OnClickListener() {
@@ -124,6 +136,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
             public void onClick(View v) {
                 place = "under";
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                battle_manager_activity.meetEnemyMonster(people_home_1_activity);
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
@@ -163,8 +176,10 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
         p.y = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_Y;
         p.serve_x = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_X;
         p.serve_y = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_Y;
-        Intent intent = new Intent(PeopleHomeActivity.this, GameActivity.class);
+        Intent intent = new Intent(PeopleHomeActivity.this, TransitionActivity.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        transition_activity = game_activity;
     }
     public void getTreasure(Handler handler,Runnable runnable){
         handler.post(runnable);

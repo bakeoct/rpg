@@ -56,15 +56,6 @@ public class Event implements Serializable{
             }else {
                 startAudio(IN_SEA_AUDIO);
             }
-        } else if (get_map_code.equals("back_world")) {
-            if (p.area.equals("民家1")){
-
-            }
-        } else if (get_map_code.equals("people_home_1")) {
-            p.area = "民家1";
-            startAudio(OPEN_DOOR_AUDIO);
-            p.x = PERSON_HOME1_INITIAL_X;
-            p.y = PERSON_HOME1_INITIAL_Y;
         } else if (get_map_code.equals("glass")) {
             startAudio(ON_GLASS_AUDIO);
         } else if (get_map_code.equals("stone")) {

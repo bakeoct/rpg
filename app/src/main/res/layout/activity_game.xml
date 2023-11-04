@@ -92,7 +92,7 @@
         app:srcCompat="@drawable/yuusya" />
 
     <ImageView
-        android:id="@+id/enemy_monster_game"
+        android:id="@+id/enemy_monster"
         android:layout_width="32dp"
         android:layout_height="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
