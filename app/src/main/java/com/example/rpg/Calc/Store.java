@@ -39,13 +39,11 @@ public class Store implements Serializable {
     public HealGlass heal_glass = new HealGlass();
     public SteelArmor steel_armor = new SteelArmor();
     public SuperSword super_sword = new SuperSword();
-    public Person2 p;
     public ArrayList<Item> items_all =new ArrayList<>();
     public ArrayList<MonsterItem> monster_items_all =new ArrayList<>();
     public ArrayList<FightItem> fight_items_all = new ArrayList<FightItem>();
     public ArrayList<Mission> mission_all =new ArrayList<>();
-    public Store(Person2 p,MissionDragonKing missionDragonKing) {
-        this.p = p;
+    public Store(MissionDragonKing missionDragonKing) {
         this.items_all.add(ship);
         this.items_all.add(ladder);
         this.items_all.add(puti_slime_merchandise);
@@ -95,7 +93,7 @@ public class Store implements Serializable {
                             try {
                                 int sell_number = Integer.parseInt(choose_number.getText().toString());
                                 if (sell_number >= 1) {
-                                    if (game.store.p.items.get(sell_items).have_point >= sell_number){
+                                    if (game.p.items.get(sell_items).have_point >= sell_number){
                                         sell_click((TextView) shopping_items.getChildAt(sell_items), sell_number,serif);
                                         correct = true;
                                     }else {
@@ -123,12 +121,12 @@ public class Store implements Serializable {
                     mission.get_reward = false;
                     System.out.println("お！、お前" + mission.name + "のミッションを達成しているな");
                     System.out.println("ほら報酬だ！");
-                    p.money += mission.reward;
+                    game.p.money += mission.reward;
                 }
             }
             if (!endflg) {
                 System.out.println("ミッションを受けるんだな");
-                missionSab.receive(p, this.mission_all);
+                missionSab.receive(game.p, this.mission_all);
                 System.out.println(this.mission_all.get(0).progress);
             }
         }
@@ -139,9 +137,9 @@ public class Store implements Serializable {
             System.out.println("じゃあな");
         }
         public static boolean getAfterMoney (Item item, int buy_number){
-        boolean have_enough_money = game.store.p.money >= item.buy_price * buy_number;
+        boolean have_enough_money = game.p.money >= item.buy_price * buy_number;
             if (have_enough_money) {
-                game.store.p.money -= item.buy_price * buy_number;
+                game.p.money -= item.buy_price * buy_number;
                 getItems(item, buy_number);
             }
             return have_enough_money;
@@ -151,42 +149,42 @@ public class Store implements Serializable {
                 item.have = true;
                 for (MonsterItem alive_item : game.store.monster_items_all) {
                     if (alive_item == item) {
-                        game.store.p.monsters2.add(inMonster(item));
+                        game.p.monsters2.add(inMonster(item));
                     }
                 }
                 if (item instanceof FightItem) {
-                    game.store.p.fight_items.add((FightItem) item);
+                    game.p.fight_items.add((FightItem) item);
                 } else if (item instanceof FieldItem) {
-                    game.store.p.field_items.add((FieldItem) item);
+                    game.p.field_items.add((FieldItem) item);
                 } else {
-                    game.store.p.monster_items.add((MonsterItem) item);
+                    game.p.monster_items.add((MonsterItem) item);
                 }
-                game.store.p.items.add(item);
+                game.p.items.add(item);
             }
             item.have_point += buy_number;
             return item.have_point;
         }
         public void buyMessage(int buy_number,TextView serif,Item item,boolean have_enough_money){
             if (have_enough_money) {
-                serif.setText(p.name + "は" + item.name + "を"+ buy_number + "個買った");
+                serif.setText(item.name + "を"+ buy_number + "個買った");
             } else {
                 serif.setText("金が足んねえ\n、、、出直して来な");
             }
         }
         public void sellMath (Item item, int sell_number,TextView serif){
-            p.money += item.sell_price * sell_number;
+            game.p.money += item.sell_price * sell_number;
             item.have_point -= sell_number;
-            serif.setText(p.name + "は" + item.name + "を" + "売った");
+            serif.setText(item.name + "を" + "売った");
             if (item.have_point == 0) {
                 item.have = false;
-                for (int i = 0; i < p.monsters2.size(); i++) {
-                    if (p.monsters2.get(i).name.equals(item.name)) {
-                        p.monsters2.remove(i);
+                for (int i = 0; i < game.p.monsters2.size(); i++) {
+                    if (game.p.monsters2.get(i).name.equals(item.name)) {
+                        game.p.monsters2.remove(i);
                     }
                 }
-                for (int i = 0; i < p.items.size(); i++) {
-                    if (p.items.get(i) == item) {
-                        p.items.remove(i);
+                for (int i = 0; i < game.p.items.size(); i++) {
+                    if (game.p.items.get(i) == item) {
+                        game.p.items.remove(i);
                     }
                 }
             }
@@ -217,7 +215,7 @@ public class Store implements Serializable {
         }
     }
     public void sell_click(TextView want_sell_item,int sell_number,TextView serif){
-        for (Item item : game.store.p.items) {
+        for (Item item : game.p.items) {
             if (want_sell_item.getText().equals(item.name)) {
                 sellMath(item, sell_number,serif);
                 System.out.println("他はどうだ？");

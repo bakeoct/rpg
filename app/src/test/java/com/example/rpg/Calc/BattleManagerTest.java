@@ -1,5 +1,7 @@
 package com.example.rpg.Calc;
 
+import static com.example.rpg.Calc.Game.game;
+
 import com.example.rpg.Calc.Monsters.DragonKing;
 import com.example.rpg.Calc.Monsters.Gorlem;
 import com.example.rpg.Calc.Monsters.MetalSlime;
@@ -21,8 +23,8 @@ public class BattleManagerTest extends TestCase {
     public void testJudgeSente() {
         Gorlem g = new Gorlem();
         DragonKing d = new DragonKing();
-        assertFalse(BattleManager.judgeSente(g.judge_sente, d.judge_sente));
-        assertTrue(BattleManager.judgeSente(d.judge_sente, g.judge_sente));
+        assertFalse(game.battle_manager.judgeSente(g.judge_sente, d.judge_sente));
+        assertTrue(game.battle_manager.judgeSente(d.judge_sente, g.judge_sente));
     }
 
 }

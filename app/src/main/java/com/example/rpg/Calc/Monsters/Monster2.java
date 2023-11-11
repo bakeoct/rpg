@@ -3,8 +3,7 @@ package com.example.rpg.Calc.Monsters;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
-import static com.example.rpg.Calc.Monsters.DragonKing.dragon_king;
-import static com.example.rpg.Calc.Monsters.MetalSlime.metal_slime;
+import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.graphic.GameActivity.monster_cara_now;
 import com.example.rpg.Calc.Item.FightItem;
 import com.example.rpg.Calc.skill.Skill;
@@ -12,13 +11,11 @@ import com.example.rpg.R;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
-import static com.example.rpg.Calc.Monsters.PutiSlime.puti_slime;
-import static com.example.rpg.Calc.Monsters.Gorlem.gorlem;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.monster_place;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public abstract class Monster2 extends AppCompatActivity implements Serializable {
+public abstract class Monster2 implements Serializable {
     public int hp;
     public int limit_hp;
     public int mp;
@@ -38,7 +35,6 @@ public abstract class Monster2 extends AppCompatActivity implements Serializable
     public Skill use_skill;
     public ArrayList<Skill> all_skill =new ArrayList<>();
     public FightItem have_item =null;
-    public Drawable monster_drawable = null;
 
     public String name() {
         return this.name;
@@ -59,10 +55,10 @@ public abstract class Monster2 extends AppCompatActivity implements Serializable
     public static Monster2 getMonsterRandomly(ImageView enemy_monster) {
         Random random = new Random();
         ArrayList<Monster2> monster2List = new ArrayList<>();
-        monster2List.add(dragon_king);
-        monster2List.add(metal_slime);
-        monster2List.add(puti_slime);
-        monster2List.add(gorlem);
+        monster2List.add(game.dragon_king);
+        monster2List.add(game.metal_slime);
+        monster2List.add(game.puti_slime);
+        monster2List.add(game.gorlem);
         //0~3 no random na value get
         int randomNum = random.nextInt(monster2List.size());
         setImageResource(randomNum,enemy_monster);
@@ -124,5 +120,23 @@ public abstract class Monster2 extends AppCompatActivity implements Serializable
                 enemy_monster.setImageResource(R.drawable.gorlem_under);
             }
         }
+    }
+    public int getAttack(){
+        int attack = this.attack;
+        try{
+            if (this.have_item.name.equals("attack")){
+                attack += this.have_item.up_attack;
+            }
+        }catch (NullPointerException e){}
+        return attack;
+    }
+    public int getDefence(){
+        int defence = this.defence;
+        try{
+            if (this.have_item.name.equals("armor")){
+                defence += this.have_item.up_defence;
+            }
+        }catch (NullPointerException e){}
+        return defence;
     }
 }

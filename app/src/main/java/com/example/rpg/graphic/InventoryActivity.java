@@ -64,25 +64,25 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
         LinearLayout take_item_inventory = findViewById(R.id.take_item_of_inventory);
         ArrayList<Button> collect_new_button = new ArrayList<>();
 
-        for (int i=0; i<game.store.p.items.size(); i++){
-            System.out.println(game.store.p.items.size()+"hjbglyhgijbljhb");
-            if (!(game.store.p.items.get(i) instanceof MonsterItem) && game.store.p.have_item != game.store.p.items.get(i)) {
+        for (int i=0; i<game.p.items.size(); i++){
+            System.out.println(game.p.items.size()+"hjbglyhgijbljhb");
+            if (!(game.p.items.get(i) instanceof MonsterItem) && game.p.have_item != game.p.items.get(i)) {
                 ImageView image_view = new ImageView(this);
                 GridLayout.LayoutParams layout_params = new GridLayout.LayoutParams();
                 layout_params.width = image_size;
                 layout_params.height = image_size;
                 layout_params.setMargins(margin, margin, margin, margin);
-                image_view.setImageDrawable(game.store.p.items.get(i).item_drawable);
+                image_view.setImageDrawable(game.p.items.get(i).item_drawable);
                 image_view.setLayoutParams(layout_params);
                 linear_inventory.addView(image_view);
                 image_view.bringToFront();
-            }else if(game.store.p.have_item == game.store.p.items.get(i)){
+            }else if(game.p.have_item == game.p.items.get(i)){
                 ImageView image_view = new ImageView(this);
                 GridLayout.LayoutParams layout_params = new GridLayout.LayoutParams();
                 layout_params.width = image_size;
                 layout_params.height = image_size;
                 layout_params.setMargins(margin, margin, margin, margin);
-                image_view.setImageDrawable(game.store.p.items.get(i).item_drawable);
+                image_view.setImageDrawable(game.p.items.get(i).item_drawable);
                 image_view.setLayoutParams(layout_params);
                 take_item_inventory.addView(image_view);
             }
@@ -126,13 +126,13 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                     } else if (click_number_of_items_inventory == 2) {
                         take_item_inventory.removeAllViews();
                         linear_inventory.addView(imageView);
-                        game.store.p.have_item = null;
+                        game.p.have_item = null;
                         click_number_of_items_inventory = 0;
                     }
                 }
             }
         });
-        for (int i = 0; i < game.store.p.items.size(); i++) {
+        for (int i = 0; i < game.p.items.size(); i++) {
             int inventory_i = i;
             save_first_image.add((ImageView) linear_inventory.getChildAt(inventory_i));
             item_first_clicks.add(true);
@@ -197,7 +197,7 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                 @Override
                 public void onClick(View v) {
                     ImageView imageView = (ImageView) linear_inventory.getChildAt(match_number);
-                    for (Item item : game.store.p.items) {
+                    for (Item item : game.p.items) {
                         if (item.item_drawable == imageView.getDrawable()) {
                             takeItemOfThing(item);
                             if (take_item_inventory.getChildAt(0) == null && item.can_hold) {
@@ -224,9 +224,9 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                 @Override
                 public void onClick(View v) {
                     ImageView imageView = (ImageView) linear_inventory.getChildAt(match_number);
-                    for (Item item : game.store.p.items) {
+                    for (Item item : game.p.items) {
                         if (item.item_drawable == imageView.getDrawable()) {
-                            game.store.p.items.remove(item);
+                            game.p.items.remove(item);
                         }
                     }
                     linear_inventory.removeView(linear_inventory.getChildAt(match_number));

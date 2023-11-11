@@ -1,9 +1,21 @@
 package com.example.rpg.Calc;
 
+import static com.example.rpg.Calc.Game.game;
+import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
+
+import android.graphics.Color;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import com.example.rpg.Calc.Error.Finish;
 import com.example.rpg.Calc.Item.FightItem;
 import com.example.rpg.Calc.skill.Skill;
 import com.example.rpg.Calc.Monsters.Monster2;
+
+import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -11,9 +23,9 @@ import java.util.Scanner;
 
 public class BattleManager implements Serializable {
 
-    public static boolean meet_enemy_monster = false;
+    public boolean meet_enemy_monster = false;
 
-    public static int attack(Monster2 hp_monster,Monster2 attack_moster) {
+    public int attack(Monster2 hp_monster,Monster2 attack_moster) {
         if (attack_moster.use_skill.offensive_power*attack_moster.attack - hp_monster.defence > 0) {
             if (hp_monster.hp - (attack_moster.use_skill.offensive_power*attack_moster.attack - hp_monster.defence) <= 0) {
                 return 0;
@@ -25,87 +37,71 @@ public class BattleManager implements Serializable {
         }
     }
 
-    public static int turn(Monster2 monster,Monster2 monster2) {
+    public int turn(Monster2 monster,Monster2 monster2,LinearLayout battle_chat) {
+        TextView textView = new TextView(battle_manager_activity);
+        textView.setTextColor(Color.RED);
         if (monster.is_alive) {
             if (monster.mp >= monster.use_skill.consumption_mp) {
                 monster2.hp = attack(monster2,monster);
-                monster.mp = monster.mp - monster.use_skill.consumption_mp;
-                System.out.println(monster.name + "の攻撃　　ドーン！！　" + monster2.name + "の体力が" + monster2.hp + "になった。　　" + monster.name + "のmpが"+monster.use_skill.consumption_mp+"下がって" + monster.mp + "になった");
+                monster.mp -= monster.use_skill.consumption_mp;
+                choose_effect(monster);
+                textView.setText(monster.name + "の攻撃　　ドーン！！　" + monster2.name + "の体力が" + monster2.hp + "になった。　　" + monster.name + "のmpが"+monster.use_skill.consumption_mp+"下がって" + monster.mp + "になった");
+                battle_chat.addView(textView);
             } else {
-                System.out.println(monster.name + "の攻撃　　しかしmpが足りなかった");
+                battle_manager_activity.graphicShortageMp();
+                textView.setText(monster.name + "の攻撃　　しかしmpが足りなかった");
+                battle_chat.addView(textView);
             }
             if (monster2.hp <= 0) {
                 monster2.is_alive = false;
-                System.out.println(monster2.name + "は死んでしまった");
+                battle_manager_activity.graphicDie();
+                textView.setText(monster2.name + "は死んでしまった");
+                battle_chat.addView(textView);
             }
         }
         return 1;
     }
+    public void choose_effect(Monster2 monster){
+        if (monster.use_skill == game.hit_attack){
+            battle_manager_activity.graphicHitAttack();
+        }else if (monster.use_skill == game.throw_attack){
 
-    public static String battle(Monster2 monster1, Monster2 monster2,String what_did,Person2 p) {
-        System.out.println(monster2.name + "と" + monster1.name + "の戦い");
-        if (monster2.is_alive) {
-            while (monster1.is_alive && monster2.is_alive) {
-                boolean sente = judgeSente(monster2.judge_sente, monster1.judge_sente);
-                what_did = chooseDo(what_did, p, monster2);
-                chooseEnemySkill(monster1);
-                if (monster2.use_skill.long_or_short.equals(monster1.use_skill.long_or_short)) {
-                    if (sente) {
-                        if (what_did.equals("fight")) {
-                            turn(monster2, monster1);
-                        }
-                        if (!(what_did.equals("goback"))) {
-                            turn(monster1, monster2);
-                            alive(monster2);
-                        } else {
-                            break;
-                        }
-                    } else {
-                        if (!(what_did.equals("goback"))) {
-                            turn(monster1, monster2);
-                            if (monster2.is_alive) {
-                                if (what_did.equals("fight")) {
-                                    turn(monster2, monster1);
-                                }
-                            }
-                            alive(monster1);
-                        } else {
-                            break;
-                        }
-                    }
-                }else {
-                    if (monster2.use_skill.long_or_short.equals("long")){
-                        if (what_did.equals("fight")) {
-                            turn(monster2, monster1);
-                        }
-                        if (!(what_did.equals("goback"))) {
-                            turn(monster1, monster2);
-                            alive(monster2);
-                        } else {
-                            break;
-                        }
-                    }else {
-                        if (!(what_did.equals("goback"))) {
-                            turn(monster1, monster2);
-                            if (monster2.is_alive) {
-                                if (what_did.equals("fight")) {
-                                    turn(monster2, monster1);
-                                }
-                            }
-                            alive(monster1);
-                        } else {
-                            break;
-                        }
-                    }
-                }
+        }else if (monster.use_skill == game.little_fire){
+
+        }
+    }
+    public void choose_skill(Monster2 monster2,LinearLayout battle_chat) {
+        //敵モンスターと味方モンスターの戦い
+        graphic_skill(monster2, battle_chat);
+        click_skill(monster2, battle_chat);
+    }
+    public String battle(Monster2 monster2,LinearLayout battle_chat) {
+        boolean sente = judgeSente(monster2.judge_sente, game.get_enemey_monster.judge_sente);
+        if (monster2.use_skill.long_or_short.equals(game.get_enemey_monster.use_skill.long_or_short)) {
+            if (sente) {
+                turn(monster2, game.get_enemey_monster,battle_chat);
+                turn(game.get_enemey_monster, monster2,battle_chat);
+                alive(battle_chat);
+            } else {
+                turn(game.get_enemey_monster, monster2,battle_chat);
+                turn(monster2, game.get_enemey_monster,battle_chat);
+                alive(battle_chat);
             }
         } else {
-            System.out.println("しかし、" + monster2.name + "はすでに死んでいる");
+            if (monster2.use_skill.long_or_short.equals("long")) {
+                turn(monster2, game.get_enemey_monster,battle_chat);
+                turn(game.get_enemey_monster, monster2,battle_chat);
+                alive(battle_chat);
+            } else {
+                turn(game.get_enemey_monster, monster2,battle_chat);
+                turn(monster2, game.get_enemey_monster,battle_chat);
+                alive(battle_chat);
+            }
         }
         return what_did;
     }
 
-    public static boolean judgeSente(int judgeSenteFirst, int judgeSenteSecond) {
+    public boolean judgeSente(int judgeSenteFirst, int judgeSenteSecond) {
         Random random = new Random(2);
         boolean sente = true;
         if (judgeSenteFirst < judgeSenteSecond) {
@@ -116,84 +112,46 @@ public class BattleManager implements Serializable {
         return sente;
     }
 
-    public static void alive(Monster2 monster2) {
-        if (monster2.hp<=0) {
-            System.out.println(monster2.name + "を倒した");
+    public void alive(LinearLayout battle_chat) {
+        if (game.get_enemey_monster.hp<=0) {
+            TextView textView = new TextView(battle_manager_activity);
+            textView.setText(game.get_enemey_monster.name + "を倒した");
+            textView.setTextColor(Color.RED);
+            battle_chat.addView(battle_chat);
         }
     }
-    public static void itemsStatus(Monster2 monster2){
-        try{
-            if (monster2.have_item.name.equals("attack")){
-                monster2.attack += monster2.have_item.up_attack;
-            }else if (monster2.have_item.name.equals("armor")){
-                monster2.defence += monster2.have_item.up_defence;
-            }
-        }catch (NullPointerException e){}
-    }
-    public static void goBackStatus(Monster2 monster2){
-        try {
-            if (monster2.have_item.name.equals("attack")) {
-                monster2.attack -= monster2.have_item.up_attack;
-            } else if (monster2.have_item.name.equals("armor")) {
-                monster2.defence -= monster2.have_item.up_defence;
-            }
-        }catch (NullPointerException e){}
-    }
-    public static String chooseDo(String what_did,Person2 p,Monster2 monster2) {
-        Scanner scanner =new Scanner(System.in);
-        int endflg = 0;
-        while (endflg == 0) {
-            if (what_did.equals("fight")) {
-                endflg = chooseSkill(monster2,endflg,scanner);
-                endflg++;
-            } else if (what_did.equals("item")) {
-                endflg = useItem(p,endflg,monster2);
-            } else if (what_did.equals("goBack")) {
-                endflg++;
-            }
-        }
-        return what_did;
-    }
-    public static int useItem(Person2 p,int do_flg,Monster2 monster2){
-        System.out.println("インベントリ");
-        System.out.println();
-        Scanner scanner =new Scanner(System.in);
-        int endflg = 0;
-        while (true) {
-            for (FightItem fightItem : p.fight_items) {
-                endflg = 1;
-                System.out.println(fightItem.name + " " + fightItem.have_point + "個 " + "[" + fightItem.code + "]");
-            }
-            if (endflg == 0){
-                System.out.println("何も持っていないのでアイテムは使えません");
-                break;
-            }
-            System.out.println("戻る [goback]");
-            String what_use = scanner.next();
-            for (int i=0;i<p.fight_items.size();i++) {
-                if (what_use.equals(p.fight_items.get(i).code)) {
-                    System.out.println(p.fight_items.get(i).name+"を使った！");
-                    endflg = 0;
-                    p.choose_item = i;
-                    p.fight_items.get(p.choose_item).have_point--;
-                    useItemMath(p.fight_items.get(p.choose_item),monster2);
-                    if (p.fight_items.get(p.choose_item).have_point == 0){
-                        p.fight_items.remove(p.choose_item);
+    public int useItem(Monster2 my_side_monster, LinearLayout battle_chat){
+        graphicItemBattleChat(battle_chat);
+        for (int i=0;i<battle_chat.getChildCount();i++) {
+            int battle_chat_i = i;
+            battle_chat.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    battle_chat.removeAllViews();
+                    TextView textView = new TextView(battle_manager_activity);
+                    textView.setTextColor(Color.RED);
+                    textView.setText(game.p.fight_items.get(battle_chat_i).name+"を使った！");
+                    game.p.choose_item = battle_chat_i;
+                    game.p.fight_items.get(game.p.choose_item).have_point--;
+                    useItemMath(game.p.fight_items.get(game.p.choose_item),my_side_monster);
+                    if (game.p.fight_items.get(game.p.choose_item).have_point == 0){
+                        game.p.fight_items.remove(game.p.choose_item);
+
                     }
                 }
+            });
             }
-            if (what_use.equals("goback")){
-                break;
-            } else if (!(endflg == 0)){
-                System.out.println("選択肢から選んでください");
-            }else {
-                do_flg++;
-                break;
-            }
-        }
-        return do_flg;
+        return my_side_monster.hp;
     }
-    public static void useItemMath(FightItem fightItem,Monster2 monster2){
+    public void graphicItemBattleChat(LinearLayout battle_chat){
+        for (FightItem fightItem : game.p.fight_items) {
+            TextView textView = new TextView(battle_manager_activity);
+            textView.setTextColor(Color.RED);
+            textView.setText(fightItem.name + " " + fightItem.have_point + "個 " + "[" + fightItem.code + "]");
+            battle_chat.addView(textView);
+        }
+    }
+    public void useItemMath(FightItem fightItem,Monster2 monster2){
         if (fightItem.item_group.equals("heal")){
             if (monster2.limit_hp > monster2.hp + fightItem.heal){
                 monster2.hp += fightItem.heal;
@@ -204,33 +162,32 @@ public class BattleManager implements Serializable {
             //具体的にはここのバトルマネージャークラスの計算箇所で割合を使って軽減させる
         }
     }
-    public static int chooseSkill(Monster2 monster2,int do_flg,Scanner scanner) {
-        int endflg = 0;
-        while (endflg == 0) {
-            for (Skill skill : monster2.all_skill) {
-                System.out.println(skill.name + " [" + skill.code + "]");
-            }
-            System.out.println("戻る　[goback]");
-            String choose_skill = scanner.next();
-            for (Skill skill : monster2.all_skill) {
-                if (choose_skill.equals(skill.code)) {
-                    monster2.use_skill = skill;
-                    endflg++;
-                }
-            }
-            if (choose_skill.equals("goback")) {
-                do_flg--;
-                endflg++;
-            }else {
-                if (endflg == 0){
-                    System.out.println("選択肢から選んでください");
-                }
-            }
+    public int graphic_skill(Monster2 monster2,LinearLayout battle_chat){
+        for (Skill skill : monster2.all_skill) {
+            TextView textView = new TextView(battle_manager_activity);
+            textView.setTextColor(Color.RED);
+            textView.setText(skill.name + "  消費MP : " + skill.consumption_mp + "MP");
+            battle_chat.addView(textView);
         }
-        return do_flg;
+        return battle_chat.getChildCount();
     }
-    public static void chooseEnemySkill(Monster2 monster1){
+    public String click_skill(Monster2 monster2,LinearLayout battle_chat){
+        for (int i=0;i<battle_chat.getChildCount();i++){
+            int skill_i = i;
+            battle_chat.getChildAt(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    battle_chat.removeAllViews();
+                    monster2.use_skill = monster2.all_skill.get(skill_i);
+                    chooseEnemySkill();
+                    battle(monster2,battle_chat);
+                }
+            });
+        }
+        return monster2.use_skill.name;
+    }
+    public void chooseEnemySkill(){
         Random random =new Random();
-        monster1.use_skill = monster1.all_skill.get(random.nextInt(monster1.all_skill.size()));
+        game.get_enemey_monster.use_skill = game.get_enemey_monster.all_skill.get(random.nextInt(game.get_enemey_monster.all_skill.size()));
     }
 }

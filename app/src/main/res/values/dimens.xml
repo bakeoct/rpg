@@ -4,4 +4,5 @@
     <dimen name="image_inventory_size">50dp</dimen>
     <dimen name="image_inventory_margin">20dp</dimen>
     <dimen name="image_inventory_item_margin">50dp</dimen>
+    <dimen name="attack_of_monster_margin">30dp</dimen>
 </resources>

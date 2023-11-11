@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Inventry implements Serializable {
     public static void takeItemOfThing(Item item) {
         if (item.can_hold) {
-            game.store.p.have_item = item;
+            game.p.have_item = item;
         }else {
             System.out.println("このアイテムは持てません");
         }
@@ -24,9 +24,9 @@ public class Inventry implements Serializable {
         }
     }
     public static void disposeItem(Item item){
-        game.store.p.items.remove(item);
+        game.p.items.remove(item);
     }
     public static void haveNoThing(){
-        game.store.p.have_item = null;
+        game.p.have_item = null;
     }
 }

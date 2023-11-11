@@ -1,13 +1,11 @@
 package com.example.rpg.graphic;
 
 import static com.example.rpg.Calc.Game.game;
-import static com.example.rpg.Calc.Game.get_enemey_monster;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_X;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_Y;
 import static com.example.rpg.Calc.map.cave.Cave1_1.*;
 import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
-import static com.example.rpg.Calc.Person2.p;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_X;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
 import static com.example.rpg.Calc.map.cave.Cave1.cave1;
@@ -53,7 +51,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
         GameActivity game_activity = new GameActivity();
         yuusya.bringToFront();
         enemy_monster.bringToFront();
-        get_enemey_monster = getMonsterRandomly(enemy_monster);
+        game.get_enemey_monster = getMonsterRandomly(enemy_monster);
         String[][] map = cave1;
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
@@ -77,8 +75,8 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
                     enemy_monster.setX(gridLayout.getX() + image_size * enemey_monster.x);
                     enemy_monster.setY(gridLayout.getY() + image_size * enemey_monster.y);
                 }
-                yuusya.setX(gridLayout.getX() + image_size * p.x);
-                yuusya.setY(gridLayout.getY() + image_size * p.y);
+                yuusya.setX(gridLayout.getX() + image_size * game.p.x);
+                yuusya.setY(gridLayout.getY() + image_size * game.p.y);
 
                 // このリスナーは一度だけ実行させたいので、直後でリスナーを削除する
                 gridLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -133,9 +131,9 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
         do_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (map[p.y][p.x].equals("cave1_1")){
+                if (map[game.p.y][game.p.x].equals("cave1_1")){
                     goCave1_1();
-                }else if (map[p.y][p.x].equals("back_world")){
+                }else if (map[game.p.y][game.p.x].equals("back_world")){
                     goMainMap();
                 }
             }
@@ -153,22 +151,22 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
         return myImageDrawable;
     }
     public void goCave1_1(){
-        p.area = "洞窟1_1";
-        p.x = CAVE1_1_INITIAL_X;
-        p.y = CAVE1_1_INITIAL_Y;
-        p.serve_x = CAVE1_1_INITIAL_X;
-        p.serve_y = CAVE1_1_INITIAL_Y;
+        game.p.area = "洞窟1_1";
+        game.p.x = CAVE1_1_INITIAL_X;
+        game.p.y = CAVE1_1_INITIAL_Y;
+        game.p.serve_x = CAVE1_1_INITIAL_X;
+        game.p.serve_y = CAVE1_1_INITIAL_Y;
         Intent intent = new Intent(Cave1Activity.this, TransitionActivity.class);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         transition_activity = cave1_1_activity;
     }
     public void goMainMap(){
-        p.x = CAVE1_BACK_MAIN_WORLD_INITIAL_X;
-        p.y = CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
-        p.serve_x = CAVE1_BACK_MAIN_WORLD_INITIAL_X;
-        p.serve_y = CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
-        p.area = "メインマップ";
+        game.p.x = CAVE1_BACK_MAIN_WORLD_INITIAL_X;
+        game.p.y = CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
+        game.p.serve_x = CAVE1_BACK_MAIN_WORLD_INITIAL_X;
+        game.p.serve_y = CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
+        game.p.area = "メインマップ";
         Intent intent = new Intent(Cave1Activity.this, TransitionActivity.class);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

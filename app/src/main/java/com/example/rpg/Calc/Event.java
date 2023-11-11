@@ -2,7 +2,6 @@ package com.example.rpg.Calc;
 
 import com.example.rpg.Calc.Item.*;
 import com.example.rpg.Calc.Mission.MissionDragonKing;
-import com.example.rpg.Calc.map.cave.Cave1;
 import com.example.rpg.Calc.map.cave.Cave1_1;
 import com.example.rpg.Calc.map.Map;
 
@@ -23,19 +22,17 @@ import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_
 import android.content.Intent;
 
 public class Event implements Serializable{
-    public Person2 p;
     public Map map;
     public MissionDragonKing mission_dragon_king;
     public EnemeyMonster enemey_monster;
-    public Event(Person2 p, Map map, MissionDragonKing missionDragonKing, EnemeyMonster enemeyMonster){
-        this.p = p;
+    public Event( Map map, MissionDragonKing missionDragonKing, EnemeyMonster enemeyMonster){
         this.map = map;
         this.mission_dragon_king = missionDragonKing;
         this.enemey_monster = enemeyMonster;
     }
     public void eventPerson(String serveget_map_code) {
         //これをmapに送って二つメソッド動かす
-        String get_map_code = map.getMapCode(p.x, p.y,p.area);
+        String get_map_code = map.getMapCode(game.p.x, game.p.y,game.p.area);
         if (get_map_code.equals("崖")) {
             if (!(get_map_code.equals(serveget_map_code))) {
                 notPoint(game.store.ladder,ON_GRAVEL_AUDIO);
@@ -63,8 +60,8 @@ public class Event implements Serializable{
         } else if (get_map_code.equals("wood")) {
             startAudio(ON_WOOD_AUDIO);
         }  else if (get_map_code .equals("errer")) {
-            p.x = p.serve_x;
-            p.y = p.serve_y;
+            game.p.x = game.p.serve_x;
+            game.p.y = game.p.serve_y;
             System.out.println("noooo");
         }
     }
@@ -79,8 +76,8 @@ public class Event implements Serializable{
                 enemey_monster.x = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_X;
                 enemey_monster.y = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_Y;
             }else if (enemey_monster.area.equals("洞窟1")){
-                p.x = CAVE1_BACK_MAIN_WORLD_INITIAL_X;
-                p.y = CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
+                game.p.x = CAVE1_BACK_MAIN_WORLD_INITIAL_X;
+                game.p.y = CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
             }
             enemey_monster.area = "メインマップ";
         }else if (monster_get_map_code.equals("people_home_1")){
@@ -106,12 +103,12 @@ public class Event implements Serializable{
     }
     public void notPoint(Item item, File audio_file) {
         //アイテム（はしごや船など）をインベントリで手に持ったまま崖や海のマスに進む
-        if (item == p.have_item) {
+        if (item == game.p.have_item) {
             startAudio(audio_file);
         }else {
             System.out.println("再度選んでください");
-            p.x = p.serve_x;
-            p.y = p.serve_y;
+            game.p.x = game.p.serve_x;
+            game.p.y = game.p.serve_y;
         }
     }
 }

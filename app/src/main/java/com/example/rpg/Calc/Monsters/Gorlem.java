@@ -1,13 +1,13 @@
 package com.example.rpg.Calc.Monsters;
 
+import static com.example.rpg.Calc.Game.game;
+
 import com.example.rpg.Calc.skill.Hit;
 import com.example.rpg.Calc.skill.Throw;
 
 import java.io.Serializable;
 
 public class Gorlem extends Monster2  implements Serializable {
-
-    public static Gorlem gorlem = new Gorlem();
 
     public Gorlem(){
         this.limit_hp=9000;
@@ -25,8 +25,8 @@ public class Gorlem extends Monster2  implements Serializable {
         this.fellow=true;
         this.can_get_experince_point = 3000;
         this.need_experince_point = 300;
-        this.all_skill.add(new Hit());
-        this.all_skill.add(new Throw());
+        this.all_skill.add(game.hit_attack);
+        this.all_skill.add(game.throw_attack);
     }
     public static String look(Monster2 monster){
         return monster.name;

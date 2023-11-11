@@ -1,11 +1,9 @@
 package com.example.rpg.graphic;
 
 import static com.example.rpg.Calc.Game.game;
-import static com.example.rpg.Calc.Game.get_enemey_monster;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.monster_place;
 import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
-import static com.example.rpg.Calc.Person2.p;
 import static com.example.rpg.Calc.Sound.OPEN_TREASURE_CHEST_AUDIO;
 import static com.example.rpg.Calc.map.World_map.world_map;
 import static com.example.rpg.Calc.map.PersonHome1.*;
@@ -69,7 +67,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
         ImageView yuusya = findViewById(R.id.yuusya_people_home1);
         GameActivity game_activity = new GameActivity();
         System.out.println(monster_place);
-        get_enemey_monster = getMonsterRandomly(enemy_monster);
+        game.get_enemey_monster = getMonsterRandomly(enemy_monster);
         //マップの画面表示
         String[][] map = people_home1;//どのマップを使うのか指定
         for (int i = 0; i < map.length; i++) {
@@ -100,8 +98,8 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
                     enemy_monster.setX(gridLayout.getX() + image_size * enemey_monster.x);
                     enemy_monster.setY(gridLayout.getY() + image_size * enemey_monster.y);
                 }
-                yuusya.setX(gridLayout.getX() + image_size * p.x);
-                yuusya.setY(gridLayout.getY() + image_size * p.y);
+                yuusya.setX(gridLayout.getX() + image_size * game.p.x);
+                yuusya.setY(gridLayout.getY() + image_size * game.p.y);
 
                 // このリスナーは一度だけ実行させたいので、直後でリスナーを削除する
                 gridLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -149,9 +147,9 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
         do_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (map[p.y][p.x].equals("back_world")){
+                if (map[game.p.y][game.p.x].equals("back_world")){
                     goMainWorld();
-                }else if (map[p.y][p.x].equals("treasure_chest_ship")){
+                }else if (map[game.p.y][game.p.x].equals("treasure_chest_ship")){
                     getTreasure(handler,runnable);
                 }
             }
@@ -171,11 +169,11 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
         return myImageDrawable;
     }
     public void goMainWorld(){
-        p.area = "メインマップ";
-        p.x = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_X;
-        p.y = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_Y;
-        p.serve_x = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_X;
-        p.serve_y = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_Y;
+        game.p.area = "メインマップ";
+        game.p.x = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_X;
+        game.p.y = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_Y;
+        game.p.serve_x = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_X;
+        game.p.serve_y = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_Y;
         Intent intent = new Intent(PeopleHomeActivity.this, TransitionActivity.class);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

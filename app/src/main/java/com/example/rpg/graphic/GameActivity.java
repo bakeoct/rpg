@@ -1,10 +1,7 @@
 package com.example.rpg.graphic;
 
-import static com.example.rpg.Calc.BattleManager.meet_enemy_monster;
-import static com.example.rpg.Calc.Monsters.DragonKing.dragon_king;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.monster_place;
-import static com.example.rpg.Calc.Monsters.MetalSlime.metal_slime;
 import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
 import static com.example.rpg.Calc.Sound.OPEN_DOOR_AUDIO;
 import static com.example.rpg.Calc.Sound.startAudio;
@@ -20,7 +17,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
 import android.widget.ImageView;
-import static com.example.rpg.Calc.Game.get_enemey_monster;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_X;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_Y;
 import static com.example.rpg.Calc.map.cave.Cave1.cave1;
@@ -33,7 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
 import com.example.rpg.R;
-import static com.example.rpg.Calc.Person2.p;
+
 import java.io.Serializable;
 
 public class GameActivity extends AppCompatActivity implements Serializable {
@@ -59,7 +55,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         ImageView yuusya = findViewById(R.id.yuusya_game);
         GameActivity game_activity = new GameActivity();
         System.out.println(monster_place);
-        get_enemey_monster = getMonsterRandomly(enemy_monster);
+        game.get_enemey_monster = getMonsterRandomly(enemy_monster);
         String[][] map = world_map;
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
@@ -83,8 +79,8 @@ public class GameActivity extends AppCompatActivity implements Serializable {
                     enemy_monster.setX(gridLayout.getX() + image_size * enemey_monster.x);
                     enemy_monster.setY(gridLayout.getY() + image_size * enemey_monster.y);
                 }
-                yuusya.setX(gridLayout.getX() + image_size * p.x);
-                yuusya.setY(gridLayout.getY() + image_size * p.y);
+                yuusya.setX(gridLayout.getX() + image_size * game.p.x);
+                yuusya.setY(gridLayout.getY() + image_size * game.p.y);
 
                 // このリスナーは一度だけ実行させたいので、直後でリスナーを削除する
                 gridLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -135,11 +131,11 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         do_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (map[p.y][p.x].equals("store")){
+                if (map[game.p.y][game.p.x].equals("store")){
                     goStore();
-                }else if (map[p.y][p.x].equals("cave1")){
+                }else if (map[game.p.y][game.p.x].equals("cave1")){
                     goCave_1();
-                }else if (map[p.y][p.x].equals("people_home_1")){
+                }else if (map[game.p.y][game.p.x].equals("people_home_1")){
                     goPeople_home_1();
                 }
             }
@@ -185,11 +181,11 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         transition_activity = store_activity;
     }
     public void goCave_1(){
-        p.area = "洞窟1";
-        p.x = CAVE1_INITIAL_X;
-        p.y = CAVE1_INITIAL_Y;
-        p.serve_x = CAVE1_INITIAL_X;
-        p.serve_y = CAVE1_INITIAL_Y;
+        game.p.area = "洞窟1";
+        game.p.x = CAVE1_INITIAL_X;
+        game.p.y = CAVE1_INITIAL_Y;
+        game.p.serve_x = CAVE1_INITIAL_X;
+        game.p.serve_y = CAVE1_INITIAL_Y;
         Intent intent = new Intent(GameActivity.this, TransitionActivity.class);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -197,10 +193,10 @@ public class GameActivity extends AppCompatActivity implements Serializable {
 
     }
     public void goPeople_home_1(){
-        p.area = "民家1";
+        game.p.area = "民家1";
         startAudio(OPEN_DOOR_AUDIO);
-        p.x = PERSON_HOME1_INITIAL_X;
-        p.y = PERSON_HOME1_INITIAL_Y;
+        game.p.x = PERSON_HOME1_INITIAL_X;
+        game.p.y = PERSON_HOME1_INITIAL_Y;
         Intent intent = new Intent(GameActivity.this, TransitionActivity.class);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -216,5 +212,13 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         game.store.puti_slime_merchandise.item_drawable = getResources().getDrawable(R.drawable.puti_slime);
         game.store.dragon_king_merchandise.item_drawable = getResources().getDrawable(R.drawable.dragon_king);
         game.store.gorlem_merchandise.item_drawable = getResources().getDrawable(R.drawable.gorlem);
+        game.throw_attack.effect_drawable.add(getResources().getDrawable(R.drawable.throw_1));
+        game.throw_attack.effect_drawable.add(getResources().getDrawable(R.drawable.throw_2));
+        game.throw_attack.effect_drawable.add(getResources().getDrawable(R.drawable.throw_3));
+        game.hit_attack.effect_drawable.add(getResources().getDrawable(R.drawable.slashing_1));
+        game.hit_attack.effect_drawable.add(getResources().getDrawable(R.drawable.slashing_2));
+        game.hit_attack.effect_drawable.add(getResources().getDrawable(R.drawable.slashing_3));
+        game.little_fire.effect_drawable.add(getResources().getDrawable(R.drawable.fire_1));
+        game.little_fire.effect_drawable.add(getResources().getDrawable(R.drawable.fire_2));
     }
 }

@@ -1,7 +1,7 @@
 package com.example.rpg.Calc.treasure;
 
 import static com.example.rpg.Calc.Game.game;
-import static com.example.rpg.Calc.Person2.p;
+
 import static com.example.rpg.Calc.Sound.OPEN_TREASURE_CHEST_AUDIO;
 import static com.example.rpg.Calc.Sound.startAudio;
 import static com.example.rpg.Calc.treasure.TreasureChestLadder.treasure_chest_ladder;
@@ -30,13 +30,13 @@ public abstract class Treasure {
             this.open_history = true;
             startAudio(audio_file);
             if (this.treasure instanceof FightItem) {
-                game.store.p.fight_items.add((FightItem) this.treasure);
+                game.p.fight_items.add((FightItem) this.treasure);
             } else if (this.treasure instanceof FieldItem) {
-                game.store.p.field_items.add((FieldItem) this.treasure);
+                game.p.field_items.add((FieldItem) this.treasure);
             } else {
-                game.store.p.monster_items.add((MonsterItem) this.treasure);
+                game.p.monster_items.add((MonsterItem) this.treasure);
             }
-            game.store.p.items.add(this.treasure);
+            game.p.items.add(this.treasure);
         }
     }
 }
