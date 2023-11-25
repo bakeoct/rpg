@@ -7,6 +7,9 @@ import com.example.rpg.Calc.Mission.MissionSab;
 import com.example.rpg.Calc.Monsters.*;
 import com.example.rpg.Calc.map.World_map;
 import com.example.rpg.R;
+
+import static com.example.rpg.Calc.Monsters.Gorlem.gorlem;
+import static com.example.rpg.Calc.Monsters.MetalSlime.metal_slime;
 import static com.example.rpg.graphic.GameActivity.place;
 
 import android.widget.GridLayout;
@@ -33,8 +36,8 @@ public class Person2 implements Serializable {
     public int serve_y = 6;
     public int choose_item;
     public Person2() {
-        this.monsters2.add(game.metal_slime);
-        this.monsters2.add(game.gorlem);
+        this.monsters2.add(metal_slime);
+        this.monsters2.add(gorlem);
         items.addAll(field_items);
         items.addAll(fight_items);
         items.addAll(monster_items);

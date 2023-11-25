@@ -35,14 +35,7 @@ public class Game implements Serializable {
     public Monster2 get_enemey_monster=null;
     public Map map =new Map();
     public Level level =new Level();
-    public PutiSlime puti_slime = new PutiSlime();
-    public MetalSlime metal_slime = new MetalSlime();
-    public DragonKing dragon_king = new DragonKing();
-    public Gorlem gorlem = new Gorlem();
     public MissionSab mission_sab = new MissionSab();
-    public Throw throw_attack = new Throw();
-    public Hit hit_attack = new Hit();
-    public LittleFire little_fire = new LittleFire();
     public BattleManager battle_manager = new BattleManager();
     public MissionDragonKing mission_dragon_king =new MissionDragonKing();
     public Store store = new Store(mission_dragon_king);
@@ -71,6 +64,6 @@ public class Game implements Serializable {
         enemey_monster.monster_serve_y = enemey_monster.y;
         if (p.x == enemey_monster.x && p.y == enemey_monster.y && p.area.equals(enemey_monster.area)) {
           game.battle_manager.meet_enemy_monster = true;
-         }
+        }
     }
 }

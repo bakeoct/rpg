@@ -2,8 +2,13 @@ package com.example.rpg.Calc.Monsters;
 
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import static com.example.rpg.Calc.Game.game;
+import static com.example.rpg.Calc.Monsters.DragonKing.dragon_king;
+import static com.example.rpg.Calc.Monsters.Gorlem.gorlem;
+import static com.example.rpg.Calc.Monsters.MetalSlime.metal_slime;
+import static com.example.rpg.Calc.Monsters.PutiSlime.puti_slime;
 import static com.example.rpg.graphic.GameActivity.monster_cara_now;
 import com.example.rpg.Calc.Item.FightItem;
 import com.example.rpg.Calc.skill.Skill;
@@ -35,6 +40,7 @@ public abstract class Monster2 implements Serializable {
     public Skill use_skill;
     public ArrayList<Skill> all_skill =new ArrayList<>();
     public FightItem have_item =null;
+    public ArrayList<TextView> display_skill =new ArrayList<>();
 
     public String name() {
         return this.name;
@@ -55,10 +61,10 @@ public abstract class Monster2 implements Serializable {
     public static Monster2 getMonsterRandomly(ImageView enemy_monster) {
         Random random = new Random();
         ArrayList<Monster2> monster2List = new ArrayList<>();
-        monster2List.add(game.dragon_king);
-        monster2List.add(game.metal_slime);
-        monster2List.add(game.puti_slime);
-        monster2List.add(game.gorlem);
+        monster2List.add(dragon_king);
+        monster2List.add(metal_slime);
+        monster2List.add(puti_slime);
+        monster2List.add(gorlem);
         //0~3 no random na value get
         int randomNum = random.nextInt(monster2List.size());
         setImageResource(randomNum,enemy_monster);

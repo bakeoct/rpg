@@ -2,6 +2,9 @@ package com.example.rpg.graphic;
 
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.monster_place;
+import static com.example.rpg.Calc.skill.Hit.hit_attack;
+import static com.example.rpg.Calc.skill.LittleFire.little_fire;
+import static com.example.rpg.Calc.skill.Throw.throw_attack;
 import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
 import static com.example.rpg.Calc.Sound.OPEN_DOOR_AUDIO;
 import static com.example.rpg.Calc.Sound.startAudio;
@@ -10,6 +13,8 @@ import static com.example.rpg.Calc.map.PersonHome1.PERSON_HOME1_INITIAL_Y;
 import static com.example.rpg.graphic.InventoryActivity.inventory_activity;
 import static com.example.rpg.graphic.PeopleHomeActivity.people_home_1_activity;
 import static com.example.rpg.Calc.map.World_map.world_map;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -53,7 +58,6 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         ImageView inventory_button = findViewById(R.id.inventory_button_inventory);
         ImageView enemy_monster = findViewById(R.id.enemy_monster);
         ImageView yuusya = findViewById(R.id.yuusya_game);
-        GameActivity game_activity = new GameActivity();
         System.out.println(monster_place);
         game.get_enemey_monster = getMonsterRandomly(enemy_monster);
         String[][] map = world_map;
@@ -91,7 +95,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "right";
                 game.gameTurn(game_activity,gridLayout, enemy_monster,yuusya,image_size);
-                battle_manager_activity.meetEnemyMonster(game_activity);
+                meetEnemyMonster();
             }
         });
         over.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +103,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "over";
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
-                battle_manager_activity.meetEnemyMonster(game_activity);
+                meetEnemyMonster();
             }
         });
         left.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +111,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "left";
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
-                battle_manager_activity.meetEnemyMonster(game_activity);
+                meetEnemyMonster();
             }
         });
         under.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +119,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "under";
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
-                battle_manager_activity.meetEnemyMonster(game_activity);
+                meetEnemyMonster();
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
@@ -212,13 +216,22 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         game.store.puti_slime_merchandise.item_drawable = getResources().getDrawable(R.drawable.puti_slime);
         game.store.dragon_king_merchandise.item_drawable = getResources().getDrawable(R.drawable.dragon_king);
         game.store.gorlem_merchandise.item_drawable = getResources().getDrawable(R.drawable.gorlem);
-        game.throw_attack.effect_drawable.add(getResources().getDrawable(R.drawable.throw_1));
-        game.throw_attack.effect_drawable.add(getResources().getDrawable(R.drawable.throw_2));
-        game.throw_attack.effect_drawable.add(getResources().getDrawable(R.drawable.throw_3));
-        game.hit_attack.effect_drawable.add(getResources().getDrawable(R.drawable.slashing_1));
-        game.hit_attack.effect_drawable.add(getResources().getDrawable(R.drawable.slashing_2));
-        game.hit_attack.effect_drawable.add(getResources().getDrawable(R.drawable.slashing_3));
-        game.little_fire.effect_drawable.add(getResources().getDrawable(R.drawable.fire_1));
-        game.little_fire.effect_drawable.add(getResources().getDrawable(R.drawable.fire_2));
+        throw_attack.effect_drawable.add(getResources().getDrawable(R.drawable.throw_1));
+        throw_attack.effect_drawable.add(getResources().getDrawable(R.drawable.throw_2));
+        throw_attack.effect_drawable.add(getResources().getDrawable(R.drawable.throw_3));
+        hit_attack.effect_drawable.add(getResources().getDrawable(R.drawable.slashing_1));
+        hit_attack.effect_drawable.add(getResources().getDrawable(R.drawable.slashing_2));
+        hit_attack.effect_drawable.add(getResources().getDrawable(R.drawable.slashing_3));
+        little_fire.effect_drawable.add(getResources().getDrawable(R.drawable.fire_1));
+        little_fire.effect_drawable.add(getResources().getDrawable(R.drawable.fire_2));
+    }
+    public void meetEnemyMonster(){
+        if (game.battle_manager.meet_enemy_monster){
+            transition_activity = battle_manager_activity;
+            save_transition_activity = game_activity;
+            game.battle_manager.meet_enemy_monster = false;
+            startActivity(new Intent(GameActivity.this,TransitionActivity.class));
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.example.rpg.Calc.skill;
 import java.io.Serializable;
 
 public class Throw extends Skill implements Serializable {
+    public static Throw throw_attack = new Throw();
     public Throw(){
         this.name = "投げる";
         this.code = "throw";

@@ -3,6 +3,7 @@ package com.example.rpg.graphic;
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
+import static com.example.rpg.Calc.skill.Hit.hit_attack;
 import static com.example.rpg.graphic.GameActivity.monster_cara_now;
 import static com.example.rpg.graphic.TransitionActivity.save_transition_activity;
 import static com.example.rpg.graphic.TransitionActivity.transition_activity;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rpg.Calc.Monsters.Monster2;
+import com.example.rpg.Calc.skill.Skill;
 import com.example.rpg.R;
 
 public class BattleManagerActivity extends AppCompatActivity {
@@ -42,21 +44,31 @@ public class BattleManagerActivity extends AppCompatActivity {
         ImageView run_button = findViewById(R.id.run_button);
         LinearLayout battle_chat = findViewById(R.id.battle_chat);
 
-        TextView textView = new TextView(this);
-        textView.setTextColor(Color.RED);
-        textView.setText("戦いだ！");
-        battle_chat.addView(textView);
+        TextView battle_chat_text = new TextView(this);
+        battle_chat_text.setTextColor(Color.RED);
+        battle_chat_text.setText("戦いだ！");
+        battle_chat.addView(battle_chat_text);
         monster_of_player.setImageDrawable(mySideMonsterDrawable(my_side_monster_number));
         enemy_monster.setImageDrawable(enemyMonsterDrawable());
+
+        for (Monster2 monster : game.p.monsters2){
+            monster.display_skill.clear();
+            for (Skill skill : monster.all_skill) {
+                TextView text = new TextView(this);
+                text.setTextColor(Color.RED);
+                text.setText(skill.name + "  消費MP : " + skill.consumption_mp + "MP");
+                monster.display_skill.add(text);
+            }
+        }
 
         fight_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 battle_chat.removeAllViews();
-                game.battle_manager.choose_skill(game.p.monsters2.get(my_side_monster_number),battle_chat);
+                game.battle_manager.choose_skill(game.p.monsters2.get(my_side_monster_number),battle_chat,monster_of_player,battle_chat_text);
                 if (game.get_enemey_monster.hp<=0){
-                    for (Monster2 monsters : game.p.monsters2) {
-                        monsters.have_experince_point += game.get_enemey_monster.can_get_experince_point;
+                    for (Monster2 monster : game.p.monsters2) {
+                        monster.have_experince_point += game.get_enemey_monster.can_get_experince_point;
                     }
                     game.p.have_experince_point +=game.get_enemey_monster.can_get_experince_point;
                     game.level.upLevel(game.p);
@@ -120,16 +132,6 @@ public class BattleManagerActivity extends AppCompatActivity {
             overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
         }
     }
-    public void meetEnemyMonster(Activity activity){
-        if (game.battle_manager.meet_enemy_monster){
-            transition_activity = battle_manager_activity;
-            save_transition_activity = activity;
-            game.battle_manager.meet_enemy_monster = false;
-            startActivity(new Intent(activity.getApplicationContext(),TransitionActivity.class));
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
-        }
-    }
     public void graphicHitAttack(ImageView monster_of_player,Monster2 monster){
         if (game.get_enemey_monster == monster) {
         }else {
@@ -142,12 +144,23 @@ public class BattleManagerActivity extends AppCompatActivity {
             layoutParams.leftMargin = attack_margin;
             ImageView effect = new ImageView(battle_manager_activity);
             effect.setLayoutParams(layoutParams);
-            effect.setImageDrawable(game.hit_attack.effect_drawable.get(0));
-            new Handler().postDelayed(() -> {
-                effect.setImageDrawable(game.hit_attack.effect_drawable.get());
-            },500);
+            effect.setImageDrawable(hit_attack.effect_drawable.get(0));
+            for (int i=0; i<hit_attack.effect_drawable.size();i++) {
+                int post_i = i;
+                new Handler().postDelayed(() -> {
+                    effect.setImageDrawable(hit_attack.effect_drawable.get(post_i));
+                }, 500);
+            }
         }
     }
+    public int graphic_skill(Monster2 monster2,LinearLayout battle_chat){
+        battle_chat.removeAllViews();
+        for (TextView textView : monster2.display_skill) {
+            battle_chat.addView(textView);
+        }
+        return battle_chat.getChildCount();
+    }
+
     public void graphicDie(LinearLayout battle_chat, ImageView monster_of_player){
 
     }

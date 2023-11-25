@@ -12,9 +12,12 @@ import static com.example.rpg.Calc.map.cave.Cave1.cave1;
 import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
 import static com.example.rpg.graphic.Cave1_1Activity.cave1_1_activity;
 import static com.example.rpg.graphic.GameActivity.game_activity;
+import static com.example.rpg.graphic.TransitionActivity.save_transition_activity;
 import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 import static com.example.rpg.graphic.GameActivity.place;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -88,7 +91,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
                 place = "right";
                 System.out.println("あああああああああああああああ");
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
-                battle_manager_activity.meetEnemyMonster(cave_1_activity);
+                meetEnemyMonster();
             }
         });
         left.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +100,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
                 place = "left";
                 System.out.println("あああああああああああああああ");
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
-                battle_manager_activity.meetEnemyMonster(cave_1_activity);
+                meetEnemyMonster();
             }
         });
         under.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +109,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
                 place = "under";
                 System.out.println("あああああああああああああああ");
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
-                battle_manager_activity.meetEnemyMonster(cave_1_activity);
+                meetEnemyMonster();
             }
         });
         over.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +118,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
                 place = "over";
                 System.out.println("あああああああああああああああ");
                 game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
-                battle_manager_activity.meetEnemyMonster(cave_1_activity);
+                meetEnemyMonster();
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
@@ -171,5 +174,14 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         transition_activity = game_activity;
+    }
+    public void meetEnemyMonster(){
+        if (game.battle_manager.meet_enemy_monster){
+            transition_activity = battle_manager_activity;
+            save_transition_activity = cave_1_activity;
+            game.battle_manager.meet_enemy_monster = false;
+            startActivity(new Intent(Cave1Activity.this,TransitionActivity.class));
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
     }
 }
