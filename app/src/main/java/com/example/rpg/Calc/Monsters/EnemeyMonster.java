@@ -1,5 +1,7 @@
 package com.example.rpg.Calc.Monsters;
 
+import static com.example.rpg.graphic.GameActivity.game_activity;
+
 import android.app.Person;
 import android.graphics.drawable.Drawable;
 import android.widget.GridLayout;
@@ -23,32 +25,32 @@ public class EnemeyMonster implements Serializable {
     public int monster_serve_x = 12;
     public int monster_serve_y = 3;
     public String area = "メインマップ";
-    public void walk(GameActivity game_activity, ImageView enemy_monster,Person2 p){
+    public void walk(ImageView enemy_monster,Person2 p){
         Random random =new Random();
         int random_number = random.nextInt(5);
         if (random_number == 0) {
             this.x++;
             monster_place = "right";
             if (enemey_monster.area.equals(p.area)) {
-                setImageResource(monster_place, game_activity, enemy_monster);
+                setImageResource(monster_place, enemy_monster);
             }
         }else if (random_number == 1) {
             this.x--;
             monster_place = "left";
             if (enemey_monster.area.equals(p.area)) {
-                setImageResource(monster_place, game_activity, enemy_monster);
+                setImageResource(monster_place,enemy_monster);
             }
         }else if (random_number == 2){
             this.y++;
             monster_place = "over";
             if (enemey_monster.area.equals(p.area)) {
-                setImageResource(monster_place, game_activity, enemy_monster);
+                setImageResource(monster_place, enemy_monster);
             }
         }else if (random_number == 3){
             this.y--;
             monster_place = "under";
             if (enemey_monster.area.equals(p.area)) {
-                setImageResource(monster_place, game_activity, enemy_monster);
+                setImageResource(monster_place, enemy_monster);
             }
         }
     }
@@ -67,8 +69,8 @@ public class EnemeyMonster implements Serializable {
         this.x = x;
         this.y = y;
     }
-    public void setImageResource(String monster_place, GameActivity gameActivity, ImageView enemy_monster){
-            if (gameActivity.monster_cara_now.equals("dragon_king")) {
+    public void setImageResource(String monster_place,ImageView enemy_monster){
+            if (game_activity.monster_cara_now.equals("dragon_king")) {
                 if (monster_place.equals("over")) {
                     enemy_monster.setImageResource(R.drawable.dragon_king);
                 } else if (monster_place.equals("right")) {
@@ -78,7 +80,7 @@ public class EnemeyMonster implements Serializable {
                 } else {
                     enemy_monster.setImageResource(R.drawable.dragon_king_under);
                 }
-            } else if (gameActivity.monster_cara_now.equals("metal_slime")) {
+            } else if (game_activity.monster_cara_now.equals("metal_slime")) {
                 if (monster_place.equals("over")) {
                     enemy_monster.setImageResource(R.drawable.metal_slime);
                 } else if (monster_place.equals("right")) {
@@ -88,7 +90,7 @@ public class EnemeyMonster implements Serializable {
                 } else {
                     enemy_monster.setImageResource(R.drawable.metal_slime_under);
                 }
-            } else if (gameActivity.monster_cara_now.equals("puti_slime")) {
+            } else if (game_activity.monster_cara_now.equals("puti_slime")) {
                 if (monster_place.equals("over")) {
                     enemy_monster.setImageResource(R.drawable.puti_slime);
                 } else if (monster_place.equals("right")) {

@@ -90,7 +90,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "right";
                 System.out.println("あああああああああああああああ");
-                game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size);
                 meetEnemyMonster();
             }
         });
@@ -99,7 +99,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "left";
                 System.out.println("あああああああああああああああ");
-                game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size);
                 meetEnemyMonster();
             }
         });
@@ -108,7 +108,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "under";
                 System.out.println("あああああああああああああああ");
-                game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size);
                 meetEnemyMonster();
             }
         });
@@ -117,7 +117,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "over";
                 System.out.println("あああああああああああああああ");
-                game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size);
                 meetEnemyMonster();
             }
         });

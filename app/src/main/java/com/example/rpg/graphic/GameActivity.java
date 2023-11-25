@@ -94,7 +94,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 place = "right";
-                game.gameTurn(game_activity,gridLayout, enemy_monster,yuusya,image_size);
+                game.gameTurn(gridLayout, enemy_monster,yuusya,image_size);
                 meetEnemyMonster();
             }
         });
@@ -102,7 +102,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 place = "over";
-                game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size);
                 meetEnemyMonster();
             }
         });
@@ -110,7 +110,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 place = "left";
-                game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size);
                 meetEnemyMonster();
             }
         });
@@ -118,7 +118,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 place = "under";
-                game.gameTurn(game_activity,gridLayout,enemy_monster,yuusya,image_size);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size);
                 meetEnemyMonster();
             }
         });

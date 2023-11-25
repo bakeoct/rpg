@@ -40,63 +40,66 @@ public class BattleManager implements Serializable {
         }
     }
 
-    public int turn(Monster2 monster,Monster2 monster2,LinearLayout battle_chat,ImageView monster_of_player,TextView battle_chat_text) {
+    public int turn(Monster2 monster,Monster2 monster2,LinearLayout battle_chat,ImageView monster_of_player,TextView battle_chat_text,int attack_margin,ImageView effect) {
         battle_chat_text.setTextColor(Color.RED);
         if (monster.is_alive) {
             if (monster.mp >= monster.use_skill.consumption_mp) {
                 monster2.hp = attack(monster2,monster);
                 monster.mp -= monster.use_skill.consumption_mp;
-                choose_effect(monster_of_player,monster);
+                choose_effect(monster_of_player,monster,attack_margin,effect);
+                battle_chat.removeAllViews();
                 battle_chat_text.setText(monster.name + "の攻撃　　ドーン！！　" + monster2.name + "の体力が" + monster2.hp + "になった。　　" + monster.name + "のmpが"+monster.use_skill.consumption_mp+"下がって" + monster.mp + "になった");
                 battle_chat.addView(battle_chat_text);
             } else {
                 battle_manager_activity.graphicShortageMp(battle_chat,monster_of_player);
+                battle_chat.removeAllViews();
                 battle_chat_text.setText(monster.name + "の攻撃　　しかしmpが足りなかった");
                 battle_chat.addView(battle_chat_text);
             }
             if (monster2.hp <= 0) {
                 monster2.is_alive = false;
                 battle_manager_activity.graphicDie(battle_chat,monster_of_player);
+                battle_chat.removeAllViews();
                 battle_chat_text.setText(monster2.name + "は死んでしまった");
                 battle_chat.addView(battle_chat_text);
             }
         }
         return 1;
     }
-    public void choose_effect(ImageView monster_of_player,Monster2 monster){
+    public void choose_effect(ImageView monster_of_player,Monster2 monster,int attack_margin,ImageView effect){
         if (monster.use_skill == hit_attack){
-            battle_manager_activity.graphicHitAttack(monster_of_player,monster);
+            battle_manager_activity.graphicHitAttack(monster_of_player,monster,attack_margin,effect);
         }else if (monster.use_skill == throw_attack){
 
         }else if (monster.use_skill == little_fire){
 
         }
     }
-    public void choose_skill(Monster2 monster2,LinearLayout battle_chat,ImageView monster_of_player,TextView battle_chat_text) {
+    public void choose_skill(Monster2 monster2,LinearLayout battle_chat,ImageView monster_of_player,TextView battle_chat_text,int attack_margin,ImageView effect) {
         //敵モンスターと味方モンスターの戦い
         battle_manager_activity.graphic_skill(monster2, battle_chat);
-        click_skill(monster2, battle_chat,monster_of_player,battle_chat_text);
+        click_skill(monster2, battle_chat,monster_of_player,battle_chat_text,attack_margin,effect);
     }
-    public void battle(Monster2 monster2,LinearLayout battle_chat,ImageView monster_of_player,TextView battle_chat_text) {
+    public void battle(Monster2 monster2,LinearLayout battle_chat,ImageView monster_of_player,TextView battle_chat_text,int attack_margin,ImageView effect) {
         boolean sente = judgeSente(monster2.judge_sente, game.get_enemey_monster.judge_sente);
         if (monster2.use_skill.long_or_short.equals(game.get_enemey_monster.use_skill.long_or_short)) {
             if (sente) {
-                turn(monster2, game.get_enemey_monster,battle_chat,monster_of_player,battle_chat_text);
-                turn(game.get_enemey_monster, monster2,battle_chat,monster_of_player,battle_chat_text);
+                turn(monster2, game.get_enemey_monster,battle_chat,monster_of_player,battle_chat_text,attack_margin,effect);
+                turn(game.get_enemey_monster, monster2,battle_chat,monster_of_player,battle_chat_text,attack_margin,effect);
                 alive(battle_chat);
             } else {
-                turn(game.get_enemey_monster, monster2,battle_chat,monster_of_player,battle_chat_text);
-                turn(monster2, game.get_enemey_monster,battle_chat,monster_of_player,battle_chat_text);
+                turn(game.get_enemey_monster, monster2,battle_chat,monster_of_player,battle_chat_text,attack_margin,effect);
+                turn(monster2, game.get_enemey_monster,battle_chat,monster_of_player,battle_chat_text,attack_margin,effect);
                 alive(battle_chat);
             }
         } else {
             if (monster2.use_skill.long_or_short.equals("long")) {
-                turn(monster2, game.get_enemey_monster,battle_chat,monster_of_player,battle_chat_text);
-                turn(game.get_enemey_monster, monster2,battle_chat,monster_of_player,battle_chat_text);
+                turn(monster2, game.get_enemey_monster,battle_chat,monster_of_player,battle_chat_text,attack_margin,effect);
+                turn(game.get_enemey_monster, monster2,battle_chat,monster_of_player,battle_chat_text,attack_margin,effect);
                 alive(battle_chat);
             } else {
-                turn(game.get_enemey_monster, monster2,battle_chat,monster_of_player,battle_chat_text);
-                turn(monster2, game.get_enemey_monster,battle_chat,monster_of_player,battle_chat_text);
+                turn(game.get_enemey_monster, monster2,battle_chat,monster_of_player,battle_chat_text,attack_margin,effect);
+                turn(monster2, game.get_enemey_monster,battle_chat,monster_of_player,battle_chat_text,attack_margin,effect);
                 alive(battle_chat);
             }
         }
@@ -164,7 +167,7 @@ public class BattleManager implements Serializable {
         }
     }
 
-    public int click_skill(Monster2 monster2,LinearLayout battle_chat,ImageView monster_of_player,TextView battle_chat_text){
+    public int click_skill(Monster2 monster2,LinearLayout battle_chat,ImageView monster_of_player,TextView battle_chat_text,int attack_margin,ImageView effect){
         for (int i=0;i<battle_chat.getChildCount();i++){
             int skill_i = i;
             battle_chat.getChildAt(i).setOnClickListener(new View.OnClickListener() {
@@ -173,7 +176,7 @@ public class BattleManager implements Serializable {
                     battle_chat.removeAllViews();
                     monster2.use_skill = monster2.all_skill.get(skill_i);
                     chooseEnemySkill();
-                    battle(monster2,battle_chat,monster_of_player,battle_chat_text);
+                    battle(monster2,battle_chat,monster_of_player,battle_chat_text,attack_margin,effect);
                 }
             });
         }
