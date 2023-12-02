@@ -5,6 +5,7 @@ import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
 import static com.example.rpg.Calc.Sound.OPEN_TREASURE_CHEST_AUDIO;
 import static com.example.rpg.Calc.skill.Hit.hit_attack;
+import static com.example.rpg.Calc.skill.Throw.throw_attack;
 import static com.example.rpg.Calc.treasure.TreasureChestLadder.treasure_chest_ladder;
 import static com.example.rpg.graphic.GameActivity.game_activity;
 import static com.example.rpg.graphic.GameActivity.monster_cara_now;
@@ -36,20 +37,19 @@ public class BattleManagerActivity extends AppCompatActivity {
     public static BattleManagerActivity battle_manager_activity = new BattleManagerActivity();
     public int slash_number = 0;
     public ImageView effect = null;
+    public Skill the_skill_of = new Skill();
     public final Handler handler = new Handler();
     public final Runnable runnable = new Runnable() {
         @Override
         public void run() {
             System.out.println("0000000000000000000000000000000000000");
-            if (slash_number == 0) {
-                effect.setImageDrawable(hit_attack.effect_drawable.get(slash_number));
-                handler.postDelayed(runnable, 250); // 0.25秒間隔で実行
-            } else if (slash_number == 1) {
-                effect.setImageDrawable(hit_attack.effect_drawable.get(slash_number));
-                handler.postDelayed(runnable, 250); // 0.25秒間隔で実行
-            } else if (slash_number == 2) {
-                effect.setImageDrawable(hit_attack.effect_drawable.get(slash_number));
-            }
+                if (slash_number < the_skill_of.effect_drawable.length) {
+                    effect.setImageResource(the_skill_of.effect_drawable[slash_number]);
+                    slash_number++;
+                    effect.bringToFront();
+                    handler.postDelayed(runnable, 1000); // 0.25秒間隔で実行
+                }
+                slash_number = 0;
         }
     };
     @Override
@@ -73,6 +73,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         battle_chat.addView(battle_chat_text);
         monster_of_player.setImageDrawable(mySideMonsterDrawable(my_side_monster_number));
         enemy_monster.setImageDrawable(enemyMonsterDrawable());
+
         ImageView image_view_effect = new ImageView(this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -82,6 +83,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         layoutParams.leftMargin = attack_margin;
         image_view_effect.setLayoutParams(layoutParams);
         effect = image_view_effect;
+        effect.bringToFront();
 
         for (Monster2 monster : game.p.monsters2){
             monster.display_skill.clear();
@@ -147,7 +149,7 @@ public class BattleManagerActivity extends AppCompatActivity {
             drawable = getResources().getDrawable(R.drawable.dragon_king_left);
         }else if (game.get_enemey_monster.name.equals("メタルスライム")){
             drawable = getResources().getDrawable(R.drawable.metal_slime_left);
-        }else if (game.get_enemey_monster.name.equals("ゴーレム")){
+        }else if (game.get_enemey_monster.name.equals("ゴ－レム")){
             drawable = getResources().getDrawable(R.drawable.gorlem_left);
         }else if (game.get_enemey_monster.name.equals("プチスライム")){
             drawable = getResources().getDrawable(R.drawable.puti_slime_left);

@@ -216,14 +216,6 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         game.store.puti_slime_merchandise.item_drawable = getResources().getDrawable(R.drawable.puti_slime);
         game.store.dragon_king_merchandise.item_drawable = getResources().getDrawable(R.drawable.dragon_king);
         game.store.gorlem_merchandise.item_drawable = getResources().getDrawable(R.drawable.gorlem);
-        throw_attack.effect_drawable.add(getResources().getDrawable(R.drawable.throw_1));
-        throw_attack.effect_drawable.add(getResources().getDrawable(R.drawable.throw_2));
-        throw_attack.effect_drawable.add(getResources().getDrawable(R.drawable.throw_3));
-        hit_attack.effect_drawable.add(getResources().getDrawable(R.drawable.slashing_1));
-        hit_attack.effect_drawable.add(getResources().getDrawable(R.drawable.slashing_2));
-        hit_attack.effect_drawable.add(getResources().getDrawable(R.drawable.slashing_3));
-        little_fire.effect_drawable.add(getResources().getDrawable(R.drawable.fire_1));
-        little_fire.effect_drawable.add(getResources().getDrawable(R.drawable.fire_2));
     }
     public void meetEnemyMonster(){
         if (game.battle_manager.meet_enemy_monster){

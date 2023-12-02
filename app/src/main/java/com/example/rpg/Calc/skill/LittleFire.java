@@ -1,5 +1,7 @@
 package com.example.rpg.Calc.skill;
 
+import com.example.rpg.R;
+
 import java.io.Serializable;
 
 public class LittleFire extends Skill implements Serializable {
@@ -10,5 +12,6 @@ public class LittleFire extends Skill implements Serializable {
         this.offensive_power = 40;
         this.consumption_mp = 40;
         this.long_or_short = "long";
+        this.effect_drawable = new int[]{R.drawable.fire_1,R.drawable.fire_2};
     }
 }

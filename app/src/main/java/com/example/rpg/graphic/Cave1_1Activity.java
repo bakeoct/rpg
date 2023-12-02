@@ -70,7 +70,6 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
         GridLayout gridLayout = findViewById(R.id.gridLayout_cave1_1);
         ImageView enemy_monster = findViewById(R.id.enemy_monster);
         ImageView yuusya = findViewById(R.id.yuusya_cave1_1);
-        GameActivity game_activity = new GameActivity();
         game.get_enemey_monster = getMonsterRandomly(enemy_monster);
         String[][] map = cave1_1;
 

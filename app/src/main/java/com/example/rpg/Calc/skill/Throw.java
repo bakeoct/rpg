@@ -1,5 +1,7 @@
 package com.example.rpg.Calc.skill;
 
+import com.example.rpg.R;
+
 import java.io.Serializable;
 
 public class Throw extends Skill implements Serializable {
@@ -10,5 +12,6 @@ public class Throw extends Skill implements Serializable {
         this.offensive_power = 50;
         this.consumption_mp = 20;
         this.long_or_short = "short";
+        this.effect_drawable = new int[]{R.drawable.throw_1, R.drawable.throw_2, R.drawable.throw_3};
     }
 }
