@@ -168,6 +168,7 @@ public class BattleManagerActivity extends AppCompatActivity {
     }
     public void graphicHitAttack(ImageView monster_of_player,Monster2 monster,int attack_margin,ImageView effect){
         if (game.get_enemey_monster != monster) {
+            the_skill_of = monster.use_skill;
             handler.post(runnable);
         }
     }
