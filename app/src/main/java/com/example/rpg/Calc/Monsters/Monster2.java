@@ -62,8 +62,8 @@ public abstract class Monster2 implements Serializable {
         Random random = new Random();
         ArrayList<Monster2> monster2List = new ArrayList<>();
         monster2List.add(dragon_king);
-        monster2List.add(metal_slime);
-        monster2List.add(puti_slime);
+//        monster2List.add(metal_slime);
+//        monster2List.add(puti_slime);
         monster2List.add(gorlem);
         //0~3 no random na value get
         int randomNum = random.nextInt(monster2List.size());

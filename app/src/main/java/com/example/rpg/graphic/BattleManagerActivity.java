@@ -167,15 +167,18 @@ public class BattleManagerActivity extends AppCompatActivity {
         }
     }
     public void graphicHitAttack(ImageView monster_of_player,Monster2 monster,int attack_margin,ImageView effect){
-        if (game.get_enemey_monster != monster) {
-            the_skill_of = monster.use_skill;
-            handler.post(() -> {
-                effect.setImageResource(the_skill_of.effect_drawable[slash_number]);
-                    slash_number++;
-                    effect.bringToFront();
-//                    handler.postDelayed(runnable, 1000); // 0.25秒間隔で実行
-            });
+        int[] effect_drawable = new int[]{R.drawable.slashing_1,R.drawable.slashing_2,R.drawable.slashing_3};
+        if(slash_number >= effect_drawable.length) {
+            return;
         }
+            the_skill_of = monster.use_skill;
+            monster_of_player.setImageResource(the_skill_of.effect_drawable[slash_number]);
+//          monster_of_player.setImageResource(R.drawable.door_wood_1);
+            slash_number++;
+            effect.bringToFront();
+            handler.postDelayed(() -> {
+                graphicHitAttack(monster_of_player, monster, attack_margin, effect);
+            }, 250); // 0.25秒間隔で実行
     }
     public int graphic_skill(Monster2 monster2,LinearLayout battle_chat){
         battle_chat.removeAllViews();
