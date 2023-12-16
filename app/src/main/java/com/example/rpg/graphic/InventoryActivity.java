@@ -37,8 +37,8 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
     public int runnable_if = 0;
     public boolean when_click_player = true;
     public Monster2 select_monster_now = null;
-    public ImageView player_equipment_item = null;
-    public ImageView monster_equipment_item = null;
+    public ImageView player_equipment_item_image = null;
+    public ImageView monster_equipment_item_image = null;
     public final Handler handler = new Handler();
     public final Runnable runnable = new Runnable() {
         @Override
@@ -61,7 +61,8 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
         ArrayList<Boolean> item_first_clicks_player = new ArrayList<>();
         ArrayList<ImageView> save_first_image_monster = new ArrayList<>();
         ArrayList<Monster2> monster_in_linear = new ArrayList<>();
-
+        ArrayList<Item> dispose_of_item = new ArrayList<>();
+        ArrayList<Item> joint_item_aria = new ArrayList<>();
 
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_inventory_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_inventory_margin);
@@ -116,6 +117,7 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                 image_view.setLayoutParams(layout_params);
                 item_aria_linear.addView(image_view);
                 image_view.bringToFront();
+                joint_item_aria.add(game.p.items.get(i));
             } else if (game.p.have_item == game.p.items.get(i)) {
                 ImageView image_view = new ImageView(this);
                 GridLayout.LayoutParams layout_params = new GridLayout.LayoutParams();
@@ -157,13 +159,41 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
         selected_monster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickDoubleAction(selected_monster, kind_of_monster_linear);
+                moveSelectedItem(selected_monster, kind_of_monster_linear,take_item);
             }
         });
         take_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickDoubleAction(take_item,item_aria_linear);
+                if (take_item.getChildAt(0) != null) {
+                    ImageView imageView = (ImageView) take_item.getChildAt(0);
+                    click_number_of_object++;
+                    if (click_number_of_object == 1) {
+                        handler.post(runnable);
+                    } else if (click_number_of_object == 2) {
+                        take_item.removeAllViews();
+                        item_aria_linear.addView(imageView);
+                        int inventory_i = 0;
+                        for (int i=0; i<save_first_image_player.size();i++){
+                            if (save_first_image_player.get(i) == imageView){
+                                inventory_i = i;
+                            }
+                        }
+                        setRepeatButton(imageView,item_aria_linear,save_first_image_player,inventory_i,item_first_clicks_player,collect_new_button,take_item,selected_monster,garbage_aria,dispose_of_item,joint_item_aria);
+                        if (when_click_player) {
+                            game.p.have_item = null;
+                            joint_item_aria.add(game.p.have_item);
+                            player_equipment_item_image = null;
+
+                        }else {
+                            game.p.items.add(select_monster_now.have_item);
+                            select_monster_now.have_item = null;
+                            joint_item_aria.add(select_monster_now.have_item);
+                            monster_equipment_item_image = null;
+                        }
+                        click_number_of_object = 0;
+                    }
+                }
             }
         });
         player_inventory.setOnClickListener(new View.OnClickListener() {
@@ -177,9 +207,9 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                 layout_params.verticalBias = 0.569F;
                 layout_params.height = 251;
                 item_aria_relative.setLayoutParams(layout_params);
-                if (player_equipment_item != null) {
-                    take_item.removeAllViews();
-                    take_item.addView(player_equipment_item);
+                take_item.removeAllViews();
+                if (player_equipment_item_image != null) {
+                    take_item.addView(player_equipment_item_image);
                 }
                 when_click_player = true;
             }
@@ -192,20 +222,30 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                 inventory_of_player.setVisibility(View.GONE);
                 kind_of_monster_linear.setVisibility(View.VISIBLE);
                 ConstraintLayout.LayoutParams layout_params = (ConstraintLayout.LayoutParams) item_aria_relative.getLayoutParams();
-                layout_params.verticalBias = 0.300F;
-                layout_params.height = 108;
+                layout_params.verticalBias = 0.200F;
+                layout_params.height = 300;
                 item_aria_relative.setLayoutParams(layout_params);
-                if (monster_equipment_item != null) {
-                    take_item.removeAllViews();
-                    take_item.addView(monster_equipment_item);
+                take_item.removeAllViews();
+                if (monster_equipment_item_image != null) {
+                    take_item.addView(monster_equipment_item_image);
                 }
+                take_item.bringToFront();
                 when_click_player = false;
+
             }
         });
         garbage_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 garbage_aria.removeAllViews();
+                for (int i=0;i<dispose_of_item.size();i++) {
+                    for (int j=0;j<game.p.items.size();j++) {
+                        if (dispose_of_item.get(i) == game.p.items.get(j)) {
+                            game.p.items.remove(j);
+                        }
+                    }
+                }
+                dispose_of_item.clear();
             }
         });
         for (int i = 0; i < game.p.items.size(); i++) {
@@ -239,10 +279,11 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                                         setCoordinate(layout_params, j, (ImageView) item_aria_linear.getChildAt(match_number), collect_new_button);
                                         RelativeLayout relative_layout = findViewById(R.id.item_aria_relative);
                                         relative_layout.addView(collect_new_button.get(j), layout_params);
-                                        pushButtonOfItem(collect_new_button, j, match_number, take_item, item_aria_linear, item_first_clicks_player, relative_layout, garbage_aria);
+                                        pushButtonOfItem(collect_new_button, j, match_number, take_item, item_aria_linear, item_first_clicks_player, relative_layout, garbage_aria,dispose_of_item,joint_item_aria,save_first_image_player,inventory_i,item_first_clicks_player,selected_monster,garbage_aria);
                                     }
                                     item_first_clicks_player.set(match_number, false);
                                 }else {
+                                    System.out.println("1");
                                     if (selected_monster.getChildAt(0) != null) {
                                         for (int j = 0; j < 2; j++) {
                                             RelativeLayout.LayoutParams layout_params = new RelativeLayout.LayoutParams(
@@ -250,9 +291,13 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                                                     RelativeLayout.LayoutParams.WRAP_CONTENT
                                             );
                                             setCoordinate(layout_params, j, (ImageView) item_aria_linear.getChildAt(match_number), collect_new_button);
+                                            System.out.println("2");
                                             RelativeLayout relative_layout = findViewById(R.id.item_aria_relative);
+                                            System.out.println("3");
                                             relative_layout.addView(collect_new_button.get(j), layout_params);
-                                            pushButtonOfItem(collect_new_button, j, match_number, take_item, item_aria_linear, item_first_clicks_player, relative_layout, garbage_aria);
+                                            collect_new_button.get(j).bringToFront();
+                                            System.out.println("4");
+                                            pushButtonOfItem(collect_new_button, j, match_number, take_item, item_aria_linear, item_first_clicks_player, relative_layout, garbage_aria,dispose_of_item,joint_item_aria,save_first_image_player,inventory_i,item_first_clicks_player,selected_monster,garbage_aria);
                                         }
                                         item_first_clicks_player.set(match_number, false);
                                     }
@@ -264,6 +309,7 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
             } catch (NullPointerException e) {
             }
         }
+        ImageView monster_item_image_view = new ImageView(this);
         for (int i = 0; i < game.p.monsters2.size(); i++) {
             int inventory_i = i;
             save_first_image_monster.add((ImageView) kind_of_monster_linear.getChildAt(inventory_i));
@@ -280,10 +326,23 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                                         View view = selected_monster.getChildAt(0);
                                         selected_monster.removeView(view);
                                         kind_of_monster_linear.addView(view);
+                                        take_item.removeAllViews();
+                                        monster_equipment_item_image = null;
                                     }
                                     View view = kind_of_monster_linear.getChildAt(j);
                                     kind_of_monster_linear.removeView(view);
                                     selected_monster.addView(view);
+
+                                    if (monster_in_linear.get(j).have_item != null){
+                                        GridLayout.LayoutParams layout_params = new GridLayout.LayoutParams();
+                                        layout_params.width = image_size;
+                                        layout_params.height = image_size;
+                                        layout_params.setMargins(margin, margin, margin, margin);
+                                        monster_item_image_view.setImageDrawable(monster_in_linear.get(j).have_item.item_drawable);
+                                        monster_item_image_view.setLayoutParams(layout_params);
+                                        take_item.addView(monster_item_image_view);
+                                        monster_equipment_item_image = monster_item_image_view;
+                                    }
                                     Monster2 monster = monster_in_linear.get(j);
                                     monster_in_linear.remove(monster);
                                     monster_in_linear.add(monster);
@@ -296,7 +355,7 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
             }catch (NullPointerException e) {}
         }
     }
-    public void clickDoubleAction(LinearLayout click_object,LinearLayout specified_object){
+    public void moveSelectedItem(LinearLayout click_object,LinearLayout specified_object,LinearLayout take_item){
         if (click_object.getChildAt(0) != null) {
             ImageView imageView = (ImageView) click_object.getChildAt(0);
             click_number_of_object++;
@@ -305,11 +364,9 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
             } else if (click_number_of_object == 2) {
                 click_object.removeAllViews();
                 specified_object.addView(imageView);
-                if (when_click_player) {
-                    game.p.have_item = null;
-                }else {
-                    select_monster_now = null;
-                }
+                take_item.removeAllViews();
+                select_monster_now = null;
+                monster_equipment_item_image = null;
                 click_number_of_object = 0;
             }
         }
@@ -347,39 +404,50 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
             System.out.println(collect_new_button.get(j-1).getText());
         }
     }
-    private void pushButtonOfItem(ArrayList<Button> collect_new_button,int j,int match_number,LinearLayout take_item,LinearLayout item_of_player,ArrayList<Boolean> item_first_click,RelativeLayout relative_layout,LinearLayout garbage_of_player){
+    private void pushButtonOfItem(ArrayList<Button> collect_new_button,int j,int match_number,LinearLayout take_item,LinearLayout item_of_player,ArrayList<Boolean> item_first_click,RelativeLayout relative_layout,LinearLayout garbage_of_player,ArrayList<Item> dispose_of_item,ArrayList<Item> joint_item_aria,ArrayList<ImageView> save_first_image_player,int inventory_i,ArrayList<Boolean> item_first_clicks_player,LinearLayout selected_monster,LinearLayout garbage_aria){
         if (j == 0) {
             collect_new_button.get(j).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ImageView imageView = (ImageView) item_of_player.getChildAt(match_number);
-                    for (Item item : game.p.items) {
-                        if (item.item_drawable == imageView.getDrawable()) {
-                            takeItemOfThing(item, when_click_player, select_monster_now);
+                    for (int i=0;i<game.p.items.size();i++) {
+                        if (game.p.items.get(i).item_drawable == imageView.getDrawable()) {
+                            takeItemOfThing(game.p.items.get(i), when_click_player, select_monster_now);
                             if (when_click_player) {
-                                if (take_item.getChildAt(0) == null && item.can_hold) {
+                                Item save_have_item_player = game.p.have_item;
+                                if (take_item.getChildAt(0) == null && game.p.items.get(i).can_hold) {
+                                    joint_item_aria.remove(i);
                                     item_of_player.removeView(imageView);
                                     take_item.addView(imageView);
-                                    System.out.println("lllllllllllllllllllll");
-                                } else if (item.can_hold) {
+                                    player_equipment_item_image = imageView;
+                                } else if (game.p.items.get(i).can_hold) {
+                                    joint_item_aria.remove(i);
                                     ImageView imageView_take_item = (ImageView) take_item.getChildAt(0);
                                     take_item.removeAllViews();
                                     item_of_player.addView(imageView_take_item);
+                                    joint_item_aria.add(save_have_item_player);
                                     item_of_player.removeView(imageView);
                                     take_item.addView(imageView);
-                                    player_equipment_item = imageView;
+                                    player_equipment_item_image = imageView;
                                 }
                             }else {
-                                if (take_item.getChildAt(0) == null && item instanceof FightItem){
-                                    item_of_player.removeView(imageView);
-                                    take_item.addView(imageView);
-                                }else if (item instanceof FightItem){
-                                    ImageView imageView_take_item = (ImageView) take_item.getChildAt(0);
-                                    take_item.removeAllViews();
-                                    item_of_player.addView(imageView_take_item);
-                                    item_of_player.removeView(imageView);
-                                    take_item.addView(imageView);
-                                    monster_equipment_item = imageView;
+                                if (select_monster_now != null) {
+                                        Item save_have_item_monster = select_monster_now.have_item;
+                                        if (take_item.getChildAt(0) == null && game.p.items.get(i) instanceof FightItem) {
+                                            joint_item_aria.remove(i);
+                                            item_of_player.removeView(imageView);
+                                            take_item.addView(imageView);
+                                            monster_equipment_item_image = imageView;
+                                        } else if (game.p.items.get(i) instanceof FightItem) {
+                                            joint_item_aria.remove(i);
+                                            ImageView imageView_take_item = (ImageView) take_item.getChildAt(0);
+                                            take_item.removeAllViews();
+                                            item_of_player.addView(imageView_take_item);
+                                            joint_item_aria.add(save_have_item_monster);
+                                            item_of_player.removeView(imageView);
+                                            take_item.addView(imageView);
+                                            monster_equipment_item_image = imageView;
+                                        }
                                 }
                             }
                         }
@@ -397,6 +465,8 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                     ImageView imageView = (ImageView) item_of_player.getChildAt(match_number);
                     item_of_player.removeView(imageView);
                     garbage_of_player.addView(imageView);
+                    dispose_of_item.add(joint_item_aria.get(match_number));
+                    joint_item_aria.remove(match_number);
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -411,6 +481,9 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                                             ImageView imageView = (ImageView) garbage_of_player.getChildAt(j);
                                             garbage_of_player.removeView(imageView);
                                             item_of_player.addView(imageView);
+                                            joint_item_aria.add(dispose_of_item.get(j));
+                                            dispose_of_item.remove(j);
+                                            setRepeatButton(imageView,item_of_player,save_first_image_player,inventory_i,item_first_clicks_player,collect_new_button,take_item,selected_monster,garbage_aria,dispose_of_item,joint_item_aria);
                                         }
                                     }
                                 }
@@ -424,5 +497,60 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                 }
             });
         }
+    }
+    private void setRepeatButton(ImageView target_image,LinearLayout item_aria_linear,ArrayList<ImageView> save_first_image_player, int inventory_i,ArrayList<Boolean> item_first_clicks_player,ArrayList<Button> collect_new_button,LinearLayout take_item,LinearLayout selected_monster,LinearLayout garbage_aria,ArrayList<Item> dispose_of_item,ArrayList<Item> joint_item_aria) {
+        target_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean correct_item = false;
+                int match_number = 0;
+                try {
+                    for (int j = 0; j < item_aria_linear.getChildCount(); j++) {
+                        System.out.println("shgfffffffffddd");
+                        if (save_first_image_player.get(inventory_i) == item_aria_linear.getChildAt(j)) {
+                            correct_item = true;
+                            match_number = j;
+                        }
+                    }
+                } catch (NullPointerException e) {
+                }
+                if (item_first_clicks_player.get(match_number)) {
+                    if (correct_item) {
+                        if (when_click_player) {
+                            for (int j = 0; j < 2; j++) {
+                                RelativeLayout.LayoutParams layout_params = new RelativeLayout.LayoutParams(
+                                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                        RelativeLayout.LayoutParams.WRAP_CONTENT
+                                );
+                                setCoordinate(layout_params, j, (ImageView) item_aria_linear.getChildAt(match_number), collect_new_button);
+                                RelativeLayout relative_layout = findViewById(R.id.item_aria_relative);
+                                relative_layout.addView(collect_new_button.get(j), layout_params);
+                                pushButtonOfItem(collect_new_button, j, match_number, take_item, item_aria_linear, item_first_clicks_player, relative_layout, garbage_aria, dispose_of_item, joint_item_aria, save_first_image_player, inventory_i, item_first_clicks_player, selected_monster, garbage_aria);
+                            }
+                            item_first_clicks_player.set(match_number, false);
+                        } else {
+                            System.out.println("1");
+                            if (selected_monster.getChildAt(0) != null) {
+                                for (int j = 0; j < 2; j++) {
+                                    RelativeLayout.LayoutParams layout_params = new RelativeLayout.LayoutParams(
+                                            RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                            RelativeLayout.LayoutParams.WRAP_CONTENT
+                                    );
+                                    setCoordinate(layout_params, j, (ImageView) item_aria_linear.getChildAt(match_number), collect_new_button);
+                                    System.out.println("2");
+                                    RelativeLayout relative_layout = findViewById(R.id.item_aria_relative);
+                                    System.out.println("3");
+                                    relative_layout.addView(collect_new_button.get(j), layout_params);
+                                    collect_new_button.get(j).bringToFront();
+                                    System.out.println("4");
+                                    pushButtonOfItem(collect_new_button, j, match_number, take_item, item_aria_linear, item_first_clicks_player, relative_layout, garbage_aria, dispose_of_item, joint_item_aria, save_first_image_player, inventory_i, item_first_clicks_player, selected_monster, garbage_aria);
+                                }
+                                item_first_clicks_player.set(match_number, false);
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 }

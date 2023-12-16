@@ -105,8 +105,8 @@
 
     <RelativeLayout
         android:id="@+id/kind_of_monster_relative"
-        android:layout_width="242dp"
-        android:layout_height="122dp"
+        android:layout_width="239dp"
+        android:layout_height="99dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.785"
