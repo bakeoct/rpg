@@ -67,7 +67,8 @@ public class BattleManager implements Serializable {
         return 1;
     }
     public void choose_effect(ImageView monster_of_player,Monster2 monster,int attack_margin,ImageView effect){
-        if (monster.use_skill == hit_attack){
+        if (monster.use_skill.equals(hit_attack)){
+            System.out.println("nakamuraTest");
             battle_manager_activity.graphicHitAttack(monster_of_player,monster,attack_margin,effect);
         }else if (monster.use_skill == throw_attack){
 

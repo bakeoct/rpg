@@ -39,19 +39,19 @@ public class BattleManagerActivity extends AppCompatActivity {
     public ImageView effect = null;
     public Skill the_skill_of = new Skill();
     public final Handler handler = new Handler();
-    public final Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            System.out.println("0000000000000000000000000000000000000");
-                if (slash_number < the_skill_of.effect_drawable.length) {
-                    effect.setImageResource(the_skill_of.effect_drawable[slash_number]);
-                    slash_number++;
-                    effect.bringToFront();
-                    handler.postDelayed(runnable, 1000); // 0.25秒間隔で実行
-                }
-                slash_number = 0;
-        }
-    };
+//    public final Runnable runnable = new Runnable() {
+//        @Override
+//        public void run() {
+//            System.out.println("nakamuraTestTest");
+//                if (slash_number < the_skill_of.effect_drawable.length) {
+//                    effect.setImageResource(the_skill_of.effect_drawable[slash_number]);
+//                    slash_number++;
+//                    effect.bringToFront();
+//                    handler.postDelayed(runnable, 1000); // 0.25秒間隔で実行
+//                }
+//                slash_number = 0;
+//        }
+//    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,7 +169,12 @@ public class BattleManagerActivity extends AppCompatActivity {
     public void graphicHitAttack(ImageView monster_of_player,Monster2 monster,int attack_margin,ImageView effect){
         if (game.get_enemey_monster != monster) {
             the_skill_of = monster.use_skill;
-            handler.post(runnable);
+            handler.post(() -> {
+                effect.setImageResource(the_skill_of.effect_drawable[slash_number]);
+                    slash_number++;
+                    effect.bringToFront();
+//                    handler.postDelayed(runnable, 1000); // 0.25秒間隔で実行
+            });
         }
     }
     public int graphic_skill(Monster2 monster2,LinearLayout battle_chat){
