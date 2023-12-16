@@ -29,11 +29,31 @@ public class EnemeyMonster implements Serializable {
         Random random =new Random();
         int random_number = random.nextInt(5);
         this.y++;
-        monster_place = "over";
-        if (enemey_monster.area.equals(p.area)) {
-            setImageResource(monster_place, enemy_monster);
+        if (random_number == 0) {
+            this.x++;
+            monster_place = "right";
+            if (enemey_monster.area.equals(p.area)) {
+                setImageResource(monster_place, enemy_monster);
+            }
+        }else if (random_number == 1) {
+            this.x--;
+            monster_place = "left";
+            if (enemey_monster.area.equals(p.area)) {
+                setImageResource(monster_place,enemy_monster);
+            }
+        }else if (random_number == 2){
+            this.y++;
+            monster_place = "over";
+            if (enemey_monster.area.equals(p.area)) {
+                setImageResource(monster_place, enemy_monster);
+            }
+        }else if (random_number == 3){
+            this.y--;
+            monster_place = "under";
+            if (enemey_monster.area.equals(p.area)) {
+                setImageResource(monster_place, enemy_monster);
+            }
         }
-
     }
     public void randomNewEnemeyMonster(){
         Random random_new_enemey_monster =new Random();
