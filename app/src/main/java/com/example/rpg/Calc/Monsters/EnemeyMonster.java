@@ -28,7 +28,6 @@ public class EnemeyMonster implements Serializable {
     public void walk(ImageView enemy_monster,Person2 p){
         Random random =new Random();
         int random_number = random.nextInt(5);
-        this.y++;
         if (random_number == 0) {
             this.x++;
             monster_place = "right";

@@ -12,6 +12,6 @@ public class Hit extends Skill implements Serializable {
         this.offensive_power = 20;
         this.consumption_mp = 10;
         this.long_or_short = "short";
-        this.effect_drawable = new int[]{R.drawable.slashing_1,R.drawable.slashing_2,R.drawable.slashing_3};
+        this.effect_drawable = new int[]{R.drawable.slashing_1,R.drawable.slashing_2,R.drawable.slashing_3,R.drawable.brack};
     }
 }
