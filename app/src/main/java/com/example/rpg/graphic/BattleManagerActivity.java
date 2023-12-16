@@ -167,11 +167,10 @@ public class BattleManagerActivity extends AppCompatActivity {
         }
     }
     public void graphicHitAttack(ImageView monster_of_player,Monster2 monster,int attack_margin,ImageView effect){
-        int[] effect_drawable = new int[]{R.drawable.slashing_1,R.drawable.slashing_2,R.drawable.slashing_3};
-        if(slash_number >= effect_drawable.length) {
+        the_skill_of = monster.use_skill;
+        if(slash_number >= the_skill_of.effect_drawable.length) {
             return;
         }
-            the_skill_of = monster.use_skill;
             monster_of_player.setImageResource(the_skill_of.effect_drawable[slash_number]);
 //          monster_of_player.setImageResource(R.drawable.door_wood_1);
             slash_number++;
