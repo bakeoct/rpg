@@ -19,6 +19,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -83,8 +84,9 @@ public class BattleManagerActivity extends AppCompatActivity {
         layoutParams.leftMargin = attack_margin;
         image_view_effect.setLayoutParams(layoutParams);
         effect = image_view_effect;
-        effect.setImageResource(R.drawable.door_wood_1);
-//        effect.bringToFront();
+        effect.bringToFront();
+        FrameLayout layout = findViewById(R.id.effectLayout);
+        layout.addView(effect);
 
         for (Monster2 monster : game.p.monsters2){
             monster.display_skill.clear();
@@ -173,7 +175,7 @@ public class BattleManagerActivity extends AppCompatActivity {
             return;
         }
         System.out.println(effect);
-        monster_of_player.setImageResource(the_skill_of.effect_drawable[slash_number]);
+        effect.setImageResource(the_skill_of.effect_drawable[slash_number]);
 //      monster_of_player.setImageResource(R.drawable.door_wood_1);
         slash_number++;
         effect.bringToFront();
