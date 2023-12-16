@@ -83,7 +83,8 @@ public class BattleManagerActivity extends AppCompatActivity {
         layoutParams.leftMargin = attack_margin;
         image_view_effect.setLayoutParams(layoutParams);
         effect = image_view_effect;
-        effect.bringToFront();
+        effect.setImageResource(R.drawable.door_wood_1);
+//        effect.bringToFront();
 
         for (Monster2 monster : game.p.monsters2){
             monster.display_skill.clear();
@@ -171,13 +172,14 @@ public class BattleManagerActivity extends AppCompatActivity {
         if(slash_number >= the_skill_of.effect_drawable.length) {
             return;
         }
-            monster_of_player.setImageResource(the_skill_of.effect_drawable[slash_number]);
-//          monster_of_player.setImageResource(R.drawable.door_wood_1);
-            slash_number++;
-            effect.bringToFront();
-            handler.postDelayed(() -> {
-                graphicHitAttack(monster_of_player, monster, attack_margin, effect);
-            }, 250); // 0.25秒間隔で実行
+        System.out.println(effect);
+        monster_of_player.setImageResource(the_skill_of.effect_drawable[slash_number]);
+//      monster_of_player.setImageResource(R.drawable.door_wood_1);
+        slash_number++;
+        effect.bringToFront();
+        handler.postDelayed(() -> {
+            graphicHitAttack(monster_of_player, monster, attack_margin, effect);
+        }, 250); // 0.25秒間隔で実行
     }
     public int graphic_skill(Monster2 monster2,LinearLayout battle_chat){
         battle_chat.removeAllViews();
