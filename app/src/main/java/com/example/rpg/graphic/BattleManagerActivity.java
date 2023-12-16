@@ -84,7 +84,6 @@ public class BattleManagerActivity extends AppCompatActivity {
         layoutParams.leftMargin = attack_margin;
         image_view_effect.setLayoutParams(layoutParams);
         effect = image_view_effect;
-        effect.bringToFront();
         FrameLayout layout = findViewById(R.id.effectLayout);
         layout.addView(effect);
 
@@ -176,9 +175,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         }
         System.out.println(effect);
         effect.setImageResource(the_skill_of.effect_drawable[slash_number]);
-//      monster_of_player.setImageResource(R.drawable.door_wood_1);
         slash_number++;
-        effect.bringToFront();
         handler.postDelayed(() -> {
             graphicHitAttack(monster_of_player, monster, attack_margin, effect);
         }, 250); // 0.25秒間隔で実行
