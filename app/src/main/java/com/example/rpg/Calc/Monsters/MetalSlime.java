@@ -14,11 +14,11 @@ import java.io.Serializable;
 public class MetalSlime extends Monster2  implements Serializable{
     public static MetalSlime metal_slime = new MetalSlime();
     public MetalSlime(){
-        this.limit_hp=50;
+        this.limit_hp=200;
         this.limit_mp=80000;
         this.defence=0;
         this.up_leberu=0;
-        this.hp = 50;
+        this.hp = 200;
         this.leberu = 1;
         this.attack=6;
         this.mp=80000;

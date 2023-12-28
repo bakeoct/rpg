@@ -27,7 +27,6 @@ public class Gorlem extends Monster2  implements Serializable {
         this.can_get_experince_point = 3000;
         this.need_experince_point = 300;
         this.all_skill.add(hit_attack);
-        this.all_skill.add(throw_attack);
     }
     public static String look(Monster2 monster){
         return monster.name;

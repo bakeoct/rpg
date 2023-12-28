@@ -122,8 +122,8 @@
         android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="@+id/monster_of_player"
         app:layout_constraintStart_toEndOf="@+id/monster_of_player"
-        app:layout_constraintTop_toTopOf="@+id/monster_of_player">
-
+        app:layout_constraintTop_toTopOf="@+id/monster_of_player"
+        app:layout_constraintVertical_bias="0.0">
     </FrameLayout>
 
     <FrameLayout

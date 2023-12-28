@@ -64,9 +64,9 @@ public abstract class Monster2 implements Serializable {
         setNewMonster();
         monster2List = addMonster2List(monster2List);
         //0~3 no random na value get
-        int randomNum = random.nextInt(monster2List.size());
+        int randomNum = 3 /*random.nextInt(monster2List.size())*/;
         setImageResource(randomNum,enemy_monster);
-        return monster2List.get(randomNum);
+        return monster2List.get(0/*randomNum*/);
     }
     public static void setNewMonster(){
         dragon_king = new DragonKing();
@@ -75,9 +75,9 @@ public abstract class Monster2 implements Serializable {
         gorlem = new Gorlem();
     }
     public static ArrayList<Monster2> addMonster2List(ArrayList<Monster2> monster2List){
-        monster2List.add(dragon_king);
+        /*monster2List.add(dragon_king);
         monster2List.add(metal_slime);
-        monster2List.add(puti_slime);
+        monster2List.add(puti_slime);*/
         monster2List.add(gorlem);
         return monster2List;
     }
