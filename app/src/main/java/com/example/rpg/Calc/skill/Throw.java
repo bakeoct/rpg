@@ -11,7 +11,7 @@ public class Throw extends Skill implements Serializable {
         this.code = "throw";
         this.offensive_power = 50;
         this.consumption_mp = 20;
-        this.long_or_short = "short";
+        this.long_or_short = "long";
         this.effect_drawable = new int[]{R.drawable.throw_1, R.drawable.throw_2, R.drawable.throw_3};
     }
 }

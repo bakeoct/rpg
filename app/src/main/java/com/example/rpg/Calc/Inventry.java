@@ -21,7 +21,7 @@ public class Inventry implements Serializable {
             if (item.can_hold) {
                 game.p.have_item = item;
             }
-        }else if (item instanceof FightItem){
+        }else if (item instanceof FightItem && select_monster_now != null){
             select_monster_now.have_item = (FightItem) item;
         }
     }

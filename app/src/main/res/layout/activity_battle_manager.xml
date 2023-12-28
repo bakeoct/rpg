@@ -104,7 +104,41 @@
     </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/effectLayout"
+        android:id="@+id/effectLayoutThrow"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/effectLayoutMonster"
+        app:layout_constraintHorizontal_bias="0.477"
+        app:layout_constraintStart_toEndOf="@+id/effectLayoutPlayer"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/effectLayoutPlayer"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="@+id/monster_of_player"
+        app:layout_constraintStart_toEndOf="@+id/monster_of_player"
+        app:layout_constraintTop_toTopOf="@+id/monster_of_player">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/effectLayoutPlayerPowerUp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="@+id/monster_of_player"
+        app:layout_constraintEnd_toEndOf="@+id/monster_of_player"
+        app:layout_constraintStart_toStartOf="@+id/monster_of_player"
+        app:layout_constraintTop_toTopOf="@+id/monster_of_player">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/effectLayoutMonster"
         android:layout_width="70dp"
         android:layout_height="70dp"
         app:layout_constraintTop_toTopOf="@+id/enemy_monster"
