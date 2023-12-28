@@ -21,14 +21,14 @@ public class EnemeyMonster implements Serializable {
     public static String monster_place = "over";
     public static EnemeyMonster enemey_monster =new EnemeyMonster();
     public int x=12;
-    public int y=3;
+    public int y=4;
     public int monster_serve_x = 12;
-    public int monster_serve_y = 3;
+    public int monster_serve_y = 4;
     public String area = "メインマップ";
     public void walk(ImageView enemy_monster,Person2 p){
         Random random =new Random();
         int random_number = random.nextInt(5);
-        if (random_number == 0) {
+        /*if (random_number == 0) {
             this.x++;
             monster_place = "right";
             if (enemey_monster.area.equals(p.area)) {
@@ -40,19 +40,19 @@ public class EnemeyMonster implements Serializable {
             if (enemey_monster.area.equals(p.area)) {
                 setImageResource(monster_place,enemy_monster);
             }
-        }else if (random_number == 2){
+        }else if (random_number == 2) {*/
             this.y++;
             monster_place = "over";
             if (enemey_monster.area.equals(p.area)) {
                 setImageResource(monster_place, enemy_monster);
             }
-        }else if (random_number == 3){
+        /*} if (random_number == 3){
             this.y--;
             monster_place = "under";
             if (enemey_monster.area.equals(p.area)) {
                 setImageResource(monster_place, enemy_monster);
             }
-        }
+        }*/
     }
     public void randomNewEnemeyMonster(){
         Random random_new_enemey_monster =new Random();

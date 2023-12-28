@@ -181,14 +181,13 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                         }
                         setRepeatButton(imageView,item_aria_linear,save_first_image_player,inventory_i,item_first_clicks_player,collect_new_button,take_item,selected_monster,garbage_aria,dispose_of_item,joint_item_aria);
                         if (when_click_player) {
-                            game.p.have_item = null;
                             joint_item_aria.add(game.p.have_item);
+                            game.p.have_item = null;
                             player_equipment_item_image = null;
-
                         }else {
                             game.p.items.add(select_monster_now.have_item);
-                            select_monster_now.have_item = null;
                             joint_item_aria.add(select_monster_now.have_item);
+                            select_monster_now.have_item = null;
                             monster_equipment_item_image = null;
                         }
                         click_number_of_object = 0;
@@ -241,6 +240,8 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                 for (int i=0;i<dispose_of_item.size();i++) {
                     for (int j=0;j<game.p.items.size();j++) {
                         if (dispose_of_item.get(i) == game.p.items.get(j)) {
+                            game.p.items.get(j).have = false;
+                            game.p.items.get(j).have_point = 0;
                             game.p.items.remove(j);
                         }
                     }
@@ -260,7 +261,6 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                         int match_number = 0;
                         try {
                             for (int j = 0; j < item_aria_linear.getChildCount(); j++) {
-                                System.out.println("shgfffffffffddd");
                                 if (save_first_image_player.get(inventory_i) == item_aria_linear.getChildAt(j)) {
                                     correct_item = true;
                                     match_number = j;
@@ -296,7 +296,6 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                                             System.out.println("3");
                                             relative_layout.addView(collect_new_button.get(j), layout_params);
                                             collect_new_button.get(j).bringToFront();
-                                            System.out.println("4");
                                             pushButtonOfItem(collect_new_button, j, match_number, take_item, item_aria_linear, item_first_clicks_player, relative_layout, garbage_aria,dispose_of_item,joint_item_aria,save_first_image_player,inventory_i,item_first_clicks_player,selected_monster,garbage_aria);
                                         }
                                         item_first_clicks_player.set(match_number, false);
@@ -416,12 +415,12 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                             if (when_click_player) {
                                 Item save_have_item_player = game.p.have_item;
                                 if (take_item.getChildAt(0) == null && game.p.items.get(i).can_hold) {
-                                    joint_item_aria.remove(i);
+                                    joint_item_aria.remove(game.p.items.get(i));
                                     item_of_player.removeView(imageView);
                                     take_item.addView(imageView);
                                     player_equipment_item_image = imageView;
                                 } else if (game.p.items.get(i).can_hold) {
-                                    joint_item_aria.remove(i);
+                                    joint_item_aria.remove(game.p.items.get(i));
                                     ImageView imageView_take_item = (ImageView) take_item.getChildAt(0);
                                     take_item.removeAllViews();
                                     item_of_player.addView(imageView_take_item);
@@ -432,22 +431,26 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                                 }
                             }else {
                                 if (select_monster_now != null) {
-                                        Item save_have_item_monster = select_monster_now.have_item;
-                                        if (take_item.getChildAt(0) == null && game.p.items.get(i) instanceof FightItem) {
-                                            joint_item_aria.remove(i);
-                                            item_of_player.removeView(imageView);
-                                            take_item.addView(imageView);
-                                            monster_equipment_item_image = imageView;
-                                        } else if (game.p.items.get(i) instanceof FightItem) {
-                                            joint_item_aria.remove(i);
-                                            ImageView imageView_take_item = (ImageView) take_item.getChildAt(0);
-                                            take_item.removeAllViews();
-                                            item_of_player.addView(imageView_take_item);
-                                            joint_item_aria.add(save_have_item_monster);
-                                            item_of_player.removeView(imageView);
-                                            take_item.addView(imageView);
-                                            monster_equipment_item_image = imageView;
-                                        }
+                                    Item save_have_item_monster = select_monster_now.have_item;
+                                    if (take_item.getChildAt(0) == null && game.p.items.get(i) instanceof FightItem) {
+                                        joint_item_aria.remove(game.p.items.get(i));
+                                        item_of_player.removeView(imageView);
+                                        take_item.addView(imageView);
+                                        game.p.items.remove(i);
+                                        monster_equipment_item_image = imageView;
+                                        System.out.println(game.p.items.size());
+                                    } else if (game.p.items.get(i) instanceof FightItem) {
+                                        joint_item_aria.remove(game.p.items.get(i));
+                                        game.p.items.remove(i);
+                                        ImageView imageView_take_item = (ImageView) take_item.getChildAt(0);
+                                        take_item.removeAllViews();
+                                        item_of_player.addView(imageView_take_item);
+                                        joint_item_aria.add(save_have_item_monster);
+                                        game.p.items.add(save_have_item_monster);
+                                        item_of_player.removeView(imageView);
+                                        take_item.addView(imageView);
+                                        monster_equipment_item_image = imageView;
+                                    }
                                 }
                             }
                         }
@@ -466,7 +469,7 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                     item_of_player.removeView(imageView);
                     garbage_of_player.addView(imageView);
                     dispose_of_item.add(joint_item_aria.get(match_number));
-                    joint_item_aria.remove(match_number);
+                    joint_item_aria.remove(joint_item_aria.get(match_number));
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -482,7 +485,7 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                                             garbage_of_player.removeView(imageView);
                                             item_of_player.addView(imageView);
                                             joint_item_aria.add(dispose_of_item.get(j));
-                                            dispose_of_item.remove(j);
+                                            dispose_of_item.remove(dispose_of_item.get(j));
                                             setRepeatButton(imageView,item_of_player,save_first_image_player,inventory_i,item_first_clicks_player,collect_new_button,take_item,selected_monster,garbage_aria,dispose_of_item,joint_item_aria);
                                         }
                                     }

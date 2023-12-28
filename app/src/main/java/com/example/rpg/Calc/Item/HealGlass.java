@@ -16,6 +16,6 @@ public class HealGlass extends FightItem implements Serializable  {
         this.heal = 500;
         this.item_group = "heal";
         this.can_hold = false;
-
+        this.effect_drawable = new int[]{R.drawable.heal_up_1,R.drawable.heal_up_2,R.drawable.heal_up_3,R.drawable.heal_up_4};
     }
 }
