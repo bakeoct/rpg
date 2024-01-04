@@ -21,7 +21,7 @@ public class PutiSlime extends Monster2 implements Serializable {
         this.leberu = 1;
         this.hp = 398;
         this.attack=50000000;
-        this.mp=7;
+        this.mp=700;
         this.judge_sente=7;
         this.name="プチスライム";
         this.seibetu="?";

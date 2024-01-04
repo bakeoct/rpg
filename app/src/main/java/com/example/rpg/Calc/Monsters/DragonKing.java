@@ -13,11 +13,11 @@ public class DragonKing extends Monster2 implements Serializable {
     public static DragonKing dragon_king = new DragonKing();
     public DragonKing() {
         this.hp=20000000;
-        this.mp=2;
+        this.mp=200;
         this.limit_hp=20000000;
-        this.limit_mp=2;
+        this.limit_mp=200;
         this.defence=0;
-        this.judge_sente=7000;
+        this.judge_sente=70000;
         this.name="竜王";
         this.attack=3;
         this.seibetu="男性";

@@ -35,7 +35,7 @@ public class HitAttackPlayerTask implements AnimationTask{
 
     @Override
     public void start(Runnable onComplete) {
-         if(monster.use_skill == hit_attack) {
+         if(monster.use_skill == hit_attack || monster.use_skill == little_fire) {
              hitEffect(onComplete);
          } else if(monster.use_skill == throw_attack) {
              throwEffect(onComplete);
