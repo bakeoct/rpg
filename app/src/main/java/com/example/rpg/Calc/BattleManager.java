@@ -48,6 +48,7 @@ public class BattleManager implements Serializable {
             monster2 = save_monster1;
             save_monster1 = monster;
         }
+        AnimationQueue queue = new AnimationQueue();
 
         for (int i=0;i<2;i++) {
             if (monster.is_alive) {
@@ -56,12 +57,11 @@ public class BattleManager implements Serializable {
                     monster.mp -= monster.use_skill.consumption_mp;
                     System.out.println(player_first);
                     System.out.println(monster.use_skill.name);
-                    AnimationQueue queue = new AnimationQueue();
-
-// アニメーションをキューに追加
-                    queue.enqueue(new HitAttackPlayerTask(monster, effect, frame_layout_player, frame_layout_monster, resources));
-                    queue.enqueue(new HitAttackMonsterTask(monster2, effect, frame_layout_player, frame_layout_monster, resources));
-//                    drawEffect(monster, effect, resources, frame_layout_player, frame_layout_monster,frame_layout_throw);
+                    if(player_first) {
+                        queue.enqueue(new HitAttackPlayerTask(monster, effect, frame_layout_player, frame_layout_monster, resources));
+                    } else {
+                        queue.enqueue(new HitAttackMonsterTask(monster, effect, frame_layout_player, frame_layout_monster, resources));
+                    }
                     battle_chat.removeAllViews();
                     battle_chat_text.setText(monster.name + "の攻撃　　ドーン！！　" + monster2.name + "の体力が" + monster2.hp + "になった。　　" + monster.name + "のmpが" + monster.use_skill.consumption_mp + "下がって" + monster.mp + "になった");
                     battle_chat.addView(battle_chat_text);
