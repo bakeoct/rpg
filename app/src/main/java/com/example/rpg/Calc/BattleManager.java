@@ -15,6 +15,10 @@ import android.widget.TextView;
 import com.example.rpg.Calc.Item.FightItem;
 import com.example.rpg.Calc.Monsters.Monster2;
 import com.example.rpg.R;
+import com.example.rpg.graphic.AnimationQueue;
+import com.example.rpg.graphic.HitAttackMonsterTask;
+import com.example.rpg.graphic.HitAttackPlayerTask;
+
 import java.io.Serializable;
 import java.util.Random;
 
@@ -36,7 +40,8 @@ public class BattleManager implements Serializable {
     }
     public void turn(Monster2 monster,Monster2 monster2,LinearLayout battle_chat,ImageView monster_of_player,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw) {
         battle_chat_text.setTextColor(Color.RED);
-        System.out.println(monster.use_skill.name);
+        System.out.println(monster.name + "は" + monster.use_skill.name);
+        System.out.println(monster2.name + "は" + monster2.use_skill.name);
         Monster2 save_monster1 = monster;
         if (!(player_first)){
             monster = monster2;
@@ -51,7 +56,12 @@ public class BattleManager implements Serializable {
                     monster.mp -= monster.use_skill.consumption_mp;
                     System.out.println(player_first);
                     System.out.println(monster.use_skill.name);
-                    drawEffect(monster, effect, resources, frame_layout_player, frame_layout_monster,frame_layout_throw);
+                    AnimationQueue queue = new AnimationQueue();
+
+// アニメーションをキューに追加
+                    queue.enqueue(new HitAttackPlayerTask(monster, effect, frame_layout_player, frame_layout_monster, resources));
+                    queue.enqueue(new HitAttackMonsterTask(monster2, effect, frame_layout_player, frame_layout_monster, resources));
+//                    drawEffect(monster, effect, resources, frame_layout_player, frame_layout_monster,frame_layout_throw);
                     battle_chat.removeAllViews();
                     battle_chat_text.setText(monster.name + "の攻撃　　ドーン！！　" + monster2.name + "の体力が" + monster2.hp + "になった。　　" + monster.name + "のmpが" + monster.use_skill.consumption_mp + "下がって" + monster.mp + "になった");
                     battle_chat.addView(battle_chat_text);
@@ -78,6 +88,9 @@ public class BattleManager implements Serializable {
                 }
             }
         }
+        System.out.println(monster.name + "の体力は" + monster.hp + "になった");
+        System.out.println(monster2.name + "の体力は" + monster2.hp + "になった");
+
     }
     public void drawEffect(Monster2 monster,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw){
         effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
@@ -198,7 +211,7 @@ public class BattleManager implements Serializable {
                     run_button.setVisibility(View.GONE);
                     battle_chat.removeAllViews();
                     monster2.use_skill = monster2.all_skill.get(skill_i);
-                    System.out.println(monster2.use_skill.name);
+                    System.out.println(monster2.name + "の攻撃" + monster2.use_skill.name);
                     chooseEnemySkill();
                     battle(monster2,battle_chat,monster_of_player,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw);
                     fight_button.setVisibility(View.VISIBLE);
