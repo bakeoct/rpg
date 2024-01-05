@@ -37,6 +37,7 @@ public class BattleManagerActivity extends AppCompatActivity {
     public boolean finish_battle = false;
     public static BattleManagerActivity battle_manager_activity = new BattleManagerActivity();
     public int image_switching_number = 0;
+    public final int EFFECT_SPEED = 2000;
     public ImageView effect = null;
     public int fire_effect_switching = 0;
     public Skill the_skill_of = new Skill();
@@ -207,7 +208,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         image_switching_number++;
         handler.postDelayed(() -> {
             drawGraphicThrowAttackPlayer(effect, resources, frame_throw_motion);
-            }, 2000); // 0.25秒間隔で実行
+            }, EFFECT_SPEED); // 0.25秒間隔で実行
     }
     public void drawGraphicThrowAttackMonster(ImageView effect,Resources resources,ArrayList<FrameLayout> frame_throw_motion){
         if (image_switching_number >= the_skill_of.effect_drawable.length) {
@@ -229,7 +230,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         image_switching_number++;
         handler.postDelayed(() -> {
             drawGraphicThrowAttackMonster(effect,resources,frame_throw_motion);
-        }, 2000); // 0.25秒間隔で実行
+        }, EFFECT_SPEED); // 0.25秒間隔で実行
     }
     public void drawLittleFireAttack(Monster2 monster,ImageView effect,boolean player_first,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster){
         the_skill_of = monster.use_skill;
@@ -270,7 +271,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         image_switching_number++;
         handler.postDelayed(() -> {
             drawGraphicLittleFireAttackPlayer(effect,frame_layout_player,frame_layout_monster,resources,default_frame_layout_player);
-        }, (long) 0.1); // 0.25秒間隔で実行
+        }, EFFECT_SPEED); // 0.25秒間隔で実行
     }
     //再帰
     public void drawGraphicLittleFireAttackMonster(ImageView effect,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,Resources resources,int default_frame_layout_monster){
@@ -305,7 +306,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         image_switching_number++;
         handler.postDelayed(() -> {
             drawGraphicLittleFireAttackMonster(effect,frame_layout_player,frame_layout_monster,resources,default_frame_layout_monster);
-        }, 2000); // 0.25秒間隔で実行
+        }, EFFECT_SPEED); // 0.25秒間隔で実行
     }
     public void drawHitAttack(Monster2 monster,ImageView effect,boolean player_first,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster){
         the_skill_of = monster.use_skill;
@@ -333,7 +334,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         image_switching_number++;
         handler.postDelayed(() -> {
             drawGraphicHitAttackPlayer(effect,frame_layout_player,frame_layout_monster,resources);
-        }, 2000); // 0.25秒間隔で実行
+        }, EFFECT_SPEED); // 0.25秒間隔で実行
     }
     //再帰
     public void drawGraphicHitAttackMonster(ImageView effect,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,Resources resources){
@@ -347,6 +348,7 @@ public class BattleManagerActivity extends AppCompatActivity {
             effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
             return;
         }
+        //EFFECT_SPEEDが流れている間プログラムを実行させない必要がある
         Bitmap effect_img = BitmapFactory.decodeResource(resources,the_skill_of.effect_drawable[image_switching_number]);
         Matrix matrix = new Matrix();
         matrix.preScale(-1,1);
@@ -356,7 +358,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         image_switching_number++;
         handler.postDelayed(() -> {
             drawGraphicHitAttackMonster(effect,frame_layout_player,frame_layout_monster,resources);
-        }, 2000); // 0.25秒間隔で実行
+        }, EFFECT_SPEED); // 0.25秒間隔で実行
     }
     public int graphic_skill(Monster2 monster2,LinearLayout battle_chat){
         battle_chat.removeAllViews();
