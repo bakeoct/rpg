@@ -43,6 +43,8 @@ public class BattleManager implements Serializable {
             attack_monster = defense_monster;
             defense_monster = default_monster;
             player_first = false;
+            AnimationTask intervalTask = new IntervalTask
+            queue.enqueue(intervalTask);
             graphicEnemyAttack(attack_monster, defense_monster, battle_chat, monster_of_player, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,queue);
         } else {
             attack_monster = defense_monster;
