@@ -40,7 +40,6 @@ public class BattleManagerActivity extends AppCompatActivity {
     public static BattleManagerActivity battle_manager_activity = new BattleManagerActivity();
     public int image_switching_number = 0;
     public ImageView effect = null;
-    public int fire_effect_switching = 0;
     public Skill the_skill_of = new Skill();
     public final Handler handler = new Handler();
 //    public final Runnable runnable = new Runnable() {
@@ -173,14 +172,12 @@ public class BattleManagerActivity extends AppCompatActivity {
             overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
         }
     }
-    public void drawThrowAttack(Monster2 monster, ImageView effect,boolean player_first,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw){
+   /* public void drawThrowAttack(Monster2 monster, ImageView effect,boolean player_first,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw){
         the_skill_of = monster.use_skill;
-        ArrayList<FrameLayout> frame_throw_motion = new ArrayList<>();
+
         image_switching_number = 0;
         if (player_first) {
-            frame_throw_motion.add(frame_layout_player);
-            frame_throw_motion.add(frame_layout_throw);
-            frame_throw_motion.add(frame_layout_monster);
+
             drawGraphicThrowAttackPlayer(effect,resources,frame_throw_motion);
         }else {
             frame_throw_motion.add(frame_layout_monster);
@@ -189,6 +186,8 @@ public class BattleManagerActivity extends AppCompatActivity {
             drawGraphicThrowAttackMonster(effect,resources,frame_throw_motion);
         }
     }
+
+    */
     public void drawGraphicThrowAttackPlayer(ImageView effect,Resources resources,ArrayList<FrameLayout> frame_throw_motion){
         if (image_switching_number >= the_skill_of.effect_drawable.length) {
             frame_throw_motion.get(image_switching_number-1).removeAllViews();
@@ -197,42 +196,15 @@ public class BattleManagerActivity extends AppCompatActivity {
 
             return;
         }
-        if (image_switching_number > 0) {
-            frame_throw_motion.get(image_switching_number-1).removeAllViews();
-        }
-        for (FrameLayout frameLayout : frame_throw_motion){
-            frameLayout.removeAllViews();
-        }
-        frame_throw_motion.get(image_switching_number).addView(effect);
-        System.out.println(effect);
-        effect.setImageResource(the_skill_of.effect_drawable[image_switching_number]);
-        image_switching_number++;
+
         handler.postDelayed(() -> {
             drawGraphicThrowAttackPlayer(effect, resources, frame_throw_motion);
             }, 300); // 0.25秒間隔で実行
     }
     public void drawGraphicThrowAttackMonster(ImageView effect,Resources resources,ArrayList<FrameLayout> frame_throw_motion){
-        if (image_switching_number >= the_skill_of.effect_drawable.length) {
-            frame_throw_motion.get(image_switching_number-1).removeAllViews();
-            image_switching_number = 0;
-            effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
-            return;
-        }
-        for (FrameLayout frameLayout : frame_throw_motion){
-            frameLayout.removeAllViews();
-        }
-        frame_throw_motion.get(image_switching_number).addView(effect);
-        Bitmap effect_img = BitmapFactory.decodeResource(resources,the_skill_of.effect_drawable[image_switching_number]);
-        Matrix matrix = new Matrix();
-        matrix.preScale(-1,1);
-        Bitmap bitmap = Bitmap.createBitmap(effect_img,0,0,effect_img.getWidth(),effect_img.getHeight(),matrix,false);
-        System.out.println(effect);
-        effect.setImageBitmap(bitmap);
-        image_switching_number++;
-        handler.postDelayed(() -> {
-            drawGraphicThrowAttackMonster(effect,resources,frame_throw_motion);
-        }, 300); // 0.25秒間隔で実行
+
     }
+  /*
     public void drawLittleFireAttack(Monster2 monster,ImageView effect,boolean player_first,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster){
         the_skill_of = monster.use_skill;
         image_switching_number = 0;
@@ -244,38 +216,15 @@ public class BattleManagerActivity extends AppCompatActivity {
             drawGraphicLittleFireAttackMonster(effect,frame_layout_player,frame_layout_monster,resources,default_frame_layout_monster);
         }
     }
+
+   */
     //再帰
-    public void drawGraphicLittleFireAttackPlayer(ImageView effect,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,Resources resources,int default_frame_layout_player){
-        frame_layout_player.removeAllViews();
-        frame_layout_monster.removeAllViews();
-        frame_layout_player.addView(effect);
-        if (frame_layout_player.getX() >= frame_layout_monster.getX()) {
-            frame_layout_player.setX(default_frame_layout_player);
-            image_switching_number = 0;
-            fire_effect_switching = 0;
-            effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
-            return;
-        }
-        if (image_switching_number == 0){
-            effect.setImageDrawable(resources.getDrawable(the_skill_of.effect_drawable[0]));
-            fire_effect_switching = 1;
-        }else if (image_switching_number % 100 == 0) {
-            effect.setImageDrawable(resources.getDrawable(the_skill_of.effect_drawable[fire_effect_switching]));
-            if (fire_effect_switching == 0) {
-                fire_effect_switching = 1;
-            } else {
-                fire_effect_switching = 0;
-            }
-        }
-        frame_layout_player.setX(frame_layout_player.getX()+5);
-        effect.setX(effect.getX());
-        image_switching_number++;
-        handler.postDelayed(() -> {
-            drawGraphicLittleFireAttackPlayer(effect,frame_layout_player,frame_layout_monster,resources,default_frame_layout_player);
-        }, (long) 0.1); // 0.25秒間隔で実行
+    public int drawGraphicLittleFireAttackPlayer(FrameLayout frame_layout_player,int fire_effect_switching,Resources resources){
+
+        return fire_effect_switching;
     }
     //再帰
-    public void drawGraphicLittleFireAttackMonster(ImageView effect,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,Resources resources,int default_frame_layout_monster){
+   /* public void drawGraphicLittleFireAttackMonster(ImageView effect,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,Resources resources,int default_frame_layout_monster){
         frame_layout_player.removeAllViews();
         frame_layout_monster.removeAllViews();
         frame_layout_monster.addView(effect);
@@ -309,7 +258,9 @@ public class BattleManagerActivity extends AppCompatActivity {
             drawGraphicLittleFireAttackMonster(effect,frame_layout_player,frame_layout_monster,resources,default_frame_layout_monster);
         }, 300); // 0.25秒間隔で実行
     }
-    public void drawHitAttack(Monster2 monster,ImageView effect,boolean player_first,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster){
+
+    */
+   /* public void drawHitAttack(Monster2 monster,ImageView effect,boolean player_first,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster){
         the_skill_of = monster.use_skill;
         image_switching_number = 0;
         // UIスレッドでUIを更新
@@ -320,6 +271,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         }
 
     }
+   */
     //再帰
     public void drawGraphicHitAttackPlayer(ImageView effect,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,Resources resources){
         frame_layout_player.removeAllViews();
@@ -362,6 +314,7 @@ public class BattleManagerActivity extends AppCompatActivity {
             drawGraphicHitAttackMonster(effect,frame_layout_player,frame_layout_monster,resources);
         }, 300); // 0.25秒間隔で実行
     }
+
     public int graphic_skill(Monster2 monster2,LinearLayout battle_chat){
         battle_chat.removeAllViews();
         for (TextView textView : monster2.display_skill) {
@@ -377,30 +330,12 @@ public class BattleManagerActivity extends AppCompatActivity {
 
     }
     public void drawGraphicUsingItem(ImageView effect,FrameLayout layout,Resources resources){
+        AnimationQueue queue = new AnimationQueue();
         FightItem item = game.p.fight_items.get(game.p.choose_item);
         if (game.p.fight_items.get(game.p.choose_item).item_group.equals("heal")){
             effect.setAlpha(150);
-            drawGraphicHealMotion(effect,layout,resources,item);
+            queue.enqueue(new PlayerTask(effect,layout,resources,item));
         }
     }
-    public void drawGraphicHealMotion(ImageView effect,FrameLayout layout, Resources resources,FightItem item){
-        layout.removeAllViews();
-        layout.addView(effect);
-        if (image_switching_number >= item.effect_drawable.length) {
-            layout.removeAllViews();
-            image_switching_number = 0;
-            effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
-            effect.setAlpha(255);
-            return;
-        }
-        Bitmap effect_img = BitmapFactory.decodeResource(resources,item.effect_drawable[image_switching_number]);
-        Matrix matrix = new Matrix();
-        matrix.preScale(-1,1);
-        Bitmap bitmap = Bitmap.createBitmap(effect_img,0,0,effect_img.getWidth(),effect_img.getHeight(),matrix,false);
-        effect.setImageBitmap(bitmap);
-        image_switching_number++;
-        handler.postDelayed(() -> {
-            drawGraphicHealMotion(effect,layout,resources,item);
-        }, 250); // 0.25秒間隔で実行
-    }
+
 }

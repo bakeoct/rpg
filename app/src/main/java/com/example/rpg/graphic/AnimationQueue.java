@@ -27,7 +27,6 @@ public class AnimationQueue {
             isAnimating = false;
             return;
         }
-
         isAnimating = true;
         AnimationTask task = queue.poll();
         task.start(this::startNext);
