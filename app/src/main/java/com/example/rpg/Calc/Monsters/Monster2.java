@@ -41,6 +41,9 @@ public abstract class Monster2 implements Serializable {
     public ArrayList<Skill> all_skill =new ArrayList<>();
     public FightItem have_item =null;
     public ArrayList<TextView> display_skill =new ArrayList<>();
+    public int[] monster_drawable_usually;
+    public int[] monster_drawable_damage_enemy;
+    public int[] monster_drawable_damage_ally;
 
     public String name() {
         return this.name;
@@ -140,23 +143,5 @@ public abstract class Monster2 implements Serializable {
                 enemy_monster.setImageResource(R.drawable.gorlem_under);
             }
         }
-    }
-    public int getAttack(){
-        int attack = this.attack;
-        try{
-            if (this.have_item.name.equals("attack")){
-                attack += this.have_item.up_attack;
-            }
-        }catch (NullPointerException e){}
-        return attack;
-    }
-    public int getDefence(){
-        int defence = this.defence;
-        try{
-            if (this.have_item.name.equals("armor")){
-                defence += this.have_item.up_defence;
-            }
-        }catch (NullPointerException e){}
-        return defence;
     }
 }

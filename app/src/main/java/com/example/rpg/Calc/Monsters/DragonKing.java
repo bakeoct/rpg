@@ -6,6 +6,7 @@ import static com.example.rpg.Calc.skill.LittleFire.little_fire;
 
 import com.example.rpg.Calc.skill.Hit;
 import com.example.rpg.Calc.skill.LittleFire;
+import com.example.rpg.R;
 
 import java.io.Serializable;
 
@@ -29,6 +30,9 @@ public class DragonKing extends Monster2 implements Serializable {
         this.need_experince_point = 300;
         this.all_skill.add(hit_attack);
         this.all_skill.add(little_fire);
+        this.monster_drawable_usually = new int[]{R.drawable.dragon_king,R.drawable.dragon_king_left,R.drawable.dragon_king_right,R.drawable.dragon_king_under};
+        this.monster_drawable_damage_enemy = new int[]{R.drawable.dragon_king_left_damage};
+        this.monster_drawable_damage_ally = new int[]{R.drawable.dragon_king_right_damage};
     }
     public static String look(Monster2 monster){
         return monster.name;
