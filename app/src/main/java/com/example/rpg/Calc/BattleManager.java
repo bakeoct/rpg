@@ -39,29 +39,29 @@ public class BattleManager implements Serializable {
         AnimationQueue queue = new AnimationQueue();
         Monster2 default_monster = attack_monster;
         if (player_first) {
-            graphicAllyAttack(attack_monster, defense_monster, battle_chat, monster_of_player,enemy_monster, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_monster_power_up,queue);
+            graphicAllyAttack(attack_monster, defense_monster, battle_chat, monster_of_player,enemy_monster, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_monster_power_up,frame_layout_player_power_up,queue);
             attack_monster = defense_monster;
             defense_monster = default_monster;
             player_first = false;
-            graphicEnemyAttack(attack_monster, defense_monster, battle_chat, monster_of_player, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_player_power_up,queue);
+            graphicEnemyAttack(attack_monster, defense_monster, battle_chat, monster_of_player, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_player_power_up,frame_layout_monster_power_up,enemy_monster,queue);
         } else {
             attack_monster = defense_monster;
             defense_monster = default_monster;
             default_monster = attack_monster;
-            graphicEnemyAttack(attack_monster, defense_monster, battle_chat, monster_of_player, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_player_power_up,queue);
+            graphicEnemyAttack(attack_monster, defense_monster, battle_chat, monster_of_player, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_player_power_up,frame_layout_monster_power_up,enemy_monster,queue);
             attack_monster = defense_monster;
             defense_monster = default_monster;
             player_first = true;
-            graphicAllyAttack(attack_monster, defense_monster, battle_chat, monster_of_player,enemy_monster, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_monster_power_up,queue);
+            graphicAllyAttack(attack_monster, defense_monster, battle_chat, monster_of_player,enemy_monster, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_monster_power_up,frame_layout_player_power_up,queue);
         }
     }
 
 
 
-    public void graphicEnemyAttack(Monster2 attack_monster,Monster2 defense_monster,LinearLayout battle_chat,ImageView monster_of_player,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,FrameLayout frame_layout_player_power_up,AnimationQueue queue){
+    public void graphicEnemyAttack(Monster2 attack_monster,Monster2 defense_monster,LinearLayout battle_chat,ImageView monster_of_player,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,FrameLayout frame_layout_player_power_up,FrameLayout frame_layout_monster_power_up,ImageView enemy_monster,AnimationQueue queue){
         if (attack_monster.is_alive) {
             if (attack_monster.mp >= attack_monster.use_skill.consumption_mp) {
-                queue.enqueue(new MonsterTask(defense_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,monster_of_player,frame_layout_player_power_up, resources));
+                queue.enqueue(new MonsterTask(defense_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,monster_of_player,frame_layout_player_power_up, resources,enemy_monster));
                 defense_monster.hp = attack(defense_monster, attack_monster);
                 attack_monster.mp -= attack_monster.use_skill.consumption_mp;
                 System.out.println(player_first);
@@ -70,7 +70,7 @@ public class BattleManager implements Serializable {
                 battle_chat_text.setText(attack_monster.name + "の攻撃　　ドーン！！　" + defense_monster.name + "の体力が" + defense_monster.hp + "になった。　　" + attack_monster.name + "のmpが" + attack_monster.use_skill.consumption_mp + "下がって" + attack_monster.mp + "になった");
                 battle_chat.addView(battle_chat_text);
             } else {
-                queue.enqueue(new MonsterTask(defense_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,monster_of_player,frame_layout_player_power_up, resources));
+                queue.enqueue(new MonsterTask(defense_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,monster_of_player,frame_layout_player_power_up, resources,enemy_monster));
                 battle_chat.removeAllViews();
                 battle_chat_text.setText(attack_monster.name + "の攻撃　　しかしmpが足りなかった");
                 battle_chat.addView(battle_chat_text);
@@ -80,14 +80,14 @@ public class BattleManager implements Serializable {
                 battle_chat.removeAllViews();
                 battle_chat_text.setText(defense_monster.name + "は死んでしまった");
                 battle_chat.addView(battle_chat_text);
-                battle_manager_activity.finishAllyMonster(monster_of_player,queue);
+                queue.enqueue(new PlayerTask(attack_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources,monster_of_player));
             }
         }
     }
-    public void graphicAllyAttack(Monster2 attack_monster,Monster2 defense_monster,LinearLayout battle_chat,ImageView monster_of_player,ImageView enemy_monster,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,FrameLayout frame_layout_monster_power_up,AnimationQueue queue){
+    public void graphicAllyAttack(Monster2 attack_monster,Monster2 defense_monster,LinearLayout battle_chat,ImageView monster_of_player,ImageView enemy_monster,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,FrameLayout frame_layout_monster_power_up,FrameLayout frame_layout_player_power_up,AnimationQueue queue){
         if (attack_monster.is_alive) {
             if (attack_monster.mp >= attack_monster.use_skill.consumption_mp) {
-                queue.enqueue(new PlayerTask(attack_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources));
+                queue.enqueue(new PlayerTask(attack_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources,monster_of_player));
                 defense_monster.hp = attack(defense_monster, attack_monster);
                 attack_monster.mp -= attack_monster.use_skill.consumption_mp;
                 System.out.println(player_first);
@@ -96,7 +96,7 @@ public class BattleManager implements Serializable {
                 battle_chat_text.setText(attack_monster.name + "の攻撃　　ドーン！！　" + defense_monster.name + "の体力が" + defense_monster.hp + "になった。　　" + attack_monster.name + "のmpが" + attack_monster.use_skill.consumption_mp + "下がって" + attack_monster.mp + "になった");
                 battle_chat.addView(battle_chat_text);
             } else {
-                queue.enqueue(new PlayerTask(attack_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources));
+                queue.enqueue(new PlayerTask(attack_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources,monster_of_player));
                 battle_chat.removeAllViews();
                 battle_chat_text.setText(attack_monster.name + "の攻撃　　しかしmpが足りなかった");
                 battle_chat.addView(battle_chat_text);
@@ -106,7 +106,7 @@ public class BattleManager implements Serializable {
                 battle_chat.removeAllViews();
                 battle_chat_text.setText(defense_monster.name + "は死んでしまった");
                 battle_chat.addView(battle_chat_text);
-                battle_manager_activity.finishEnemyMonster(enemy_monster,queue);
+                queue.enqueue(new MonsterTask(attack_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,monster_of_player,frame_layout_player_power_up, resources,enemy_monster));
             }
         }
     }

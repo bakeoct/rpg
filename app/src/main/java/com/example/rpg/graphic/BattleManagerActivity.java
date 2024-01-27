@@ -61,11 +61,18 @@ public class BattleManagerActivity extends AppCompatActivity {
         FrameLayout frame_layout_monster = findViewById(R.id.effectLayoutMonster);
         FrameLayout frame_layout_player_power_up = findViewById(R.id.effectLayoutPlayerPowerUp);
         FrameLayout frame_layout_monster_power_up = findViewById(R.id.effectLayoutMonsterPowerUp);
+        ArrayList<ProgressBar> player_ber = new ArrayList<>();
         ProgressBar player_hp_ber = findViewById(R.id.player_hp);
         ProgressBar player_mp_ber = findViewById(R.id.player_mp);
+        ArrayList<ProgressBar> monster_ber = new ArrayList<>();
         ProgressBar monster_hp_ber = findViewById(R.id.monster_hp);
         ProgressBar monster_mp_ber = findViewById(R.id.monster_mp);
+        ArrayList<TextView> player_word = new ArrayList<>();
         TextView player_hp_word = findViewById(R.id.player_hp_word);
+        TextView player_mp_word = findViewById(R.id.player_mp_word);
+        ArrayList<TextView> monster_word = new ArrayList<>();
+        TextView monster_hp_word = findViewById(R.id.monster_hp_word);
+        TextView monster_mp_word = findViewById(R.id.monster_mp_word);
         TextView battle_chat_text = new TextView(this);
         battle_chat_text.setTextColor(Color.RED);
         battle_chat_text.setText("戦いだ！");
@@ -166,9 +173,9 @@ public class BattleManagerActivity extends AppCompatActivity {
         }
     }
     public void finishEnemyMonster(ImageView enemy_monster,AnimationQueue queue){
-        queue.enqueue(new MonsterTask(enemy_monster));
+
     }
-    public void finishAllyMonster(ImageView monster_of_player,AnimationQueue queue){
-        queue.enqueue(new PlayerTask(monster_of_player));
+    public void finishAllyMonster(Monster2 die_monster,ImageView monster_of_player,AnimationQueue queue){
+
     }
 }

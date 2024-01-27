@@ -13,9 +13,9 @@ import java.io.Serializable;
 public class DragonKing extends Monster2 implements Serializable {
     public static DragonKing dragon_king = new DragonKing();
     public DragonKing() {
-        this.hp=20000000;
+        this.hp=20;
         this.mp=200;
-        this.limit_hp=20000000;
+        this.limit_hp=20;
         this.limit_mp=200;
         this.defence=0;
         this.judge_sente=70000;

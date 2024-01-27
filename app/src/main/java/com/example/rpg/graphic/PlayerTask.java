@@ -38,8 +38,8 @@ public class PlayerTask implements AnimationTask{
     ImageView die_ally_monster;
     Resources resources;
     FightItem item;
-    int default_rotation;
-    int default_frame_layout_player;
+    int default_rotation = 0;
+    int default_frame_layout_player = 0;
     public int fire_effect_switching = 0;
     public int image_switching_number = 0;
     final int DAMAGE_ROTATION = 45;
@@ -47,7 +47,7 @@ public class PlayerTask implements AnimationTask{
 
     public Skill the_skill_of = new Skill();
     public final Handler handler = new Handler();
-     public PlayerTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,ImageView damage_monster,FrameLayout frame_layout_monster_power_up, Resources resources) {
+     public PlayerTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,ImageView damage_monster,FrameLayout frame_layout_monster_power_up, Resources resources,ImageView die_ally_monster) {
         this.monster = monster;
         this.effect = effect;
         this.damage_monster = damage_monster;
@@ -58,6 +58,7 @@ public class PlayerTask implements AnimationTask{
         this.default_frame_layout_player = (int) frame_layout_player.getX();
         this.frame_layout_throw = frame_layout_throw;
         this.frame_layout_monster_power_up = frame_layout_monster_power_up;
+        this.die_ally_monster = die_ally_monster;
     }
     public PlayerTask(ImageView effect,FrameLayout layout,Resources resources,FightItem item){
          this.frame_layout_player_power_up = layout;
@@ -65,14 +66,10 @@ public class PlayerTask implements AnimationTask{
          this.resources = resources;
          this.item = item;
     }
-    public PlayerTask(ImageView die_ally_monster){
-        this.die_ally_monster = die_ally_monster;
-    }
 
     @Override
     public void start(Runnable onComplete) {
-         try {
-             if (game.get_enemey_monster.hp > 0) {
+             if (monster.hp > 0) {
                  if (monster.mp >= monster.use_skill.consumption_mp) {
                      if (monster.use_skill == hit_attack) {
                          hitEffect(onComplete);
@@ -87,11 +84,6 @@ public class PlayerTask implements AnimationTask{
              }else {
                  dieEffect(onComplete);
              }
-         }catch (NullPointerException e){
-             if (this.item.item_group.equals("heal")){
-                 healEffect(onComplete);
-             }
-         }
     }
     @Override
     public void hitEffect(Runnable onComplete) {
@@ -114,7 +106,7 @@ public class PlayerTask implements AnimationTask{
                 image_switching_number++;
                 start(onComplete); // 次のフレームを実行
             }
-        }, EFFECT_SPEED+50000);
+        }, EFFECT_SPEED);
     }
     @Override
     public void littleFireEffect(Runnable onComplete){

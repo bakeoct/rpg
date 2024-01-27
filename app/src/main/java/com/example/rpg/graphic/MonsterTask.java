@@ -33,15 +33,15 @@ public class MonsterTask implements AnimationTask{
     ImageView monster_of_player;
     FrameLayout frame_layout_player_power_up;
     ImageView die_enemy_monster;
-    int default_rotation;
+    int default_rotation = 0;
     public int image_switching_number = 0;
     public Skill the_skill_of = new Skill();
     public final Handler handler = new Handler();
     public int fire_effect_switching = 0;
-    int default_frame_layout_monster;
+    int default_frame_layout_monster = 0;
     final int DAMAGE_ROTATION = -45;
     final int DIE_ROTATION = 90;
-    public MonsterTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,ImageView monster_of_player,FrameLayout frame_layout_player_power_up, Resources resources) {
+    public MonsterTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,ImageView monster_of_player,FrameLayout frame_layout_player_power_up, Resources resources,ImageView die_enemy_monster) {
         this.monster = monster;
         this.effect = effect;
         this.frame_layout_player = frame_layout_player;
@@ -52,8 +52,6 @@ public class MonsterTask implements AnimationTask{
         this.default_frame_layout_monster = (int)frame_layout_monster.getX();
         this.monster_of_player = monster_of_player;
         this.frame_layout_player_power_up = frame_layout_player_power_up;
-    }
-    public MonsterTask(ImageView die_enemy_monster){
         this.die_enemy_monster = die_enemy_monster;
     }
 
