@@ -8,6 +8,7 @@ import static com.example.rpg.graphic.TransitionActivity.save_transition_activit
 import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,6 +38,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class BattleManagerActivity extends AppCompatActivity {
+    public boolean finish_battle = false;
     public static BattleManagerActivity battle_manager_activity = new BattleManagerActivity();
     public ImageView effect = null;
     @Override
@@ -58,12 +61,18 @@ public class BattleManagerActivity extends AppCompatActivity {
         FrameLayout frame_layout_monster = findViewById(R.id.effectLayoutMonster);
         FrameLayout frame_layout_player_power_up = findViewById(R.id.effectLayoutPlayerPowerUp);
         FrameLayout frame_layout_monster_power_up = findViewById(R.id.effectLayoutMonsterPowerUp);
+        ProgressBar player_hp_ber = findViewById(R.id.player_hp);
+        ProgressBar player_mp_ber = findViewById(R.id.player_mp);
+        ProgressBar monster_hp_ber = findViewById(R.id.monster_hp);
+        ProgressBar monster_mp_ber = findViewById(R.id.monster_mp);
+        TextView player_hp_word = findViewById(R.id.player_hp_word);
         TextView battle_chat_text = new TextView(this);
         battle_chat_text.setTextColor(Color.RED);
         battle_chat_text.setText("戦いだ！");
         battle_chat.addView(battle_chat_text);
         monster_of_player.setImageDrawable(mySideMonsterDrawable(my_side_monster_number));
         enemy_monster.setImageDrawable(enemyMonsterDrawable());
+
 
         ImageView image_view_effect = new ImageView(this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
@@ -103,6 +112,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         run_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish_battle = true;
                 finishBattle();
             }
         });
@@ -133,7 +143,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         }
         return drawable;
     }
-    private void finishBattle(){
+    public void finishBattle(){
         monster_cara_now = null;
         enemey_monster.randomNewEnemeyMonster();
         startActivity(new Intent(BattleManagerActivity.this,TransitionActivity.class));
@@ -155,22 +165,10 @@ public class BattleManagerActivity extends AppCompatActivity {
             queue.enqueue(new PlayerTask(effect,layout,resources,item));
         }
     }
-    public void finishEnemyMonster(ImageView enemy_monster,LinearLayout battle_chat,TextView battle_chat_text,AnimationQueue queue){
-        queue.enqueue(new MonsterTask(enemy_monster,battle_chat,battle_chat_text));
-        for (Monster2 monster : game.p.monsters2) {
-            monster.have_experince_point += game.get_enemey_monster.can_get_experince_point;
-        }
-        game.p.have_experince_point +=game.get_enemey_monster.can_get_experince_point;
-        game.level.upLevel(game.p);
-        if  (game.get_enemey_monster.name.equals("竜王") && game.mission_dragon_king.progress){
-            game.mission_sab.missionProgres(game.mission_dragon_king);
-            System.out.println(game.mission_dragon_king.name+"を達成した！");
-            //Storeで報酬を入手できる
-        }
-        finishBattle();
+    public void finishEnemyMonster(ImageView enemy_monster,AnimationQueue queue){
+        queue.enqueue(new MonsterTask(enemy_monster));
     }
-    public void finishAllyMonster(ImageView monster_of_all,LinearLayout battle_chat,TextView battle_chat_text,AnimationQueue queue,Monster2 die_monster){
-        queue.enqueue(new PlayerTask(monster_of_all,battle_chat,battle_chat_text,die_monster));
-        finishBattle();
+    public void finishAllyMonster(ImageView monster_of_player,AnimationQueue queue){
+        queue.enqueue(new PlayerTask(monster_of_player));
     }
 }

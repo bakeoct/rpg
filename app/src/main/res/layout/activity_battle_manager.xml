@@ -42,18 +42,6 @@
         app:srcCompat="@drawable/run_away" />
 
     <ImageView
-        android:id="@+id/black_chat"
-        android:layout_width="313dp"
-        android:layout_height="213dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.866"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/brack" />
-
-    <ImageView
         android:id="@+id/player"
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -89,6 +77,18 @@
         app:layout_constraintVertical_bias="0.134"
         app:srcCompat="@drawable/dragon_king_left" />
 
+    <ImageView
+        android:id="@+id/black_chat"
+        android:layout_width="1061dp"
+        android:layout_height="314dp"
+        app:layout_constraintBottom_toBottomOf="@+id/battle_chat"
+        app:layout_constraintEnd_toEndOf="@+id/battle_chat"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="@+id/battle_chat"
+        app:layout_constraintTop_toTopOf="@+id/battle_chat"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/brack" />
+
     <FrameLayout
         android:id="@+id/effectLayoutPlayer"
         android:layout_width="70dp"
@@ -113,15 +113,15 @@
 
     <LinearLayout
         android:id="@+id/battle_chat"
-        android:layout_width="305dp"
-        android:layout_height="208dp"
+        android:layout_width="312dp"
+        android:layout_height="135dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.868"
+        app:layout_constraintHorizontal_bias="0.892"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.975">
+        app:layout_constraintVertical_bias="0.876">
 
     </LinearLayout>
 
@@ -157,5 +157,115 @@
         >
 
     </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/player_hp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.204"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/monster_of_player"
+        app:layout_constraintVertical_bias="0.032" />
+
+    <ProgressBar
+        android:id="@+id/player_mp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.295"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/monster_of_player"
+        app:layout_constraintVertical_bias="0.032" />
+    <ProgressBar
+        android:id="@+id/monster_hp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="100"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.805"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/effectLayoutMonsterPowerUp"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ProgressBar
+        android:id="@+id/monster_mp"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="100"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.22"
+        app:layout_constraintStart_toEndOf="@+id/monster_hp"
+        app:layout_constraintTop_toBottomOf="@+id/enemy_monster"
+        app:layout_constraintVertical_bias="0.003" />
+
+    <TextView
+        android:id="@+id/player_hp_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="#00ff00"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/player_mp_word"
+        app:layout_constraintHorizontal_bias="0.895"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/player_hp"
+        app:layout_constraintVertical_bias="0.059" />
+
+    <TextView
+        android:id="@+id/player_mp_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="#4169e1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/player_mp"
+        app:layout_constraintVertical_bias="0.063" />
+
+    <TextView
+        android:id="@+id/monster_hp_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="#00ff00"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.802"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/monster_hp"
+        app:layout_constraintVertical_bias="0.059" />
+
+    <TextView
+        android:id="@+id/monster_mp_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="#4169e1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.253"
+        app:layout_constraintStart_toEndOf="@+id/monster_hp_word"
+        app:layout_constraintTop_toTopOf="@+id/monster_mp"
+        app:layout_constraintVertical_bias="0.059" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

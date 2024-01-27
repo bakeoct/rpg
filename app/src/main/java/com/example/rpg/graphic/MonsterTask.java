@@ -33,10 +33,7 @@ public class MonsterTask implements AnimationTask{
     ImageView monster_of_player;
     FrameLayout frame_layout_player_power_up;
     ImageView die_enemy_monster;
-    LinearLayout battle_chat;
-    TextView battle_chat_text;
-    AnimationQueue queue;
-    int default_rotation = 0;
+    int default_rotation;
     public int image_switching_number = 0;
     public Skill the_skill_of = new Skill();
     public final Handler handler = new Handler();
@@ -44,12 +41,9 @@ public class MonsterTask implements AnimationTask{
     int default_frame_layout_monster;
     final int DAMAGE_ROTATION = -45;
     final int DIE_ROTATION = 90;
-    public MonsterTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,ImageView monster_of_player,FrameLayout frame_layout_player_power_up, Resources resources,LinearLayout battle_chat,TextView battle_chat_text,AnimationQueue queue) {
+    public MonsterTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,ImageView monster_of_player,FrameLayout frame_layout_player_power_up, Resources resources) {
         this.monster = monster;
         this.effect = effect;
-        this.queue = queue;
-        this.battle_chat = battle_chat;
-        this.battle_chat_text = battle_chat_text;
         this.frame_layout_player = frame_layout_player;
         this.frame_layout_monster = frame_layout_monster;
         this.resources = resources;
@@ -59,10 +53,8 @@ public class MonsterTask implements AnimationTask{
         this.monster_of_player = monster_of_player;
         this.frame_layout_player_power_up = frame_layout_player_power_up;
     }
-    public MonsterTask(ImageView die_enemy_monster,LinearLayout battle_chat,TextView battle_chat_text){
+    public MonsterTask(ImageView die_enemy_monster){
         this.die_enemy_monster = die_enemy_monster;
-        this.battle_chat = battle_chat;
-        this.battle_chat_text = battle_chat_text;
     }
 
     @Override
@@ -80,9 +72,6 @@ public class MonsterTask implements AnimationTask{
                 shortageMpEffect(onComplete);
             }
         }else {
-            battle_chat.removeAllViews();
-            battle_chat_text.setText(monster.name + "は死んでしまった");
-            battle_chat.addView(battle_chat_text);
             dieEffect(onComplete);
         }
     }
@@ -214,10 +203,6 @@ public class MonsterTask implements AnimationTask{
             monster_of_player.setImageDrawable(resources.getDrawable(monster.monster_drawable_usually[2]));
             frame_layout_player_power_up.removeAllViews();
             effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
-            if (monster.hp <= 0) {
-                monster.is_alive = false;
-                battle_manager_activity.finishAllyMonster(monster_of_player,battle_chat,battle_chat_text,queue,monster);
-            }
             onComplete.run();
         },INTERVAL);
     }
@@ -229,7 +214,17 @@ public class MonsterTask implements AnimationTask{
         handler.postDelayed(() ->{
             die_enemy_monster.setRotation(default_rotation);
             default_rotation = 0;
-            onComplete.run();
+            for (Monster2 monster : game.p.monsters2) {
+                monster.have_experince_point += game.get_enemey_monster.can_get_experince_point;
+            }
+            game.p.have_experince_point +=game.get_enemey_monster.can_get_experince_point;
+            game.level.upLevel(game.p);
+            if  (game.get_enemey_monster.name.equals("竜王") && game.mission_dragon_king.progress){
+                game.mission_sab.missionProgres(game.mission_dragon_king);
+                System.out.println(game.mission_dragon_king.name+"を達成した！");
+                //Storeで報酬を入手できる
+            }
+            battle_manager_activity.finishBattle();
         },INTERVAL * 2);
     }
 }

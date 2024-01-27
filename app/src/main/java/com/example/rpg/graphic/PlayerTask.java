@@ -33,14 +33,11 @@ public class PlayerTask implements AnimationTask{
     FrameLayout frame_layout_monster;
     FrameLayout frame_layout_player_power_up;
     FrameLayout frame_layout_monster_power_up;
-    LinearLayout battle_chat;
-    TextView battle_chat_text;
     FrameLayout frame_layout_throw;
     ImageView damage_monster;
     ImageView die_ally_monster;
     Resources resources;
     FightItem item;
-    AnimationQueue queue;
     int default_rotation;
     int default_frame_layout_player;
     public int fire_effect_switching = 0;
@@ -50,12 +47,9 @@ public class PlayerTask implements AnimationTask{
 
     public Skill the_skill_of = new Skill();
     public final Handler handler = new Handler();
-     public PlayerTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,ImageView damage_monster,FrameLayout frame_layout_monster_power_up, Resources resources,LinearLayout battle_chat,TextView battle_chat_text,AnimationQueue queue) {
+     public PlayerTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,ImageView damage_monster,FrameLayout frame_layout_monster_power_up, Resources resources) {
         this.monster = monster;
         this.effect = effect;
-        this.battle_chat = battle_chat;
-        this.battle_chat_text = battle_chat_text;
-        this.queue = queue;
         this.damage_monster = damage_monster;
         this.frame_layout_player = frame_layout_player;
         this.frame_layout_monster = frame_layout_monster;
@@ -71,18 +65,14 @@ public class PlayerTask implements AnimationTask{
          this.resources = resources;
          this.item = item;
     }
-
-    public PlayerTask(ImageView die_ally_monster,LinearLayout battle_chat,TextView battle_chat_text,Monster2 monster){
-        this.monster = monster;
-         this.die_ally_monster = die_ally_monster;
-         this.battle_chat = battle_chat;
-         this.battle_chat_text = battle_chat_text;
+    public PlayerTask(ImageView die_ally_monster){
+        this.die_ally_monster = die_ally_monster;
     }
 
     @Override
     public void start(Runnable onComplete) {
          try {
-             if (monster.hp > 0) {
+             if (game.get_enemey_monster.hp > 0) {
                  if (monster.mp >= monster.use_skill.consumption_mp) {
                      if (monster.use_skill == hit_attack) {
                          hitEffect(onComplete);
@@ -95,9 +85,6 @@ public class PlayerTask implements AnimationTask{
                      shortageMpEffect(onComplete);
                  }
              }else {
-                 battle_chat.removeAllViews();
-                 battle_chat_text.setText(monster.name + "は死んでしまった");
-                 battle_chat.addView(battle_chat_text);
                  dieEffect(onComplete);
              }
          }catch (NullPointerException e){
@@ -127,7 +114,7 @@ public class PlayerTask implements AnimationTask{
                 image_switching_number++;
                 start(onComplete); // 次のフレームを実行
             }
-        }, EFFECT_SPEED);
+        }, EFFECT_SPEED+50000);
     }
     @Override
     public void littleFireEffect(Runnable onComplete){
@@ -242,10 +229,6 @@ public class PlayerTask implements AnimationTask{
             frame_layout_monster_power_up.removeAllViews();
             damage_monster.setImageDrawable(resources.getDrawable(game.get_enemey_monster.monster_drawable_usually[1]));
             effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
-            if (game.get_enemey_monster.hp <= 0) {
-                game.get_enemey_monster.is_alive = false;
-                battle_manager_activity.finishEnemyMonster(damage_monster,battle_chat,battle_chat_text,queue);
-            }
             onComplete.run();
         },INTERVAL);
     }
@@ -258,7 +241,7 @@ public class PlayerTask implements AnimationTask{
         handler.postDelayed(() ->{
             die_ally_monster.setRotation(default_rotation);
             default_rotation = 0;
-            onComplete.run();
+            battle_manager_activity.finishBattle();
         },INTERVAL * 2);
     }
 }
