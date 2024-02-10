@@ -2,21 +2,15 @@ package com.example.rpg.graphic;
 
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
-import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
 import static com.example.rpg.graphic.GameActivity.monster_cara_now;
 import static com.example.rpg.graphic.TransitionActivity.save_transition_activity;
 import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -28,14 +22,11 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rpg.Calc.Item.FightItem;
-import com.example.rpg.Calc.Item.Item;
 import com.example.rpg.Calc.Monsters.Monster2;
 import com.example.rpg.Calc.skill.Skill;
 import com.example.rpg.R;
 
 import java.util.ArrayList;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class BattleManagerActivity extends AppCompatActivity {
     public boolean finish_battle = false;
@@ -61,18 +52,32 @@ public class BattleManagerActivity extends AppCompatActivity {
         FrameLayout frame_layout_monster = findViewById(R.id.effectLayoutMonster);
         FrameLayout frame_layout_player_power_up = findViewById(R.id.effectLayoutPlayerPowerUp);
         FrameLayout frame_layout_monster_power_up = findViewById(R.id.effectLayoutMonsterPowerUp);
-        ArrayList<ProgressBar> player_ber = new ArrayList<>();
+        ArrayList<ArrayList<ProgressBar>> ber_gauge = new ArrayList<>();
+        ArrayList<ProgressBar> ally_ber = new ArrayList<>();
         ProgressBar player_hp_ber = findViewById(R.id.player_hp);
         ProgressBar player_mp_ber = findViewById(R.id.player_mp);
+        ally_ber.add(player_hp_ber);
+        ally_ber.add(player_mp_ber);
         ArrayList<ProgressBar> monster_ber = new ArrayList<>();
         ProgressBar monster_hp_ber = findViewById(R.id.monster_hp);
         ProgressBar monster_mp_ber = findViewById(R.id.monster_mp);
-        ArrayList<TextView> player_word = new ArrayList<>();
+        monster_ber.add(monster_hp_ber);
+        monster_ber.add(monster_mp_ber);
+        ber_gauge.add(ally_ber);
+        ber_gauge.add(monster_ber);
+        ArrayList<ArrayList<TextView>> text_gauge = new ArrayList<>();
+        ArrayList<TextView> ally_word = new ArrayList<>();
         TextView player_hp_word = findViewById(R.id.player_hp_word);
         TextView player_mp_word = findViewById(R.id.player_mp_word);
+        ally_word.add(player_hp_word);
+        ally_word.add(player_mp_word);
         ArrayList<TextView> monster_word = new ArrayList<>();
         TextView monster_hp_word = findViewById(R.id.monster_hp_word);
         TextView monster_mp_word = findViewById(R.id.monster_mp_word);
+        monster_word.add(monster_hp_word);
+        monster_word.add(monster_mp_word);
+        text_gauge.add(ally_word);
+        text_gauge.add(monster_word);
         TextView battle_chat_text = new TextView(this);
         battle_chat_text.setTextColor(Color.RED);
         battle_chat_text.setText("戦いだ！");
@@ -106,7 +111,20 @@ public class BattleManagerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 battle_chat.removeAllViews();
-                game.battle_manager.choose_skill(game.p.monsters2.get(my_side_monster_number),battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,fight_button,item_button,run_button,frame_layout_player_power_up,frame_layout_monster_power_up);
+                game.battle_manager.choose_skill(game.p.monsters2.get(my_side_monster_number),battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,fight_button,item_button,run_button,frame_layout_player_power_up,frame_layout_monster_power_up,ber_gauge,text_gauge);
+                //ここから
+                for (Monster2 monster : game.p.monsters2) {
+                    monster.have_experince_point += game.get_enemey_monster.can_get_experince_point;
+                }
+                game.p.have_experince_point +=game.get_enemey_monster.can_get_experince_point;
+                game.level.upLevel(game.p);
+                if  (game.get_enemey_monster.name.equals("竜王") && game.mission_dragon_king.progress){
+                    game.mission_sab.missionProgres(game.mission_dragon_king);
+                    System.out.println(game.mission_dragon_king.name+"を達成した！");
+                    //Storeで報酬を入手できる
+                }
+                battle_manager_activity.finishBattle();
+                //ここまで時間差で実行したい
             }
         });
         item_button.setOnClickListener(new View.OnClickListener() {

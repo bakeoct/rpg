@@ -206,23 +206,11 @@ public class MonsterTask implements AnimationTask{
     }
     @Override
     public void dieEffect(Runnable onComplete) {
-        default_rotation = (int)die_enemy_monster.getRotation();
         die_enemy_monster.setRotation(DIE_ROTATION);
         die_enemy_monster.setImageDrawable(resources.getDrawable(game.get_enemey_monster.monster_drawable_damage_enemy[0]));
         handler.postDelayed(() ->{
-            die_enemy_monster.setRotation(default_rotation);
-            default_rotation = 0;
-            for (Monster2 monster : game.p.monsters2) {
-                monster.have_experince_point += game.get_enemey_monster.can_get_experince_point;
-            }
-            game.p.have_experince_point +=game.get_enemey_monster.can_get_experince_point;
-            game.level.upLevel(game.p);
-            if  (game.get_enemey_monster.name.equals("竜王") && game.mission_dragon_king.progress){
-                game.mission_sab.missionProgres(game.mission_dragon_king);
-                System.out.println(game.mission_dragon_king.name+"を達成した！");
-                //Storeで報酬を入手できる
-            }
-            battle_manager_activity.finishBattle();
+
         },INTERVAL * 2);
     }
+
 }

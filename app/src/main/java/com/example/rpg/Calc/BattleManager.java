@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.example.rpg.Calc.Item.FightItem;
 import com.example.rpg.Calc.Monsters.Monster2;
@@ -16,6 +17,8 @@ import com.example.rpg.graphic.MonsterTask;
 import com.example.rpg.graphic.PlayerTask;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class BattleManager implements Serializable {
@@ -34,36 +37,40 @@ public class BattleManager implements Serializable {
             return hp_monster.hp;
         }
     }
-    public void turn(Monster2 attack_monster,Monster2 defense_monster,LinearLayout battle_chat,ImageView monster_of_player,ImageView enemy_monster,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,FrameLayout frame_layout_player_power_up,FrameLayout frame_layout_monster_power_up) {
+    public void turn(Monster2 attack_monster,Monster2 defense_monster,LinearLayout battle_chat,ImageView monster_of_player,ImageView enemy_monster,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,FrameLayout frame_layout_player_power_up,FrameLayout frame_layout_monster_power_up, ArrayList<ArrayList<ProgressBar>> ber_gauge,ArrayList<ArrayList<TextView>> text_gauge) {
         battle_chat_text.setTextColor(Color.RED);
         AnimationQueue queue = new AnimationQueue();
         Monster2 default_monster = attack_monster;
         if (player_first) {
-            graphicAllyAttack(attack_monster, defense_monster, battle_chat, monster_of_player,enemy_monster, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_monster_power_up,frame_layout_player_power_up,queue);
+            graphicAllyAttack(attack_monster, defense_monster, battle_chat, monster_of_player,enemy_monster, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_monster_power_up,frame_layout_player_power_up,queue,ber_gauge,text_gauge);
             attack_monster = defense_monster;
             defense_monster = default_monster;
             player_first = false;
-            graphicEnemyAttack(attack_monster, defense_monster, battle_chat, monster_of_player, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_player_power_up,frame_layout_monster_power_up,enemy_monster,queue);
+            graphicEnemyAttack(attack_monster, defense_monster, battle_chat, monster_of_player, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_player_power_up,frame_layout_monster_power_up,enemy_monster,queue,ber_gauge,text_gauge);
         } else {
             attack_monster = defense_monster;
             defense_monster = default_monster;
             default_monster = attack_monster;
-            graphicEnemyAttack(attack_monster, defense_monster, battle_chat, monster_of_player, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_player_power_up,frame_layout_monster_power_up,enemy_monster,queue);
+            graphicEnemyAttack(attack_monster, defense_monster, battle_chat, monster_of_player, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_player_power_up,frame_layout_monster_power_up,enemy_monster,queue,ber_gauge,text_gauge);
             attack_monster = defense_monster;
             defense_monster = default_monster;
             player_first = true;
-            graphicAllyAttack(attack_monster, defense_monster, battle_chat, monster_of_player,enemy_monster, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_monster_power_up,frame_layout_player_power_up,queue);
+            graphicAllyAttack(attack_monster, defense_monster, battle_chat, monster_of_player,enemy_monster, battle_chat_text, effect, resources, frame_layout_player, frame_layout_monster, frame_layout_throw,frame_layout_monster_power_up,frame_layout_player_power_up,queue,ber_gauge,text_gauge);
         }
     }
 
 
 
-    public void graphicEnemyAttack(Monster2 attack_monster,Monster2 defense_monster,LinearLayout battle_chat,ImageView monster_of_player,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,FrameLayout frame_layout_player_power_up,FrameLayout frame_layout_monster_power_up,ImageView enemy_monster,AnimationQueue queue){
+    public void graphicEnemyAttack(Monster2 attack_monster,Monster2 defense_monster,LinearLayout battle_chat,ImageView monster_of_player,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,FrameLayout frame_layout_player_power_up,FrameLayout frame_layout_monster_power_up,ImageView enemy_monster,AnimationQueue queue, ArrayList<ArrayList<ProgressBar>> ber_gauge,ArrayList<ArrayList<TextView>> text_gauge){
         if (attack_monster.is_alive) {
             if (attack_monster.mp >= attack_monster.use_skill.consumption_mp) {
                 queue.enqueue(new MonsterTask(defense_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,monster_of_player,frame_layout_player_power_up, resources,enemy_monster));
                 defense_monster.hp = attack(defense_monster, attack_monster);
+                ber_gauge.get(0).get(0).setProgress((int)setPercent(defense_monster.hp,defense_monster.limit_hp));
+                text_gauge.get(0).get(0).setText(defense_monster.hp+"/"+defense_monster.limit_hp);
                 attack_monster.mp -= attack_monster.use_skill.consumption_mp;
+                ber_gauge.get(1).get(1).setProgress((int)setPercent(attack_monster.mp,attack_monster.limit_mp));
+                text_gauge.get(1).get(1).setText(attack_monster.mp+"/"+attack_monster.limit_mp);
                 System.out.println(player_first);
                 System.out.println(attack_monster.use_skill.name);
                 battle_chat.removeAllViews();
@@ -84,12 +91,16 @@ public class BattleManager implements Serializable {
             }
         }
     }
-    public void graphicAllyAttack(Monster2 attack_monster,Monster2 defense_monster,LinearLayout battle_chat,ImageView monster_of_player,ImageView enemy_monster,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,FrameLayout frame_layout_monster_power_up,FrameLayout frame_layout_player_power_up,AnimationQueue queue){
+    public void graphicAllyAttack(Monster2 attack_monster,Monster2 defense_monster,LinearLayout battle_chat,ImageView monster_of_player,ImageView enemy_monster,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,FrameLayout frame_layout_monster_power_up,FrameLayout frame_layout_player_power_up,AnimationQueue queue, ArrayList<ArrayList<ProgressBar>> ber_gauge,ArrayList<ArrayList<TextView>> text_gauge){
         if (attack_monster.is_alive) {
             if (attack_monster.mp >= attack_monster.use_skill.consumption_mp) {
                 queue.enqueue(new PlayerTask(attack_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources,monster_of_player));
                 defense_monster.hp = attack(defense_monster, attack_monster);
+                ber_gauge.get(1).get(0).setProgress((int)setPercent(defense_monster.hp,defense_monster.limit_hp));
+                text_gauge.get(1).get(0).setText(defense_monster.hp+"/"+defense_monster.limit_hp);
                 attack_monster.mp -= attack_monster.use_skill.consumption_mp;
+                ber_gauge.get(0).get(1).setProgress((int)setPercent(attack_monster.mp,attack_monster.limit_mp));
+                text_gauge.get(0).get(1).setText(attack_monster.mp+"/"+attack_monster.limit_mp);
                 System.out.println(player_first);
                 System.out.println(attack_monster.use_skill.name);
                 battle_chat.removeAllViews();
@@ -123,12 +134,16 @@ public class BattleManager implements Serializable {
         }
     }
     */
-    public void choose_skill(Monster2 monster2, LinearLayout battle_chat, ImageView monster_of_player,ImageView enemy_monster, TextView battle_chat_text, ImageView effect, Resources resources, FrameLayout frame_layout_player, FrameLayout frame_layout_monster, FrameLayout frame_layout_throw, ImageView fight_button, ImageView item_button, ImageView run_button,FrameLayout frame_layout_player_power_up,FrameLayout frame_layout_monster_power_up) {
+    public void choose_skill(Monster2 monster2, LinearLayout battle_chat, ImageView monster_of_player, ImageView enemy_monster, TextView battle_chat_text, ImageView effect, Resources resources, FrameLayout frame_layout_player, FrameLayout frame_layout_monster, FrameLayout frame_layout_throw, ImageView fight_button, ImageView item_button, ImageView run_button, FrameLayout frame_layout_player_power_up, FrameLayout frame_layout_monster_power_up, ArrayList<ArrayList<ProgressBar>> ber_gauge,ArrayList<ArrayList<TextView>> text_gauge) {
         //敵モンスターと味方モンスターの戦い
         battle_manager_activity.graphic_skill(monster2, battle_chat);
-        click_skill(monster2, battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,fight_button,item_button,run_button,frame_layout_player_power_up,frame_layout_monster_power_up);
+        click_skill(monster2, battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,fight_button,item_button,run_button,frame_layout_player_power_up,frame_layout_monster_power_up,ber_gauge,text_gauge);
     }
-
+    private double setPercent(int progress,int max){
+        double percent;
+        percent = (double) progress / (double) max * 100.0;
+        return percent;
+    }
     public boolean setPlayerFirst(boolean sente,Monster2 monster) {
         System.out.println(monster.use_skill.long_or_short + " " + monster.use_skill.name+ " "+ sente);
         if (monster.use_skill.long_or_short.equals(game.get_enemey_monster.use_skill.long_or_short)) {
@@ -147,11 +162,11 @@ public class BattleManager implements Serializable {
         return player_first;
     }
 
-    public void battle(Monster2 monster2, LinearLayout battle_chat, ImageView monster_of_player,ImageView enemy_monster, TextView battle_chat_text, ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,FrameLayout frame_layout_player_power_up,FrameLayout frame_layout_monster_power_up) {
+    public void battle(Monster2 monster2, LinearLayout battle_chat, ImageView monster_of_player,ImageView enemy_monster, TextView battle_chat_text, ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,FrameLayout frame_layout_player_power_up,FrameLayout frame_layout_monster_power_up, ArrayList<ArrayList<ProgressBar>> ber_gauge,ArrayList<ArrayList<TextView>> text_gauge) {
         boolean sente = judgeSente(monster2.judge_sente, game.get_enemey_monster.judge_sente);
         setPlayerFirst(sente,monster2);
         System.out.println(monster2.use_skill.name+"iiiii");
-        turn(monster2, game.get_enemey_monster,battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,frame_layout_player_power_up,frame_layout_monster_power_up);
+        turn(monster2, game.get_enemey_monster,battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,frame_layout_player_power_up,frame_layout_monster_power_up,ber_gauge,text_gauge);
         alive(battle_chat,battle_chat_text,monster2);
     }
 
@@ -218,7 +233,7 @@ public class BattleManager implements Serializable {
         }
     }
 
-    public int click_skill(Monster2 monster2,LinearLayout battle_chat, ImageView monster_of_player,ImageView enemy_monster,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,ImageView fight_button,ImageView item_button,ImageView run_button,FrameLayout frame_layout_player_power_up,FrameLayout frame_layout_monster_power_up){
+    public int click_skill(Monster2 monster2,LinearLayout battle_chat, ImageView monster_of_player,ImageView enemy_monster,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,ImageView fight_button,ImageView item_button,ImageView run_button,FrameLayout frame_layout_player_power_up,FrameLayout frame_layout_monster_power_up, ArrayList<ArrayList<ProgressBar>> ber_gauge,ArrayList<ArrayList<TextView>> text_gauge){
         for (int i=0;i<battle_chat.getChildCount();i++){
             System.out.println(battle_chat.getChildCount());
             int skill_i = i;
@@ -233,7 +248,7 @@ public class BattleManager implements Serializable {
                     monster2.use_skill = monster2.all_skill.get(skill_i);
                     System.out.println(monster2.name + "の攻撃" + monster2.use_skill.name);
                     chooseEnemySkill();
-                    battle(monster2,battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,frame_layout_player_power_up,frame_layout_monster_power_up);
+                    battle(monster2,battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,frame_layout_player_power_up,frame_layout_monster_power_up,ber_gauge,text_gauge);
                     fight_button.setVisibility(View.VISIBLE);
                     item_button.setVisibility(View.VISIBLE);
                     run_button.setVisibility(View.VISIBLE);

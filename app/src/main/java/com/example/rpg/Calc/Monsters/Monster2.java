@@ -29,7 +29,6 @@ public abstract class Monster2 implements Serializable {
     public int defence;
     public int up_leberu;
     public String name;
-    public String seibetu;
     public int leberu;
     public boolean is_alive;
     public int judge_sente;
@@ -47,18 +46,6 @@ public abstract class Monster2 implements Serializable {
 
     public String name() {
         return this.name;
-    }
-
-    public String seibetu() {
-        return this.seibetu;
-    }
-
-    public int lv() {
-        return this.leberu;
-    }
-
-    public static String look(Monster2 monster) {
-        return monster.name;
     }
 
     public static Monster2 getMonsterRandomly(ImageView enemy_monster) {

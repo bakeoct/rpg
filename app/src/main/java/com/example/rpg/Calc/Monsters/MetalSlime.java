@@ -17,17 +17,16 @@ import java.io.Serializable;
 public class MetalSlime extends Monster2  implements Serializable{
     public static MetalSlime metal_slime = new MetalSlime();
     public MetalSlime(){
-        this.limit_hp=200;
-        this.limit_mp=80000;
+        this.limit_hp=2000;
+        this.limit_mp=8000;
         this.defence=0;
         this.up_leberu=0;
-        this.hp = 200;
+        this.hp = 2000;
         this.leberu = 1;
         this.attack=6;
-        this.mp=80000;
+        this.mp=8000;
         this.judge_sente=20;
         this.name="メタルスライム";
-        this.seibetu="?";
         this.is_alive=true;
         this.fellow=true;
         this.can_get_experince_point = 500;
