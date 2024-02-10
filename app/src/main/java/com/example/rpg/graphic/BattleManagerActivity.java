@@ -6,6 +6,7 @@ import static com.example.rpg.graphic.GameActivity.monster_cara_now;
 import static com.example.rpg.graphic.TransitionActivity.save_transition_activity;
 import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 
+import android.media.MediaPlayer;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -25,6 +26,7 @@ import com.example.rpg.Calc.Item.FightItem;
 import com.example.rpg.Calc.Monsters.Monster2;
 import com.example.rpg.Calc.skill.Skill;
 import com.example.rpg.R;
+import com.example.rpg.sound.MediaPlayerManager;
 
 import java.util.ArrayList;
 
@@ -36,7 +38,10 @@ public class BattleManagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battle_manager);
-
+        MediaPlayerManager.mediaPlayer.stop();
+        MediaPlayerManager.mediaPlayer.release();
+        MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.battlemusic);
+        MediaPlayerManager.mediaPlayer.start();
         int attack_margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         int my_side_monster_number = 0;
 
