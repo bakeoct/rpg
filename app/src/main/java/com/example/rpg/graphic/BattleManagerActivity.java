@@ -113,17 +113,7 @@ public class BattleManagerActivity extends AppCompatActivity {
                 battle_chat.removeAllViews();
                 game.battle_manager.choose_skill(game.p.monsters2.get(my_side_monster_number),battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,fight_button,item_button,run_button,frame_layout_player_power_up,frame_layout_monster_power_up,ber_gauge,text_gauge);
                 //ここから
-                for (Monster2 monster : game.p.monsters2) {
-                    monster.have_experince_point += game.get_enemey_monster.can_get_experince_point;
-                }
-                game.p.have_experince_point +=game.get_enemey_monster.can_get_experince_point;
-                game.level.upLevel(game.p);
-                if  (game.get_enemey_monster.name.equals("竜王") && game.mission_dragon_king.progress){
-                    game.mission_sab.missionProgres(game.mission_dragon_king);
-                    System.out.println(game.mission_dragon_king.name+"を達成した！");
-                    //Storeで報酬を入手できる
-                }
-                battle_manager_activity.finishBattle();
+
                 //ここまで時間差で実行したい
             }
         });

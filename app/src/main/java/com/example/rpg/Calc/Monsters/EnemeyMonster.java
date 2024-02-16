@@ -29,13 +29,13 @@ public class EnemeyMonster implements Serializable {
         Random random =new Random();
         int random_number = random.nextInt(5);
         if (random_number == 0) {
-            this.x++;
+            this.y++;
             monster_place = "right";
             if (enemey_monster.area.equals(p.area)) {
                 setImageResource(monster_place, enemy_monster);
             }
         }else if (random_number == 1) {
-            this.x--;
+            this.y++;
             monster_place = "left";
             if (enemey_monster.area.equals(p.area)) {
                 setImageResource(monster_place,enemy_monster);
@@ -47,7 +47,7 @@ public class EnemeyMonster implements Serializable {
                 setImageResource(monster_place, enemy_monster);
             }
         } if (random_number == 3){
-            this.y--;
+            this.y++;
             monster_place = "under";
             if (enemey_monster.area.equals(p.area)) {
                 setImageResource(monster_place, enemy_monster);
