@@ -17,6 +17,7 @@ import com.example.rpg.Calc.Monsters.Monster2;
 import com.example.rpg.Calc.skill.Skill;
 import com.example.rpg.R;
 
+import static com.example.rpg.Calc.BattleManager.*;
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.skill.Hit.hit_attack;
 import static com.example.rpg.Calc.skill.LittleFire.little_fire;
@@ -69,21 +70,25 @@ public class PlayerTask implements AnimationTask{
 
     @Override
     public void start(Runnable onComplete) {
-             if (monster.hp > 0) {
-                 if (monster.mp >= monster.use_skill.consumption_mp) {
-                     if (monster.use_skill == hit_attack) {
-                         hitEffect(onComplete);
-                     } else if (monster.use_skill == throw_attack) {
-                         throwEffect(onComplete);
-                     } else if (monster.use_skill == little_fire) {
-                         littleFireEffect(onComplete);
-                     }
-                 } else {
-                     shortageMpEffect(onComplete);
+         if (monster.hp > 0 || !player_die_effect) {
+             if (monster.mp >= monster.use_skill.consumption_mp) {
+                 if (monster.use_skill == hit_attack) {
+                     hitEffect(onComplete);
+                 } else if (monster.use_skill == throw_attack) {
+                     throwEffect(onComplete);
+                 } else if (monster.use_skill == little_fire) {
+                     littleFireEffect(onComplete);
                  }
-             }else {
-                 dieEffect(onComplete);
+             } else {
+                 shortageMpEffect(onComplete);
              }
+         }else {
+             dieEffect(onComplete);
+         }
+    }
+    @Override
+    public void dieStart(Runnable onComplete){
+
     }
     @Override
     public void hitEffect(Runnable onComplete) {
@@ -221,6 +226,7 @@ public class PlayerTask implements AnimationTask{
             frame_layout_monster_power_up.removeAllViews();
             damage_monster.setImageDrawable(resources.getDrawable(game.get_enemey_monster.monster_drawable_usually[1]));
             effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
+            monster_die_effect = true;
             onComplete.run();
         },INTERVAL);
     }
@@ -233,7 +239,13 @@ public class PlayerTask implements AnimationTask{
         handler.postDelayed(() ->{
             die_ally_monster.setRotation(default_rotation);
             default_rotation = 0;
-            battle_manager_activity.finishBattle();
+            if (battle_manager_activity.my_side_monster_number < game.p.monsters2.size()) {
+                battle_manager_activity.my_side_monster_number++;
+                die_ally_monster.setImageDrawable(resources.getDrawable(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).monster_drawable_usually[2]));
+            }else {
+                battle_manager_activity.finishBattle();
+            }
+            player_die_effect = false;
         },INTERVAL * 2);
     }
 }

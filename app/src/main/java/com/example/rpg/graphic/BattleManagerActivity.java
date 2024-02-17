@@ -12,6 +12,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ public class BattleManagerActivity extends AppCompatActivity {
     public boolean finish_battle = false;
     public static BattleManagerActivity battle_manager_activity = new BattleManagerActivity();
     public ImageView effect = null;
+    int my_side_monster_number = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.battlemusic);
         MediaPlayerManager.mediaPlayer.start();
         int attack_margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
-        int my_side_monster_number = 0;
+
 
         ImageView monster_of_player = findViewById(R.id.monster_of_player);
         ImageView enemy_monster = findViewById(R.id.enemy_monster);
@@ -118,17 +120,6 @@ public class BattleManagerActivity extends AppCompatActivity {
                 battle_chat.removeAllViews();
                 game.battle_manager.choose_skill(game.p.monsters2.get(my_side_monster_number),battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,fight_button,item_button,run_button,frame_layout_player_power_up,frame_layout_monster_power_up,ber_gauge,text_gauge);
                 //ここから
-                for (Monster2 monster : game.p.monsters2) {
-                    monster.have_experince_point += game.get_enemey_monster.can_get_experince_point;
-                }
-                game.p.have_experince_point +=game.get_enemey_monster.can_get_experince_point;
-                game.level.upLevel(game.p);
-                if  (game.get_enemey_monster.name.equals("竜王") && game.mission_dragon_king.progress){
-                    game.mission_sab.missionProgres(game.mission_dragon_king);
-                    System.out.println(game.mission_dragon_king.name+"を達成した！");
-                    //Storeで報酬を入手できる
-                }
-                battle_manager_activity.finishBattle();
                 //ここまで時間差で実行したい
             }
         });
@@ -174,11 +165,19 @@ public class BattleManagerActivity extends AppCompatActivity {
         return drawable;
     }
     public void finishBattle(){
-        monster_cara_now = null;
-        enemey_monster.randomNewEnemeyMonster();
-        startActivity(new Intent(BattleManagerActivity.this,TransitionActivity.class));
-        transition_activity = save_transition_activity;
-        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+        if (finish_battle) {
+            my_side_monster_number = 0;
+            monster_cara_now = null;
+            enemey_monster.randomNewEnemeyMonster();
+            /*MediaPlayerManager.mediaPlayer.stop();
+            MediaPlayerManager.mediaPlayer.release();
+            MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.bgmusic);
+            MediaPlayerManager.mediaPlayer.start();
+            */
+            startActivity(new Intent(BattleManagerActivity.this, TransitionActivity.class));
+            transition_activity = save_transition_activity;
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        }
     }
     public int graphic_skill(Monster2 monster2,LinearLayout battle_chat){
         battle_chat.removeAllViews();

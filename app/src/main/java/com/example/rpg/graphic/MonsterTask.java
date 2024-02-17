@@ -1,5 +1,6 @@
 package com.example.rpg.graphic;
 
+import static com.example.rpg.Calc.BattleManager.*;
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.skill.Hit.hit_attack;
 import static com.example.rpg.Calc.skill.LittleFire.little_fire;
@@ -57,7 +58,7 @@ public class MonsterTask implements AnimationTask{
 
     @Override
     public void start(Runnable onComplete) {
-        if (game.get_enemey_monster.hp > 0) {
+        if (game.get_enemey_monster.hp > 0 || !monster_die_effect) {
             if (game.get_enemey_monster.mp >= game.get_enemey_monster.use_skill.consumption_mp) {
                 if (game.get_enemey_monster.use_skill == hit_attack) {
                     hitEffect(onComplete);
@@ -73,6 +74,12 @@ public class MonsterTask implements AnimationTask{
             dieEffect(onComplete);
         }
     }
+
+    @Override
+    public void dieStart(Runnable onComplete) {
+
+    }
+
     @Override
     public void hitEffect(Runnable onComplete){
         frame_layout_player.removeAllViews();
@@ -201,6 +208,7 @@ public class MonsterTask implements AnimationTask{
             monster_of_player.setImageDrawable(resources.getDrawable(monster.monster_drawable_usually[2]));
             frame_layout_player_power_up.removeAllViews();
             effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
+            player_die_effect = true;
             onComplete.run();
         },INTERVAL);
     }
@@ -209,8 +217,17 @@ public class MonsterTask implements AnimationTask{
         die_enemy_monster.setRotation(DIE_ROTATION);
         die_enemy_monster.setImageDrawable(resources.getDrawable(game.get_enemey_monster.monster_drawable_damage_enemy[0]));
         handler.postDelayed(() ->{
-
+            for (Monster2 monster : game.p.monsters2) {
+                monster.have_experince_point += game.get_enemey_monster.can_get_experince_point;
+            }
+            game.p.have_experince_point +=game.get_enemey_monster.can_get_experince_point;
+            game.level.upLevel(game.p);
+            if  (game.get_enemey_monster.name.equals("竜王") && game.mission_dragon_king.progress){
+                game.mission_sab.missionProgres(game.mission_dragon_king);
+                System.out.println(game.mission_dragon_king.name+"を達成した！");
+                //Storeで報酬を入手できる
+            }
+            battle_manager_activity.finishBattle();
         },INTERVAL * 2);
     }
-
 }

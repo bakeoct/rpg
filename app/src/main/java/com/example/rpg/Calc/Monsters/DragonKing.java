@@ -18,9 +18,9 @@ public class DragonKing extends Monster2 implements Serializable {
         this.limit_hp=2000;
         this.limit_mp=200;
         this.defence=0;
-        this.judge_sente=70000;
+        this.judge_sente=7;
         this.name="竜王";
-        this.attack=3;
+        this.attack=3000000;
         this.up_leberu=0;
         this.leberu=1;
         this.is_alive=true;
