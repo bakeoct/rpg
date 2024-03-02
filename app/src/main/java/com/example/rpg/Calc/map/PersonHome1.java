@@ -18,5 +18,6 @@ public class PersonHome1 implements Serializable {
             {E,W,W,W,W,W,W,W,E},
             {E,W,W,W,W,W,W,W,E},
             {E,E,E,E,BW,E,E,E,E},
+            {E,E,E,E,E,E,E,E,E}
     };
 }

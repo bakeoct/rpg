@@ -89,7 +89,7 @@ public class BattleManager implements Serializable {
                 battle_chat.removeAllViews();
                 battle_chat_text.setText(defense_monster.name + "は死んでしまった");
                 battle_chat.addView(battle_chat_text);
-                queue.enqueue(new PlayerTask(attack_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources,monster_of_player));
+                queue.enqueue(new PlayerTask(defense_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources,monster_of_player,ber_gauge,text_gauge));
             }
         }
     }
@@ -97,7 +97,7 @@ public class BattleManager implements Serializable {
         if (attack_monster.is_alive) {
             if (attack_monster.mp >= attack_monster.use_skill.consumption_mp) {
                 player_die_effect = false;
-                queue.enqueue(new PlayerTask(attack_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources,monster_of_player));
+                queue.enqueue(new PlayerTask(attack_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources,monster_of_player,ber_gauge,text_gauge));
                 defense_monster.hp = attack(defense_monster, attack_monster);
                 ber_gauge.get(1).get(0).setProgress((int)setPercent(defense_monster.hp,defense_monster.limit_hp));
                 text_gauge.get(1).get(0).setText(defense_monster.hp+"/"+defense_monster.limit_hp);
@@ -111,7 +111,7 @@ public class BattleManager implements Serializable {
                 battle_chat.addView(battle_chat_text);
             } else {
                 player_die_effect = false;
-                queue.enqueue(new PlayerTask(attack_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources,monster_of_player));
+                queue.enqueue(new PlayerTask(attack_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources,monster_of_player,ber_gauge,text_gauge));
                 battle_chat.removeAllViews();
                 battle_chat_text.setText(attack_monster.name + "の攻撃　　しかしmpが足りなかった");
                 battle_chat.addView(battle_chat_text);
@@ -144,7 +144,7 @@ public class BattleManager implements Serializable {
         battle_manager_activity.graphic_skill(monster2, battle_chat);
         click_skill(monster2, battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,fight_button,item_button,run_button,frame_layout_player_power_up,frame_layout_monster_power_up,ber_gauge,text_gauge);
     }
-    private double setPercent(int progress,int max){
+    public static double setPercent(int progress,int max){
         double percent;
         percent = (double) progress / (double) max * 100.0;
         return percent;

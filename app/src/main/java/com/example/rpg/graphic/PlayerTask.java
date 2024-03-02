@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.os.Handler;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.rpg.Calc.Item.FightItem;
@@ -38,6 +39,8 @@ public class PlayerTask implements AnimationTask{
     ImageView damage_monster;
     ImageView die_ally_monster;
     Resources resources;
+    ArrayList<ArrayList<ProgressBar>> ber_gauge;
+    ArrayList<ArrayList<TextView>> text_gauge;
     FightItem item;
     int default_rotation = 0;
     int default_frame_layout_player = 0;
@@ -48,7 +51,7 @@ public class PlayerTask implements AnimationTask{
 
     public Skill the_skill_of = new Skill();
     public final Handler handler = new Handler();
-     public PlayerTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,ImageView damage_monster,FrameLayout frame_layout_monster_power_up, Resources resources,ImageView die_ally_monster) {
+     public PlayerTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster, FrameLayout frame_layout_throw, ImageView damage_monster, FrameLayout frame_layout_monster_power_up, Resources resources, ImageView die_ally_monster, ArrayList<ArrayList<ProgressBar>> ber_gauge,ArrayList<ArrayList<TextView>> text_gauge) {
         this.monster = monster;
         this.effect = effect;
         this.damage_monster = damage_monster;
@@ -60,6 +63,8 @@ public class PlayerTask implements AnimationTask{
         this.frame_layout_throw = frame_layout_throw;
         this.frame_layout_monster_power_up = frame_layout_monster_power_up;
         this.die_ally_monster = die_ally_monster;
+        this.ber_gauge = ber_gauge;
+        this.text_gauge = text_gauge;
     }
     public PlayerTask(ImageView effect,FrameLayout layout,Resources resources,FightItem item){
          this.frame_layout_player_power_up = layout;
@@ -70,6 +75,8 @@ public class PlayerTask implements AnimationTask{
 
     @Override
     public void start(Runnable onComplete) {
+         System.out.println(player_die_effect);
+         System.out.println(monster.hp);
          if (monster.hp > 0 || !player_die_effect) {
              if (monster.mp >= monster.use_skill.consumption_mp) {
                  if (monster.use_skill == hit_attack) {
@@ -242,6 +249,10 @@ public class PlayerTask implements AnimationTask{
             if (battle_manager_activity.my_side_monster_number < game.p.monsters2.size()) {
                 battle_manager_activity.my_side_monster_number++;
                 die_ally_monster.setImageDrawable(resources.getDrawable(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).monster_drawable_usually[2]));
+                ber_gauge.get(0).get(0).setProgress((int)setPercent(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).hp,game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_hp));
+                text_gauge.get(0).get(0).setText(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).hp+"/"+game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_hp);
+                ber_gauge.get(0).get(1).setProgress((int)setPercent(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).mp,game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_mp));
+                text_gauge.get(0).get(1).setText(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).mp+"/"+game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_mp);
             }else {
                 battle_manager_activity.finishBattle();
             }

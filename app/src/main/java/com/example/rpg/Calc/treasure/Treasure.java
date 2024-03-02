@@ -2,33 +2,29 @@ package com.example.rpg.Calc.treasure;
 
 import static com.example.rpg.Calc.Game.game;
 
-import static com.example.rpg.Calc.Sound.OPEN_TREASURE_CHEST_AUDIO;
-import static com.example.rpg.Calc.Sound.startAudio;
-import static com.example.rpg.Calc.treasure.TreasureChestLadder.treasure_chest_ladder;
+import static com.example.rpg.sound.Sound.sound;
 
-import android.os.Handler;
-import android.widget.ImageView;
+import android.media.SoundPool;
 
 import com.example.rpg.Calc.Item.FieldItem;
 import com.example.rpg.Calc.Item.FightItem;
 import com.example.rpg.Calc.Item.Item;
 import com.example.rpg.Calc.Item.MonsterItem;
-import com.example.rpg.Calc.Person2;
-import com.example.rpg.R;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public abstract class Treasure {
     protected Item treasure = null;
     protected boolean open_history = false;
 
-    public void openTreasureChest(File audio_file) {
+    public void openTreasureChest(SoundPool sound_pool, ArrayList<Integer> audio) {
         if (this.open_history) {
         } else {
             this.treasure.have = true;
             this.treasure.have_point++;
             this.open_history = true;
-            startAudio(audio_file);
+            sound.startSounds("treasure_chest",sound_pool,audio);
             if (this.treasure instanceof FightItem) {
                 game.p.fight_items.add((FightItem) this.treasure);
             } else if (this.treasure instanceof FieldItem) {

@@ -2,6 +2,8 @@ package com.example.rpg.graphic;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rpg.Calc.Item.Item;
 import com.example.rpg.R;
+import com.example.rpg.sound.MediaPlayerManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,6 +30,11 @@ public class StoreActivity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
+        MediaPlayerManager.mediaPlayer.stop();
+        MediaPlayerManager.mediaPlayer.release();
+        MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.storemusic);
+        MediaPlayerManager.mediaPlayer.setVolume(0.5f,0.5f);
+        MediaPlayerManager.mediaPlayer.start();
         ArrayList<TextView> display_buyitems =new ArrayList<>();
         ArrayList<TextView> display_sellitems =new ArrayList<>();
         TextView buy =findViewById(R.id.buy);

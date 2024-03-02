@@ -35,7 +35,7 @@ public class BattleManagerActivity extends AppCompatActivity {
     public boolean finish_battle = false;
     public static BattleManagerActivity battle_manager_activity = new BattleManagerActivity();
     public ImageView effect = null;
-    int my_side_monster_number = 0;
+    public static int my_side_monster_number = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,8 +119,7 @@ public class BattleManagerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 battle_chat.removeAllViews();
                 game.battle_manager.choose_skill(game.p.monsters2.get(my_side_monster_number),battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,fight_button,item_button,run_button,frame_layout_player_power_up,frame_layout_monster_power_up,ber_gauge,text_gauge);
-                //ここから
-                //ここまで時間差で実行したい
+
             }
         });
         item_button.setOnClickListener(new View.OnClickListener() {
@@ -165,19 +164,12 @@ public class BattleManagerActivity extends AppCompatActivity {
         return drawable;
     }
     public void finishBattle(){
-        if (finish_battle) {
             my_side_monster_number = 0;
             monster_cara_now = null;
             enemey_monster.randomNewEnemeyMonster();
-            /*MediaPlayerManager.mediaPlayer.stop();
-            MediaPlayerManager.mediaPlayer.release();
-            MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.bgmusic);
-            MediaPlayerManager.mediaPlayer.start();
-            */
             startActivity(new Intent(BattleManagerActivity.this, TransitionActivity.class));
             transition_activity = save_transition_activity;
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        }
     }
     public int graphic_skill(Monster2 monster2,LinearLayout battle_chat){
         battle_chat.removeAllViews();

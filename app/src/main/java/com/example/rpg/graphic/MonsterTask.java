@@ -202,13 +202,13 @@ public class MonsterTask implements AnimationTask{
         monster_of_player.setImageDrawable(resources.getDrawable(monster.monster_drawable_damage_ally[0]));
         frame_layout_player_power_up.addView(effect);
         effect.setImageDrawable(resources.getDrawable(R.drawable.damage));
+        player_die_effect = true;
         handler.postDelayed(() -> {
             monster_of_player.setRotation(default_rotation);
             default_rotation = 0;
             monster_of_player.setImageDrawable(resources.getDrawable(monster.monster_drawable_usually[2]));
             frame_layout_player_power_up.removeAllViews();
             effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
-            player_die_effect = true;
             onComplete.run();
         },INTERVAL);
     }
