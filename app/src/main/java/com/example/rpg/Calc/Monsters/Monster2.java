@@ -29,7 +29,6 @@ public abstract class Monster2 implements Serializable {
     public int defence;
     public int up_leberu;
     public String name;
-    public String seibetu;
     public int leberu;
     public boolean is_alive;
     public int judge_sente;
@@ -41,43 +40,37 @@ public abstract class Monster2 implements Serializable {
     public ArrayList<Skill> all_skill =new ArrayList<>();
     public FightItem have_item =null;
     public ArrayList<TextView> display_skill =new ArrayList<>();
+    public int[] monster_drawable_usually;
+    public int[] monster_drawable_damage_enemy;
+    public int[] monster_drawable_damage_ally;
 
     public String name() {
         return this.name;
     }
 
-    public String seibetu() {
-        return this.seibetu;
-    }
-
-    public int lv() {
-        return this.leberu;
-    }
-
-    public static String look(Monster2 monster) {
-        return monster.name;
-    }
-
     public static Monster2 getMonsterRandomly(ImageView enemy_monster) {
         Random random = new Random();
         ArrayList<Monster2> monster2List = new ArrayList<>();
-        setNewMonster();
+        setNewMonster(monster2List);
         monster2List = addMonster2List(monster2List);
-        //0~3 no random na value get
-        int randomNum = 3 /*random.nextInt(monster2List.size())*/;
+        int randomNum = random.nextInt(monster2List.size());
         setImageResource(randomNum,enemy_monster);
-        return monster2List.get(0/*randomNum*/);
+        return monster2List.get(randomNum);
     }
-    public static void setNewMonster(){
+    public static void setNewMonster(ArrayList<Monster2> monster2List){
         dragon_king = new DragonKing();
         metal_slime = new MetalSlime();
         puti_slime = new PutiSlime();
         gorlem = new Gorlem();
+        monster2List.add(dragon_king);
+        monster2List.add(metal_slime);
+        monster2List.add(puti_slime);
+        monster2List.add(gorlem);
     }
     public static ArrayList<Monster2> addMonster2List(ArrayList<Monster2> monster2List){
-        /*monster2List.add(dragon_king);
+        monster2List.add(dragon_king);
         monster2List.add(metal_slime);
-        monster2List.add(puti_slime);*/
+        monster2List.add(puti_slime);
         monster2List.add(gorlem);
         return monster2List;
     }
@@ -137,23 +130,5 @@ public abstract class Monster2 implements Serializable {
                 enemy_monster.setImageResource(R.drawable.gorlem_under);
             }
         }
-    }
-    public int getAttack(){
-        int attack = this.attack;
-        try{
-            if (this.have_item.name.equals("attack")){
-                attack += this.have_item.up_attack;
-            }
-        }catch (NullPointerException e){}
-        return attack;
-    }
-    public int getDefence(){
-        int defence = this.defence;
-        try{
-            if (this.have_item.name.equals("armor")){
-                defence += this.have_item.up_defence;
-            }
-        }catch (NullPointerException e){}
-        return defence;
     }
 }

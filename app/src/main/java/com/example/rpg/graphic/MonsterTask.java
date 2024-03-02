@@ -204,10 +204,13 @@ public class MonsterTask implements AnimationTask{
         frame_layout_player_power_up.addView(effect);
         effect.setImageDrawable(resources.getDrawable(R.drawable.damage));
         player_die_effect = true;
+<<<<<<< HEAD
         ber_gauge.get(1).get(0).setProgress((int)setPercent(defense_monster.hp,defense_monster.limit_hp));
         text_gauge.get(1).get(0).setText(defense_monster.hp+"/"+defense_monster.limit_hp);
         ber_gauge.get(0).get(1).setProgress((int)setPercent(attack_monster.mp,attack_monster.limit_mp));
         text_gauge.get(0).get(1).setText(attack_monster.mp+"/"+attack_monster.limit_mp);
+=======
+>>>>>>> audio
         handler.postDelayed(() -> {
             monster_of_player.setRotation(default_rotation);
             default_rotation = 0;

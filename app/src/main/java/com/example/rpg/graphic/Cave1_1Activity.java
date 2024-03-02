@@ -3,21 +3,20 @@ package com.example.rpg.graphic;
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
-import static com.example.rpg.Calc.Sound.OPEN_TREASURE_CHEST_AUDIO;
 import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
 import static com.example.rpg.graphic.Cave1Activity.cave_1_activity;
-import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
 import static com.example.rpg.Calc.map.cave.Cave1_1.*;
-import static com.example.rpg.Calc.map.cave.Cave1.cave1;
 import static com.example.rpg.Calc.treasure.TreasureChestLadder.treasure_chest_ladder;
 import static com.example.rpg.graphic.TransitionActivity.save_transition_activity;
 import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 import static com.example.rpg.graphic.GameActivity.place;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -27,18 +26,19 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.rpg.Calc.Item.Ladder;
-import com.example.rpg.Calc.treasure.Treasure;
-import com.example.rpg.Calc.treasure.TreasureChestLadder;
 import com.example.rpg.R;
+import com.example.rpg.sound.MediaPlayerManager;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Cave1_1Activity extends AppCompatActivity implements Serializable {
     public static Cave1_1Activity cave1_1_activity = new Cave1_1Activity();
     public int chenge_treasure = 0;
     public ImageView treasure_imageView = null;
     public int[] treasure_images = {R.drawable.open_treasure_chest, R.drawable.treasure_chest}; // 切り替える画像リソース
+    public ArrayList<Integer> treasure_audio;
+    public SoundPool sound_pool;
     public final Handler handler = new Handler();
     public final Runnable runnable = new Runnable() {
         @Override
@@ -46,7 +46,7 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
             if (chenge_treasure < 2) {
                 treasure_imageView.setImageResource(treasure_images[chenge_treasure]);
                 if (chenge_treasure == 0) {
-                    treasure_chest_ladder.openTreasureChest(OPEN_TREASURE_CHEST_AUDIO);
+                    treasure_chest_ladder.openTreasureChest(sound_pool,treasure_audio);
                 }
                 chenge_treasure++;
                 handler.postDelayed(runnable, 1000); // 1秒間隔で実行
@@ -59,6 +59,38 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cave1_1);
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                // USAGE_MEDIA
+                // USAGE_GAME
+                .setUsage(AudioAttributes.USAGE_GAME)
+                // CONTENT_TYPE_MUSIC
+                // CONTENT_TYPE_SPEECH, etc.
+                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                .build();                                                                        // ストリーム数に応じて
+        SoundPool sound_pool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(3).build();
+        this.sound_pool = sound_pool;
+        final int ON_STONE_AUDIO = sound_pool.load(this, R.raw.stone,1);//stone
+        final int ON_WOOD_AUDIO = sound_pool.load(this,R.raw.wood,1);//wood
+        final int IN_SEA_AUDIO = sound_pool.load(this,R.raw.sea,1);//海
+        final int ON_GRAVEL_AUDIO = sound_pool.load(this,R.raw.cliff,1);//崖
+        final int ON_GLASS_AUDIO = sound_pool.load(this,R.raw.glass,1);//glass
+        final int ON_FALLEN_LEAVES_AUDIO = sound_pool.load(this,R.raw.leaves,1);//山
+        final int OPEN_DOOR_AUDIO = sound_pool.load(this,R.raw.door,1);//
+        final int OPEN_TREASURE_CHEST_AUDIO = sound_pool.load(this,R.raw.treasure_chest,1);//treasure_chest
+        ArrayList<Integer> audio = new ArrayList<>();
+        audio.add(ON_STONE_AUDIO);
+        audio.add(ON_WOOD_AUDIO);
+        audio.add(IN_SEA_AUDIO);
+        audio.add(ON_GRAVEL_AUDIO);
+        audio.add(ON_GLASS_AUDIO);
+        audio.add(ON_FALLEN_LEAVES_AUDIO);
+        audio.add(OPEN_DOOR_AUDIO);
+        audio.add(OPEN_TREASURE_CHEST_AUDIO);
+        this.treasure_audio = audio;
+        MediaPlayerManager.mediaPlayer.stop();
+        MediaPlayerManager.mediaPlayer.release();
+        MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.cavemusic);
+        MediaPlayerManager.mediaPlayer.start();
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView right = findViewById(R.id.right_cave1_1);
@@ -114,7 +146,7 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 place = "right";
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
                 meetEnemyMonster();
             }
         });
@@ -122,7 +154,7 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 place = "left";
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
                 meetEnemyMonster();
             }
         });
@@ -130,7 +162,7 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 place = "under";
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
                 meetEnemyMonster();
             }
         });
@@ -138,7 +170,7 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 place = "over";
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
                 meetEnemyMonster();
             }
         });
