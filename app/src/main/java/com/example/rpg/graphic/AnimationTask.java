@@ -9,7 +9,7 @@ import com.example.rpg.Calc.skill.Skill;
 import com.example.rpg.R;
 
 interface AnimationTask {
-    int EFFECT_SPEED = 250;
+    int EFFECT_SPEED = 350;
     int INTERVAL = 1000;
     void start(Runnable onComplete);
     void hitEffect(Runnable onComplete);
