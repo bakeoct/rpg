@@ -68,7 +68,6 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
         GridLayout gridLayout = findViewById(R.id.gridLayout_people_home1);
         ImageView enemy_monster = findViewById(R.id.enemy_monster);
         ImageView yuusya = findViewById(R.id.yuusya_people_home1);
-        GameActivity game_activity = new GameActivity();
         System.out.println(monster_place);
         game.get_enemey_monster = getMonsterRandomly(enemy_monster);
         //マップの画面表示

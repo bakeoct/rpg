@@ -59,6 +59,32 @@ public class BattleManager implements Serializable {
             if (attack_monster.mp >= attack_monster.use_skill.consumption_mp) {
                 defense_monster.hp = attack(defense_monster, attack_monster);
                 attack_monster.mp -= attack_monster.use_skill.consumption_mp;
+                battle_chat.removeAllViews();
+                battle_chat_text.setText(attack_monster.name + "の攻撃　　ドーン！！　" + defense_monster.name + "の体力が" + defense_monster.hp + "になった。　　" + attack_monster.name + "のmpが" + attack_monster.use_skill.consumption_mp + "下がって" + attack_monster.mp + "になった");
+                battle_chat.addView(battle_chat_text);
+            } else {
+                monster_die_effect = false;
+                queue.enqueue(new MonsterTask(defense_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,monster_of_player,frame_layout_player_power_up, resources,enemy_monster));
+                battle_chat.removeAllViews();
+                battle_chat_text.setText(attack_monster.name + "の攻撃　　しかしmpが足りなかった");
+                battle_chat.addView(battle_chat_text);
+            }
+            if (defense_monster.hp <= 0) {
+                defense_monster.is_alive = false;
+                battle_chat.removeAllViews();
+                battle_chat_text.setText(defense_monster.name + "は死んでしまった");
+                battle_chat.addView(battle_chat_text);
+                queue.enqueue(new PlayerTask(defense_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources,monster_of_player,ber_gauge,text_gauge));
+            }
+        }
+    }
+    public void graphicAllyAttack(Monster2 attack_monster,Monster2 defense_monster,LinearLayout battle_chat,ImageView monster_of_player,ImageView enemy_monster,TextView battle_chat_text,ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,FrameLayout frame_layout_monster_power_up,FrameLayout frame_layout_player_power_up,AnimationQueue queue, ArrayList<ArrayList<ProgressBar>> ber_gauge,ArrayList<ArrayList<TextView>> text_gauge){
+        if (attack_monster.is_alive) {
+            if (attack_monster.mp >= attack_monster.use_skill.consumption_mp) {
+                player_die_effect = false;
+                queue.enqueue(new PlayerTask(attack_monster, effect, frame_layout_player, frame_layout_monster,frame_layout_throw,enemy_monster,frame_layout_monster_power_up, resources,monster_of_player,ber_gauge,text_gauge));
+                defense_monster.hp = attack(defense_monster, attack_monster);
+                attack_monster.mp -= attack_monster.use_skill.consumption_mp;
                 System.out.println(player_first);
                 System.out.println(attack_monster.use_skill.name);
                 drawEffect(attack_monster, effect, resources, frame_layout_player, frame_layout_monster,frame_layout_throw);
