@@ -50,7 +50,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
                 .setUsage(AudioAttributes.USAGE_GAME)
                 // CONTENT_TYPE_MUSIC
                 // CONTENT_TYPE_SPEECH, etc.
-                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+.setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
                 .build();                                                                        // ストリーム数に応じて
         SoundPool sound_pool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(3).build();
         final int ON_STONE_AUDIO = sound_pool.load(this, R.raw.stone,1);//stone
@@ -74,6 +74,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         MediaPlayerManager.mediaPlayer.stop();
         MediaPlayerManager.mediaPlayer.release();
         MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.bgmusic);
+        MediaPlayerManager.mediaPlayer.setVolume(0.3f,0.3f);
         MediaPlayerManager.mediaPlayer.start();
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
@@ -89,6 +90,8 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         ImageView yuusya = findViewById(R.id.yuusya_game);
         System.out.println(monster_place);
         game.get_enemey_monster = getMonsterRandomly(enemy_monster);
+        MediaPlayerManager.effect = MediaPlayer.create(this, R.raw.glass);
+
         String[][] map = world_map;
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
@@ -123,6 +126,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 place = "right";
+                MediaPlayerManager.effect.start();
                 game.gameTurn(gridLayout, enemy_monster,yuusya,image_size,sound_pool,audio);
                 meetEnemyMonster();
             }
