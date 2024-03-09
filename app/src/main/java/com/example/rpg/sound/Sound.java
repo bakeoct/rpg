@@ -8,6 +8,7 @@ import android.media.SoundPool;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rpg.R;
+import com.example.rpg.graphic.MainActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Sound extends AppCompatActivity implements Serializable {
+public class Sound extends MainActivity implements Serializable {
     public static Sound sound = new Sound();
 
     public void startSounds(String place, ArrayList<MediaPlayer> audio) {

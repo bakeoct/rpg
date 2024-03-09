@@ -34,7 +34,7 @@ import com.example.rpg.sound.MediaPlayerManager;
 import java.util.ArrayList;
 import java.util.Queue;
 
-public class BattleManagerActivity extends AppCompatActivity {
+public class BattleManagerActivity extends MainActivity {
     public boolean finish_battle = false;
     public static BattleManagerActivity battle_manager_activity = new BattleManagerActivity();
     public ImageView effect = null;
@@ -44,10 +44,10 @@ public class BattleManagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battle_manager);
-        MediaPlayerManager.mediaPlayer.stop();
-        MediaPlayerManager.mediaPlayer.release();
-        MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.battlemusic);
-        MediaPlayerManager.mediaPlayer.start();
+      //  MediaPlayerManager.mediaPlayer.stop();
+      //  MediaPlayerManager.mediaPlayer.release();
+      //  MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.battlemusic);
+      //  MediaPlayerManager.mediaPlayer.start();
         int attack_margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         context = this;
         ImageView monster_of_player = findViewById(R.id.monster_of_player);

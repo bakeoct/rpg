@@ -15,7 +15,7 @@ import com.example.rpg.R;
 import java.util.function.Function;
 
 
-public class TransitionActivity extends AppCompatActivity {
+public class TransitionActivity extends MainActivity {
     public static Activity save_transition_activity = null;
     public static Activity transition_activity = null;
     @Override

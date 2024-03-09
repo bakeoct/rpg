@@ -32,7 +32,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class InventoryActivity extends AppCompatActivity implements Serializable {
+public class InventoryActivity extends MainActivity implements Serializable {
     public static InventoryActivity inventory_activity = new InventoryActivity();
     public int runnable_if = 0;
     public boolean when_click_player = true;

@@ -4,9 +4,11 @@ import android.graphics.drawable.Drawable;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.rpg.graphic.MainActivity;
+
 import java.io.Serializable;
 
-public abstract class Item extends AppCompatActivity implements Serializable {
+public abstract class Item extends MainActivity implements Serializable {
     public String item_group;
     public int item_lv;
     public Boolean have = false;

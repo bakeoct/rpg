@@ -39,7 +39,7 @@ import com.example.rpg.sound.MediaPlayerManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GameActivity extends AppCompatActivity implements Serializable {
+public class GameActivity extends MainActivity implements Serializable {
     public static String monster_cara_now = null;
     public static String place = "over";
     public static GameActivity game_activity = new GameActivity();
@@ -47,23 +47,6 @@ public class GameActivity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        final MediaPlayer ON_STONE_AUDIO = MediaPlayer.create(this, R.raw.stone);//stone
-        final MediaPlayer ON_WOOD_AUDIO = MediaPlayer.create(this, R.raw.wood);//wood
-        final MediaPlayer IN_SEA_AUDIO = MediaPlayer.create(this, R.raw.sea);//海
-        final MediaPlayer ON_GRAVEL_AUDIO = MediaPlayer.create(this, R.raw.cliff);//崖
-        final MediaPlayer ON_GLASS_AUDIO = MediaPlayer.create(this, R.raw.glass);//glass
-        final MediaPlayer ON_FALLEN_LEAVES_AUDIO = MediaPlayer.create(this, R.raw.leaves);//山
-        final MediaPlayer OPEN_DOOR_AUDIO = MediaPlayer.create(this, R.raw.door);//
-        final MediaPlayer OPEN_TREASURE_CHEST_AUDIO = MediaPlayer.create(this, R.raw.treasure_chest);//treasure_chest
-        ArrayList<MediaPlayer> audio = new ArrayList<>();
-        audio.add(ON_STONE_AUDIO);
-        audio.add(ON_WOOD_AUDIO);
-        audio.add(IN_SEA_AUDIO);
-        audio.add(ON_GRAVEL_AUDIO);
-        audio.add(ON_GLASS_AUDIO);
-        audio.add(ON_FALLEN_LEAVES_AUDIO);
-        audio.add(OPEN_DOOR_AUDIO);
-        audio.add(OPEN_TREASURE_CHEST_AUDIO);
         assignmentItemDrawable();
        // MediaPlayerManager.mediaPlayer.stop();
        // MediaPlayerManager.mediaPlayer.release();

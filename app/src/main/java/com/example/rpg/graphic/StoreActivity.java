@@ -24,7 +24,7 @@ import com.example.rpg.sound.MediaPlayerManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class StoreActivity extends AppCompatActivity implements Serializable {
+public class StoreActivity extends MainActivity implements Serializable {
     public static StoreActivity store_activity = new StoreActivity();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
