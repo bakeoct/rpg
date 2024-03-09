@@ -1,11 +1,13 @@
 package com.example.rpg.graphic;
 
+import static com.example.rpg.Calc.BattleManager.setPercent;
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.graphic.GameActivity.monster_cara_now;
 import static com.example.rpg.graphic.TransitionActivity.save_transition_activity;
 import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -30,12 +32,14 @@ import com.example.rpg.R;
 import com.example.rpg.sound.MediaPlayerManager;
 
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class BattleManagerActivity extends AppCompatActivity {
     public boolean finish_battle = false;
     public static BattleManagerActivity battle_manager_activity = new BattleManagerActivity();
     public ImageView effect = null;
     public static int my_side_monster_number = 0;
+    public static Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +49,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.battlemusic);
         MediaPlayerManager.mediaPlayer.start();
         int attack_margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
-
-
+        context = this;
         ImageView monster_of_player = findViewById(R.id.monster_of_player);
         ImageView enemy_monster = findViewById(R.id.enemy_monster);
         ImageView fight_button = findViewById(R.id.fight_button);
@@ -92,6 +95,14 @@ public class BattleManagerActivity extends AppCompatActivity {
         monster_of_player.setImageDrawable(mySideMonsterDrawable(my_side_monster_number));
         enemy_monster.setImageDrawable(enemyMonsterDrawable());
 
+        ber_gauge.get(0).get(0).setProgress((int)setPercent(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).hp,game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_hp));
+        text_gauge.get(0).get(0).setText(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).hp+"/"+game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_hp);
+        ber_gauge.get(0).get(1).setProgress((int)setPercent(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).mp,game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_mp));
+        text_gauge.get(0).get(1).setText(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).mp+"/"+game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_mp);
+        ber_gauge.get(1).get(0).setProgress((int)setPercent(game.get_enemey_monster.hp,game.get_enemey_monster.limit_hp));
+        text_gauge.get(1).get(0).setText(game.get_enemey_monster.hp+"/"+game.get_enemey_monster.limit_hp);
+        ber_gauge.get(1).get(1).setProgress((int)setPercent(game.get_enemey_monster.mp,game.get_enemey_monster.limit_mp));
+        text_gauge.get(1).get(1).setText(game.get_enemey_monster.mp+"/"+game.get_enemey_monster.limit_mp);
 
         ImageView image_view_effect = new ImageView(this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
@@ -119,7 +130,6 @@ public class BattleManagerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 battle_chat.removeAllViews();
                 game.battle_manager.choose_skill(game.p.monsters2.get(my_side_monster_number),battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,fight_button,item_button,run_button,frame_layout_player_power_up,frame_layout_monster_power_up,ber_gauge,text_gauge);
-
             }
         });
         item_button.setOnClickListener(new View.OnClickListener() {
@@ -132,8 +142,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         run_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish_battle = true;
-                finishBattle();
+                finishBattle(context);
             }
         });
     }
@@ -163,13 +172,14 @@ public class BattleManagerActivity extends AppCompatActivity {
         }
         return drawable;
     }
-    public void finishBattle(){
-            my_side_monster_number = 0;
-            monster_cara_now = null;
-            enemey_monster.randomNewEnemeyMonster();
-            startActivity(new Intent(BattleManagerActivity.this, TransitionActivity.class));
-            transition_activity = save_transition_activity;
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    public void finishBattle(Context context){
+        my_side_monster_number = 0;
+        monster_cara_now = null;
+        enemey_monster.randomNewEnemeyMonster();
+        startActivity(new Intent(context, TransitionActivity.class));
+        transition_activity = save_transition_activity;
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        finish_battle = false;
     }
     public int graphic_skill(Monster2 monster2,LinearLayout battle_chat){
         battle_chat.removeAllViews();

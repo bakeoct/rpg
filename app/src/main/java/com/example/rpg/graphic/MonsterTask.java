@@ -7,6 +7,7 @@ import static com.example.rpg.Calc.skill.LittleFire.little_fire;
 import static com.example.rpg.Calc.skill.ShortageMP.shortage_mp;
 import static com.example.rpg.Calc.skill.Throw.throw_attack;
 import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
+import static com.example.rpg.graphic.BattleManagerActivity.context;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.os.Handler;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.rpg.Calc.Monsters.Monster2;
@@ -34,6 +36,8 @@ public class MonsterTask implements AnimationTask{
     ImageView monster_of_player;
     FrameLayout frame_layout_player_power_up;
     ImageView die_enemy_monster;
+    ArrayList<ArrayList<ProgressBar>> ber_gauge;
+    ArrayList<ArrayList<TextView>> text_gauge;
     int default_rotation = 0;
     public int image_switching_number = 0;
     public Skill the_skill_of = new Skill();
@@ -42,7 +46,7 @@ public class MonsterTask implements AnimationTask{
     int default_frame_layout_monster = 0;
     final int DAMAGE_ROTATION = -45;
     final int DIE_ROTATION = 90;
-    public MonsterTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,ImageView monster_of_player,FrameLayout frame_layout_player_power_up, Resources resources,ImageView die_enemy_monster) {
+    public MonsterTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster, FrameLayout frame_layout_throw, ImageView monster_of_player, FrameLayout frame_layout_player_power_up, Resources resources, ImageView die_enemy_monster, ArrayList<ArrayList<ProgressBar>> ber_gauge, ArrayList<ArrayList<TextView>> text_gauge) {
         this.monster = monster;
         this.effect = effect;
         this.frame_layout_player = frame_layout_player;
@@ -54,6 +58,8 @@ public class MonsterTask implements AnimationTask{
         this.monster_of_player = monster_of_player;
         this.frame_layout_player_power_up = frame_layout_player_power_up;
         this.die_enemy_monster = die_enemy_monster;
+        this.ber_gauge = ber_gauge;
+        this.text_gauge = text_gauge;
     }
 
     @Override
@@ -73,11 +79,6 @@ public class MonsterTask implements AnimationTask{
         }else {
             dieEffect(onComplete);
         }
-    }
-
-    @Override
-    public void dieStart(Runnable onComplete) {
-
     }
 
     @Override
@@ -203,6 +204,10 @@ public class MonsterTask implements AnimationTask{
         frame_layout_player_power_up.addView(effect);
         effect.setImageDrawable(resources.getDrawable(R.drawable.damage));
         player_die_effect = true;
+        ber_gauge.get(0).get(0).setProgress((int)setPercent(monster.hp,monster.limit_hp));
+        text_gauge.get(0).get(0).setText(monster.hp+"/"+monster.limit_hp);
+        ber_gauge.get(1).get(1).setProgress((int)setPercent(game.get_enemey_monster.mp,game.get_enemey_monster.limit_mp));
+        text_gauge.get(1).get(1).setText(game.get_enemey_monster.mp+"/"+game.get_enemey_monster.limit_mp);
         handler.postDelayed(() -> {
             monster_of_player.setRotation(default_rotation);
             default_rotation = 0;
@@ -227,7 +232,7 @@ public class MonsterTask implements AnimationTask{
                 System.out.println(game.mission_dragon_king.name+"を達成した！");
                 //Storeで報酬を入手できる
             }
-            battle_manager_activity.finishBattle();
+            battle_manager_activity.finishBattle(context);
         },INTERVAL * 2);
     }
 }

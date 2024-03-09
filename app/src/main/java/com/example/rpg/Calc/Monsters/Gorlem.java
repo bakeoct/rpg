@@ -18,7 +18,7 @@ public class Gorlem extends Monster2  implements Serializable {
         this.up_leberu=0;
         this.leberu = 1;
         this.hp=900;
-        this.attack=7000000;
+        this.attack=700;
         this.mp=3000;
         this.judge_sente=10;
         this.name="ゴ－レム";

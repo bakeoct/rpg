@@ -18,5 +18,4 @@ interface AnimationTask {
     void shortageMpEffect(Runnable onComplete);
     void damageEffect(Runnable onComplete);
     void dieEffect(Runnable onComplete);
-    void dieStart(Runnable onComplete);
 }

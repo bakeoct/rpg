@@ -25,6 +25,7 @@ import static com.example.rpg.Calc.skill.LittleFire.little_fire;
 import static com.example.rpg.Calc.skill.ShortageMP.shortage_mp;
 import static com.example.rpg.Calc.skill.Throw.throw_attack;
 import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
+import static com.example.rpg.graphic.BattleManagerActivity.context;
 
 import java.util.ArrayList;
 
@@ -75,27 +76,25 @@ public class PlayerTask implements AnimationTask{
 
     @Override
     public void start(Runnable onComplete) {
-         System.out.println(player_die_effect);
-         System.out.println(monster.hp);
-         if (monster.hp > 0 || !player_die_effect) {
-             if (monster.mp >= monster.use_skill.consumption_mp) {
-                 if (monster.use_skill == hit_attack) {
-                     hitEffect(onComplete);
-                 } else if (monster.use_skill == throw_attack) {
-                     throwEffect(onComplete);
-                 } else if (monster.use_skill == little_fire) {
-                     littleFireEffect(onComplete);
+         try {
+             if (monster.hp > 0 || !player_die_effect) {
+                 if (monster.mp >= monster.use_skill.consumption_mp) {
+                     if (monster.use_skill == hit_attack) {
+                         hitEffect(onComplete);
+                     } else if (monster.use_skill == throw_attack) {
+                         throwEffect(onComplete);
+                     } else if (monster.use_skill == little_fire) {
+                         littleFireEffect(onComplete);
+                     }
+                 } else {
+                     shortageMpEffect(onComplete);
                  }
              } else {
-                 shortageMpEffect(onComplete);
+                 dieEffect(onComplete);
              }
-         }else {
-             dieEffect(onComplete);
-         }
-    }
-    @Override
-    public void dieStart(Runnable onComplete){
-
+             } catch (NullPointerException e) {
+                 healEffect(onComplete);
+             }
     }
     @Override
     public void hitEffect(Runnable onComplete) {
@@ -227,6 +226,10 @@ public class PlayerTask implements AnimationTask{
         matrix.preScale(-1, 1);
         Bitmap bitmap = Bitmap.createBitmap(effect_img, 0, 0, effect_img.getWidth(), effect_img.getHeight(), matrix, false);
         effect.setImageBitmap(bitmap);
+        ber_gauge.get(1).get(0).setProgress((int)setPercent(game.get_enemey_monster.hp,game.get_enemey_monster.limit_hp));
+        text_gauge.get(1).get(0).setText(game.get_enemey_monster.hp+"/"+game.get_enemey_monster.limit_hp);
+        ber_gauge.get(0).get(1).setProgress((int)setPercent(monster.mp,monster.limit_mp));
+        text_gauge.get(0).get(1).setText(monster.mp+"/"+monster.limit_mp);
         handler.postDelayed(() -> {
             damage_monster.setRotation(default_rotation);
             default_rotation = 0;
@@ -246,7 +249,7 @@ public class PlayerTask implements AnimationTask{
         handler.postDelayed(() ->{
             die_ally_monster.setRotation(default_rotation);
             default_rotation = 0;
-            if (battle_manager_activity.my_side_monster_number < game.p.monsters2.size()) {
+            if (battle_manager_activity.my_side_monster_number < game.p.monsters2.size() - 1) {
                 battle_manager_activity.my_side_monster_number++;
                 die_ally_monster.setImageDrawable(resources.getDrawable(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).monster_drawable_usually[2]));
                 ber_gauge.get(0).get(0).setProgress((int)setPercent(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).hp,game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_hp));
@@ -254,7 +257,7 @@ public class PlayerTask implements AnimationTask{
                 ber_gauge.get(0).get(1).setProgress((int)setPercent(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).mp,game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_mp));
                 text_gauge.get(0).get(1).setText(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).mp+"/"+game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_mp);
             }else {
-                battle_manager_activity.finishBattle();
+                battle_manager_activity.finishBattle(context);
             }
             player_die_effect = false;
         },INTERVAL * 2);

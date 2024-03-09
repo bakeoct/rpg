@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_X;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_Y;
 import static com.example.rpg.graphic.Cave1Activity.cave_1_activity;
@@ -190,9 +192,9 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             myImageDrawable = getResources().getDrawable(R.drawable.sea, null);
         } else if (map[i][j].equals("山")) {
             myImageDrawable = getResources().getDrawable(R.drawable.glass, null);
-        } else if (map[i][j].equals("崖")) {
+        } else if (map[i][j].equals("崖") || map[i][j].equals("cliff_with_cliff")) {
             myImageDrawable = getResources().getDrawable(R.drawable.jyari, null);
-        } else if (map[i][j].equals("glass")) {
+        } else if (map[i][j].equals("glass") || map[i][j].equals("mountain_with_cliff")) {
             myImageDrawable = getResources().getDrawable(R.drawable.glass, null);
         } else if (map[i][j].equals("errer")) {
             myImageDrawable = getResources().getDrawable(R.drawable.errerzone, null);

@@ -283,7 +283,6 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                                     }
                                     item_first_clicks_player.set(match_number, false);
                                 }else {
-                                    System.out.println("1");
                                     if (selected_monster.getChildAt(0) != null) {
                                         for (int j = 0; j < 2; j++) {
                                             RelativeLayout.LayoutParams layout_params = new RelativeLayout.LayoutParams(
@@ -291,9 +290,7 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                                                     RelativeLayout.LayoutParams.WRAP_CONTENT
                                             );
                                             setCoordinate(layout_params, j, (ImageView) item_aria_linear.getChildAt(match_number), collect_new_button);
-                                            System.out.println("2");
                                             RelativeLayout relative_layout = findViewById(R.id.item_aria_relative);
-                                            System.out.println("3");
                                             relative_layout.addView(collect_new_button.get(j), layout_params);
                                             collect_new_button.get(j).bringToFront();
                                             pushButtonOfItem(collect_new_button, j, match_number, take_item, item_aria_linear, item_first_clicks_player, relative_layout, garbage_aria,dispose_of_item,joint_item_aria,save_first_image_player,inventory_i,item_first_clicks_player,selected_monster,garbage_aria);
