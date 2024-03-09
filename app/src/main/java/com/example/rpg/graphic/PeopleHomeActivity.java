@@ -39,7 +39,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
     public int chenge_treasure = 0;
     public ImageView treasure_imageView = null;
     public int[] treasure_images = {R.drawable.open_treasure_chest, R.drawable.treasure_chest}; // 切り替える画像リソース
-    public ArrayList<Integer> treasure_audio;
+    public ArrayList<MediaPlayer> treasure_audio;
     public SoundPool sound_pool;
     public final Handler handler = new Handler();
     public final Runnable runnable = new Runnable() {
@@ -48,7 +48,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
             if (chenge_treasure < 2) {
                 treasure_imageView.setImageResource(treasure_images[chenge_treasure]);
                 if (chenge_treasure == 0) {
-                    treasure_chest_ship.openTreasureChest(sound_pool,treasure_audio);
+                    treasure_chest_ship.openTreasureChest(treasure_audio);
                 }
                 chenge_treasure++;
                 handler.postDelayed(runnable, 1000); // 1秒間隔で実行
@@ -61,25 +61,15 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people_home1);
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                // USAGE_MEDIA
-                // USAGE_GAME
-                .setUsage(AudioAttributes.USAGE_GAME)
-                // CONTENT_TYPE_MUSIC
-                // CONTENT_TYPE_SPEECH, etc.
-                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-                .build();                                                                        // ストリーム数に応じて
-        SoundPool sound_pool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(3).build();
-        this.sound_pool = sound_pool;
-        final int ON_STONE_AUDIO = sound_pool.load(this, R.raw.stone,1);//stone
-        final int ON_WOOD_AUDIO = sound_pool.load(this,R.raw.wood,1);//wood
-        final int IN_SEA_AUDIO = sound_pool.load(this,R.raw.sea,1);//海
-        final int ON_GRAVEL_AUDIO = sound_pool.load(this,R.raw.cliff,1);//崖
-        final int ON_GLASS_AUDIO = sound_pool.load(this,R.raw.glass,1);//glass
-        final int ON_FALLEN_LEAVES_AUDIO = sound_pool.load(this,R.raw.leaves,1);//山
-        final int OPEN_DOOR_AUDIO = sound_pool.load(this,R.raw.door,1);//
-        final int OPEN_TREASURE_CHEST_AUDIO = sound_pool.load(this,R.raw.treasure_chest,1);//treasure_chest
-        ArrayList<Integer> audio = new ArrayList<>();
+        final MediaPlayer ON_STONE_AUDIO = MediaPlayer.create(this, R.raw.stone);//stone
+        final MediaPlayer ON_WOOD_AUDIO = MediaPlayer.create(this, R.raw.wood);//wood
+        final MediaPlayer IN_SEA_AUDIO = MediaPlayer.create(this, R.raw.sea);//海
+        final MediaPlayer ON_GRAVEL_AUDIO = MediaPlayer.create(this, R.raw.cliff);//崖
+        final MediaPlayer ON_GLASS_AUDIO = MediaPlayer.create(this, R.raw.glass);//glass
+        final MediaPlayer ON_FALLEN_LEAVES_AUDIO = MediaPlayer.create(this, R.raw.leaves);//山
+        final MediaPlayer OPEN_DOOR_AUDIO = MediaPlayer.create(this, R.raw.door);//
+        final MediaPlayer OPEN_TREASURE_CHEST_AUDIO = MediaPlayer.create(this, R.raw.treasure_chest);//treasure_chest
+        ArrayList<MediaPlayer> audio = new ArrayList<>();
         audio.add(ON_STONE_AUDIO);
         audio.add(ON_WOOD_AUDIO);
         audio.add(IN_SEA_AUDIO);
@@ -89,10 +79,10 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
         audio.add(OPEN_DOOR_AUDIO);
         audio.add(OPEN_TREASURE_CHEST_AUDIO);
         this.treasure_audio = audio;
-        MediaPlayerManager.mediaPlayer.stop();
+       /* MediaPlayerManager.mediaPlayer.stop();
         MediaPlayerManager.mediaPlayer.release();
         MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.homemusic);
-        MediaPlayerManager.mediaPlayer.start();
+        MediaPlayerManager.mediaPlayer.start();*/
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView right = findViewById(R.id.right_people_home1);
@@ -147,7 +137,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
             @Override
             public void onClick(View v) {
                 place = "right";
-                game.gameTurn(gridLayout, enemy_monster,yuusya,image_size,sound_pool,audio);
+                game.gameTurn(gridLayout, enemy_monster,yuusya,image_size,audio);
                 meetEnemyMonster();
             }
         });
@@ -155,7 +145,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
             @Override
             public void onClick(View v) {
                 place = "over";
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,audio);
                 meetEnemyMonster();
             }
         });
@@ -163,7 +153,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
             @Override
             public void onClick(View v) {
                 place = "left";
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,audio);
                 meetEnemyMonster();
             }
         });
@@ -171,7 +161,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
             @Override
             public void onClick(View v) {
                 place = "under";
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,audio);
                 meetEnemyMonster();
             }
         });
@@ -186,7 +176,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
             @Override
             public void onClick(View v) {
                 if (map[game.p.y][game.p.x].equals("back_world")){
-                    goMainWorld(sound_pool,audio);
+                    goMainWorld(audio);
                 }else if (map[game.p.y][game.p.x].equals("treasure_chest_ship")){
                     getTreasure(handler,runnable);
                 }
@@ -206,9 +196,9 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
         }
         return myImageDrawable;
     }
-    public void goMainWorld(SoundPool sound_pool, ArrayList<Integer> audio){
+    public void goMainWorld(ArrayList<MediaPlayer> audio){
         game.p.area = "メインマップ";
-        sound.startSounds("door",sound_pool,audio);
+        sound.startSounds("door",audio);
         game.p.x = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_X;
         game.p.y = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_Y;
         game.p.serve_x = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_X;

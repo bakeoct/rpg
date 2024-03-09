@@ -27,6 +27,8 @@ import static com.example.rpg.graphic.GameActivity.monster_cara_now;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 
 import android.content.Intent;
+import android.media.MediaParser;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -50,9 +52,9 @@ public class Game implements Serializable {
     public void readSave(){
         game = saveWriteAndRead.read();
     }
-    public void gameTurn(GridLayout gridLayout, ImageView enemy_monster, ImageView yuusya, int image_size, SoundPool sound_pool, ArrayList<Integer> audio) {
+    public void gameTurn(GridLayout gridLayout, ImageView enemy_monster, ImageView yuusya, int image_size, ArrayList<MediaPlayer> audio) {
         p.walk(yuusya);
-        event.eventPerson(serve_get_map_code,sound_pool,audio);
+        event.eventPerson(serve_get_map_code,audio);
         p.graphic_walk(gridLayout,yuusya,p,image_size);
         p.serve_x = p.x;
         p.serve_y = p.y;

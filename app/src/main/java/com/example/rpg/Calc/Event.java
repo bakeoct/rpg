@@ -18,6 +18,7 @@ import static com.example.rpg.sound.Sound.*;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_X;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
 
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 
 public class Event implements Serializable{
@@ -29,32 +30,32 @@ public class Event implements Serializable{
         this.mission_dragon_king = missionDragonKing;
         this.enemey_monster = enemeyMonster;
     }
-    public void eventPerson(String serveget_map_code, SoundPool sound_pool, ArrayList<Integer> audio) {
+    public void eventPerson(String serveget_map_code, ArrayList<MediaPlayer> audio) {
         //これをmapに送って二つメソッド動かす
         String get_map_code = map.getMapCode(game.p.x, game.p.y,game.p.area);
         if (get_map_code.equals("崖") || get_map_code.equals("cliff_with_cliff")) {
             if (!(get_map_code.equals(serveget_map_code))) {
-                notPoint(game.store.ladder,get_map_code,sound_pool,audio);
+                notPoint(game.store.ladder,get_map_code,audio);
             }else {
-                sound.startSounds(get_map_code,sound_pool,audio);
+                sound.startSounds(get_map_code,audio);
             }
         } else if (get_map_code.equals("山")) {
             if (!(get_map_code.equals(serveget_map_code))) {
-                notPoint(game.store.ladder, get_map_code,sound_pool,audio);
+                notPoint(game.store.ladder,get_map_code,audio);
             }else {
-                sound.startSounds(get_map_code,sound_pool,audio);
+                sound.startSounds(get_map_code,audio);
             }
         } else if (get_map_code .equals("海")) {
             if (!(get_map_code.equals(serveget_map_code))) {
-                notPoint(game.store.ship,get_map_code,sound_pool,audio);
+                notPoint(game.store.ship,get_map_code,audio);
             }else {
-                sound.startSounds(get_map_code,sound_pool,audio);
+                sound.startSounds(get_map_code,audio);
             }
         } else if (get_map_code.equals("glass") || get_map_code.equals("wood") || get_map_code.equals("stone") || get_map_code.equals("glass_with_cliff")) {
             if (get_map_code.equals("glass_with_cliff")){
                 get_map_code = "glass";
             }
-            sound.startSounds(get_map_code,sound_pool,audio);
+            sound.startSounds(get_map_code,audio);
         }  else if (get_map_code .equals("errer")) {
             game.p.x = game.p.serve_x;
             game.p.y = game.p.serve_y;
@@ -97,10 +98,10 @@ public class Event implements Serializable{
         }
         return monsteri;
     }
-    public void notPoint(Item item, String get_map_code, SoundPool sound_pool, ArrayList<Integer> audio) {
+    public void notPoint(Item item, String get_map_code,ArrayList<MediaPlayer> audio) {
         //アイテム（はしごや船など）をインベントリで手に持ったまま崖や海のマスに進む
         if (item == game.p.have_item) {
-            sound.startSounds(get_map_code,sound_pool,audio);
+            sound.startSounds(get_map_code,audio);
         }else {
             System.out.println("再度選んでください");
             game.p.x = game.p.serve_x;

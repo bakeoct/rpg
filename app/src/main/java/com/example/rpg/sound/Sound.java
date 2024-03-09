@@ -2,6 +2,7 @@ package com.example.rpg.sound;
 
 //import javax.sound.sampled.*;
 import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,17 +19,12 @@ import java.util.ArrayList;
 public class Sound extends AppCompatActivity implements Serializable {
     public static Sound sound = new Sound();
 
-    public void startSounds(String place, SoundPool sound_pool, ArrayList<Integer> audio) {
-        int sound_to_play = sortingSounds(place,audio);
-        try {
-            sound_pool.release();
-            sound_pool.play(sound_to_play, 9.0f, 9.0f, 0, 0, 1);
-        }catch(NullPointerException e) {
-            sound_pool.play(sound_to_play, 9.0f, 9.0f, 0, 0, 1);
-        }
+    public void startSounds(String place, ArrayList<MediaPlayer> audio) {
+        MediaPlayer sound_to_play = sortingSounds(place,audio);
+        sound_to_play.start();
     }
-    public int sortingSounds(String place, ArrayList<Integer> audio) {
-        int sound_to_play = 0;
+    public MediaPlayer sortingSounds(String place, ArrayList<MediaPlayer> audio) {
+        MediaPlayer sound_to_play = null;
         if(place.equals("stone")) {
             sound_to_play = audio.get(0);
         }else if(place.equals("wood")) {

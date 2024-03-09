@@ -3,6 +3,7 @@ package com.example.rpg.graphic;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.monster_place;
 import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
+import static com.example.rpg.sound.MediaPlayerManager.sound_effect;
 import static com.example.rpg.sound.Sound.sound;
 import static com.example.rpg.Calc.map.PersonHome1.PERSON_HOME1_INITIAL_X;
 import static com.example.rpg.Calc.map.PersonHome1.PERSON_HOME1_INITIAL_Y;
@@ -46,24 +47,15 @@ public class GameActivity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                // USAGE_MEDIA
-                // USAGE_GAME
-                .setUsage(AudioAttributes.USAGE_GAME)
-                // CONTENT_TYPE_MUSIC
-                // CONTENT_TYPE_SPEECH, etc.
-                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-                .build();                                                                        // ストリーム数に応じて
-        SoundPool sound_pool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(3).build();
-        final int ON_STONE_AUDIO = sound_pool.load(this, R.raw.stone,1);//stone
-        final int ON_WOOD_AUDIO = sound_pool.load(this,R.raw.wood,1);//wood
-        final int IN_SEA_AUDIO = sound_pool.load(this,R.raw.sea,1);//海
-        final int ON_GRAVEL_AUDIO = sound_pool.load(this,R.raw.cliff,1);//崖
-        final int ON_GLASS_AUDIO = sound_pool.load(this,R.raw.glass,1);//glass
-        final int ON_FALLEN_LEAVES_AUDIO = sound_pool.load(this,R.raw.leaves,1);//山
-        final int OPEN_DOOR_AUDIO = sound_pool.load(this,R.raw.door,1);//
-        final int OPEN_TREASURE_CHEST_AUDIO = sound_pool.load(this,R.raw.treasure_chest,1);//treasure_chest
-        ArrayList<Integer> audio = new ArrayList<>();
+        final MediaPlayer ON_STONE_AUDIO = MediaPlayer.create(this, R.raw.stone);//stone
+        final MediaPlayer ON_WOOD_AUDIO = MediaPlayer.create(this, R.raw.wood);//wood
+        final MediaPlayer IN_SEA_AUDIO = MediaPlayer.create(this, R.raw.sea);//海
+        final MediaPlayer ON_GRAVEL_AUDIO = MediaPlayer.create(this, R.raw.cliff);//崖
+        final MediaPlayer ON_GLASS_AUDIO = MediaPlayer.create(this, R.raw.glass);//glass
+        final MediaPlayer ON_FALLEN_LEAVES_AUDIO = MediaPlayer.create(this, R.raw.leaves);//山
+        final MediaPlayer OPEN_DOOR_AUDIO = MediaPlayer.create(this, R.raw.door);//
+        final MediaPlayer OPEN_TREASURE_CHEST_AUDIO = MediaPlayer.create(this, R.raw.treasure_chest);//treasure_chest
+        ArrayList<MediaPlayer> audio = new ArrayList<>();
         audio.add(ON_STONE_AUDIO);
         audio.add(ON_WOOD_AUDIO);
         audio.add(IN_SEA_AUDIO);
@@ -73,10 +65,10 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         audio.add(OPEN_DOOR_AUDIO);
         audio.add(OPEN_TREASURE_CHEST_AUDIO);
         assignmentItemDrawable();
-        MediaPlayerManager.mediaPlayer.stop();
-        MediaPlayerManager.mediaPlayer.release();
-        MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.bgmusic);
-        MediaPlayerManager.mediaPlayer.start();
+       // MediaPlayerManager.mediaPlayer.stop();
+       // MediaPlayerManager.mediaPlayer.release();
+       // MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.bgmusic);
+       // MediaPlayerManager.mediaPlayer.start();
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView right = findViewById(R.id.right_game);
@@ -90,6 +82,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         ImageView enemy_monster = findViewById(R.id.enemy_monster);
         ImageView yuusya = findViewById(R.id.yuusya_game);
         System.out.println(monster_place);
+        MediaPlayerManager.sound_effect = MediaPlayer.create(this,R.raw.glass);
         game.get_enemey_monster = getMonsterRandomly(enemy_monster);
         String[][] map = world_map;
         for (int i = 0; i < map.length; i++) {
@@ -125,7 +118,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 place = "right";
-                game.gameTurn(gridLayout, enemy_monster,yuusya,image_size,sound_pool,audio);
+                game.gameTurn(gridLayout, enemy_monster,yuusya,image_size,audio);
                 meetEnemyMonster();
             }
         });
@@ -133,7 +126,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 place = "over";
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,audio);
                 meetEnemyMonster();
             }
         });
@@ -141,7 +134,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 place = "left";
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,audio);
                 meetEnemyMonster();
             }
         });
@@ -149,7 +142,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 place = "under";
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,audio);
                 meetEnemyMonster();
             }
         });
@@ -171,7 +164,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
                 }else if (map[game.p.y][game.p.x].equals("cave1")){
                     goCave_1();
                 }else if (map[game.p.y][game.p.x].equals("people_home_1")){
-                    goPeople_home_1(sound_pool,audio);
+                    goPeople_home_1(audio);
                 }
             }
         });
@@ -227,9 +220,9 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         transition_activity = cave_1_activity;
 
     }
-    public void goPeople_home_1(SoundPool sound_pool, ArrayList<Integer> audio){
+    public void goPeople_home_1(ArrayList<MediaPlayer> audio){
         game.p.area = "民家1";
-        sound.startSounds("door",sound_pool,audio);
+        sound.startSounds("door",audio);
         game.p.x = PERSON_HOME1_INITIAL_X;
         game.p.y = PERSON_HOME1_INITIAL_Y;
         Intent intent = new Intent(GameActivity.this, TransitionActivity.class);

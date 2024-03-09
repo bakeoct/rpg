@@ -45,24 +45,15 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cave1);
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                // USAGE_MEDIA
-                // USAGE_GAME
-                .setUsage(AudioAttributes.USAGE_GAME)
-                // CONTENT_TYPE_MUSIC
-                // CONTENT_TYPE_SPEECH, etc.
-                .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-                .build();                                                                        // ストリーム数に応じて
-        SoundPool sound_pool = new SoundPool.Builder().setAudioAttributes(audioAttributes).setMaxStreams(3).build();
-        final int ON_STONE_AUDIO = sound_pool.load(this, R.raw.stone,1);//stone
-        final int ON_WOOD_AUDIO = sound_pool.load(this,R.raw.wood,1);//wood
-        final int IN_SEA_AUDIO = sound_pool.load(this,R.raw.sea,1);//海
-        final int ON_GRAVEL_AUDIO = sound_pool.load(this,R.raw.cliff,1);//崖
-        final int ON_GLASS_AUDIO = sound_pool.load(this,R.raw.glass,1);//glass
-        final int ON_FALLEN_LEAVES_AUDIO = sound_pool.load(this,R.raw.leaves,1);//山
-        final int OPEN_DOOR_AUDIO = sound_pool.load(this,R.raw.door,1);//
-        final int OPEN_TREASURE_CHEST_AUDIO = sound_pool.load(this,R.raw.treasure_chest,1);//treasure_chest
-        ArrayList<Integer> audio = new ArrayList<>();
+        final MediaPlayer ON_STONE_AUDIO = MediaPlayer.create(this, R.raw.stone);//stone
+        final MediaPlayer ON_WOOD_AUDIO = MediaPlayer.create(this, R.raw.wood);//wood
+        final MediaPlayer IN_SEA_AUDIO = MediaPlayer.create(this, R.raw.sea);//海
+        final MediaPlayer ON_GRAVEL_AUDIO = MediaPlayer.create(this, R.raw.cliff);//崖
+        final MediaPlayer ON_GLASS_AUDIO = MediaPlayer.create(this, R.raw.glass);//glass
+        final MediaPlayer ON_FALLEN_LEAVES_AUDIO = MediaPlayer.create(this, R.raw.leaves);//山
+        final MediaPlayer OPEN_DOOR_AUDIO = MediaPlayer.create(this, R.raw.door);//
+        final MediaPlayer OPEN_TREASURE_CHEST_AUDIO = MediaPlayer.create(this, R.raw.treasure_chest);//treasure_chest
+        ArrayList<MediaPlayer> audio = new ArrayList<>();
         audio.add(ON_STONE_AUDIO);
         audio.add(ON_WOOD_AUDIO);
         audio.add(IN_SEA_AUDIO);
@@ -71,10 +62,10 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
         audio.add(ON_FALLEN_LEAVES_AUDIO);
         audio.add(OPEN_DOOR_AUDIO);
         audio.add(OPEN_TREASURE_CHEST_AUDIO);
-        MediaPlayerManager.mediaPlayer.stop();
+        /*MediaPlayerManager.mediaPlayer.stop();
         MediaPlayerManager.mediaPlayer.release();
         MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.cavemusic);
-        MediaPlayerManager.mediaPlayer.start();
+        MediaPlayerManager.mediaPlayer.start();*/
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView right = findViewById(R.id.right_cave1);
@@ -125,7 +116,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "right";
                 System.out.println("あああああああああああああああ");
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,audio);
                 meetEnemyMonster();
             }
         });
@@ -134,7 +125,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "left";
                 System.out.println("あああああああああああああああ");
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,audio);
                 meetEnemyMonster();
             }
         });
@@ -143,7 +134,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "under";
                 System.out.println("あああああああああああああああ");
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,audio);
                 meetEnemyMonster();
             }
         });
@@ -152,7 +143,7 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
             public void onClick(View v) {
                 place = "over";
                 System.out.println("あああああああああああああああ");
-                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,sound_pool,audio);
+                game.gameTurn(gridLayout,enemy_monster,yuusya,image_size,audio);
                 meetEnemyMonster();
             }
         });
