@@ -65,10 +65,10 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         audio.add(OPEN_DOOR_AUDIO);
         audio.add(OPEN_TREASURE_CHEST_AUDIO);
         assignmentItemDrawable();
-       // MediaPlayerManager.mediaPlayer.stop();
-       // MediaPlayerManager.mediaPlayer.release();
-       // MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.bgmusic);
-       // MediaPlayerManager.mediaPlayer.start();
+        MediaPlayerManager.mediaPlayer.stop();
+        MediaPlayerManager.mediaPlayer.release();
+        MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.bgmusic);
+        MediaPlayerManager.mediaPlayer.start();
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView right = findViewById(R.id.right_game);

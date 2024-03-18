@@ -38,7 +38,6 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
     public ImageView treasure_imageView = null;
     public int[] treasure_images = {R.drawable.open_treasure_chest, R.drawable.treasure_chest}; // 切り替える画像リソース
     public ArrayList<MediaPlayer> treasure_audio;
-    public SoundPool sound_pool;
     public final Handler handler = new Handler();
     public final Runnable runnable = new Runnable() {
         @Override
@@ -77,10 +76,10 @@ public class Cave1_1Activity extends AppCompatActivity implements Serializable {
         audio.add(OPEN_DOOR_AUDIO);
         audio.add(OPEN_TREASURE_CHEST_AUDIO);
         this.treasure_audio = audio;
-       /* MediaPlayerManager.mediaPlayer.stop();
+        MediaPlayerManager.mediaPlayer.stop();
         MediaPlayerManager.mediaPlayer.release();
         MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.cavemusic);
-        MediaPlayerManager.mediaPlayer.start();*/
+        MediaPlayerManager.mediaPlayer.start();
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView right = findViewById(R.id.right_cave1_1);

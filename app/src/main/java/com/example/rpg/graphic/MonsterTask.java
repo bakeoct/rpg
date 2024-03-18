@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Handler;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,6 +34,10 @@ public class MonsterTask implements AnimationTask{
     FrameLayout frame_layout_monster;
     FrameLayout frame_layout_throw;
     Resources resources;
+    ImageView fight_button;
+    ImageView item_button;
+    ImageView run_button;
+    ImageView finish_button;
     ImageView monster_of_player;
     FrameLayout frame_layout_player_power_up;
     ImageView die_enemy_monster;
@@ -46,12 +51,16 @@ public class MonsterTask implements AnimationTask{
     int default_frame_layout_monster = 0;
     final int DAMAGE_ROTATION = -45;
     final int DIE_ROTATION = 90;
-    public MonsterTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster, FrameLayout frame_layout_throw, ImageView monster_of_player, FrameLayout frame_layout_player_power_up, Resources resources, ImageView die_enemy_monster, ArrayList<ArrayList<ProgressBar>> ber_gauge, ArrayList<ArrayList<TextView>> text_gauge) {
+    public MonsterTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster, FrameLayout frame_layout_throw,ImageView fight_button,ImageView item_button,ImageView run_button,ImageView finish_button, ImageView monster_of_player, FrameLayout frame_layout_player_power_up, Resources resources, ImageView die_enemy_monster, ArrayList<ArrayList<ProgressBar>> ber_gauge, ArrayList<ArrayList<TextView>> text_gauge) {
         this.monster = monster;
         this.effect = effect;
         this.frame_layout_player = frame_layout_player;
         this.frame_layout_monster = frame_layout_monster;
         this.resources = resources;
+        this.fight_button = fight_button;
+        this.item_button = item_button;
+        this.run_button = run_button;
+        this.finish_button = finish_button;
         the_skill_of.effect_drawable = game.get_enemey_monster.use_skill.effect_drawable;
         this.frame_layout_throw = frame_layout_throw;
         this.default_frame_layout_monster = (int)frame_layout_monster.getX();
@@ -214,6 +223,11 @@ public class MonsterTask implements AnimationTask{
             monster_of_player.setImageDrawable(resources.getDrawable(monster.monster_drawable_usually[2]));
             frame_layout_player_power_up.removeAllViews();
             effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
+            if (player_first && monster.hp != 0) {
+                fight_button.setVisibility(View.VISIBLE);
+                item_button.setVisibility(View.VISIBLE);
+                run_button.setVisibility(View.VISIBLE);
+            }
             onComplete.run();
         },INTERVAL);
     }
@@ -232,7 +246,10 @@ public class MonsterTask implements AnimationTask{
                 System.out.println(game.mission_dragon_king.name+"を達成した！");
                 //Storeで報酬を入手できる
             }
-            battle_manager_activity.finishBattle(context);
+            fight_button.setVisibility(View.GONE);
+            item_button.setVisibility(View.GONE);
+            run_button.setVisibility(View.GONE);
+            finish_button.setVisibility(View.VISIBLE);
         },INTERVAL * 2);
     }
 }

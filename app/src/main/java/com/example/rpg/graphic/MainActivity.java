@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button conthinew = findViewById(R.id.conthinew);
-        //MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.bgmusic);
-       // MediaPlayerManager.mediaPlayer.start();
+        MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.bgmusic);
+        MediaPlayerManager.mediaPlayer.start();
     conthinew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

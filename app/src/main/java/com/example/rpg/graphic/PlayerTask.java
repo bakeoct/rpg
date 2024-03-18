@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.effect.EffectContext;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.os.Handler;
@@ -32,6 +33,10 @@ import java.util.ArrayList;
 public class PlayerTask implements AnimationTask{
     Monster2 monster;
     ImageView effect;
+    ImageView fight_button;
+    ImageView item_button;
+    ImageView run_button;
+    ImageView finish_button;
     FrameLayout frame_layout_player;
     FrameLayout frame_layout_monster;
     FrameLayout frame_layout_player_power_up;
@@ -52,13 +57,17 @@ public class PlayerTask implements AnimationTask{
 
     public Skill the_skill_of = new Skill();
     public final Handler handler = new Handler();
-     public PlayerTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster, FrameLayout frame_layout_throw, ImageView damage_monster, FrameLayout frame_layout_monster_power_up, Resources resources, ImageView die_ally_monster, ArrayList<ArrayList<ProgressBar>> ber_gauge,ArrayList<ArrayList<TextView>> text_gauge) {
+     public PlayerTask(Monster2 monster, ImageView effect, FrameLayout frame_layout_player, FrameLayout frame_layout_monster, FrameLayout frame_layout_throw,ImageView fight_button,ImageView item_button,ImageView run_button,ImageView finish_button, ImageView damage_monster, FrameLayout frame_layout_monster_power_up, Resources resources, ImageView die_ally_monster, ArrayList<ArrayList<ProgressBar>> ber_gauge,ArrayList<ArrayList<TextView>> text_gauge) {
         this.monster = monster;
         this.effect = effect;
         this.damage_monster = damage_monster;
         this.frame_layout_player = frame_layout_player;
         this.frame_layout_monster = frame_layout_monster;
         this.resources = resources;
+        this.fight_button = fight_button;
+        this.item_button = item_button;
+        this.run_button = run_button;
+        this.finish_button = finish_button;
         the_skill_of.effect_drawable = monster.use_skill.effect_drawable;
         this.default_frame_layout_player = (int) frame_layout_player.getX();
         this.frame_layout_throw = frame_layout_throw;
@@ -237,6 +246,11 @@ public class PlayerTask implements AnimationTask{
             damage_monster.setImageDrawable(resources.getDrawable(game.get_enemey_monster.monster_drawable_usually[1]));
             effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
             monster_die_effect = true;
+            if (!player_first && game.get_enemey_monster.hp != 0) {
+                fight_button.setVisibility(View.VISIBLE);
+                item_button.setVisibility(View.VISIBLE);
+                run_button.setVisibility(View.VISIBLE);
+            }
             onComplete.run();
         },INTERVAL);
     }
@@ -247,17 +261,23 @@ public class PlayerTask implements AnimationTask{
         die_ally_monster.setRotation(DIE_ROTATION);
         die_ally_monster.setImageDrawable(resources.getDrawable(monster.monster_drawable_damage_ally[0]));
         handler.postDelayed(() ->{
-            die_ally_monster.setRotation(default_rotation);
-            default_rotation = 0;
             if (battle_manager_activity.my_side_monster_number < game.p.monsters2.size() - 1) {
                 battle_manager_activity.my_side_monster_number++;
+                die_ally_monster.setRotation(default_rotation);
+                default_rotation = 0;
                 die_ally_monster.setImageDrawable(resources.getDrawable(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).monster_drawable_usually[2]));
                 ber_gauge.get(0).get(0).setProgress((int)setPercent(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).hp,game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_hp));
                 text_gauge.get(0).get(0).setText(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).hp+"/"+game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_hp);
                 ber_gauge.get(0).get(1).setProgress((int)setPercent(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).mp,game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_mp));
                 text_gauge.get(0).get(1).setText(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).mp+"/"+game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_mp);
+                fight_button.setVisibility(View.VISIBLE);
+                item_button.setVisibility(View.VISIBLE);
+                run_button.setVisibility(View.VISIBLE);
             }else {
-                battle_manager_activity.finishBattle(context);
+                fight_button.setVisibility(View.GONE);
+                item_button.setVisibility(View.GONE);
+                run_button.setVisibility(View.GONE);
+                finish_button.setVisibility(View.VISIBLE);
             }
             player_die_effect = false;
         },INTERVAL * 2);
