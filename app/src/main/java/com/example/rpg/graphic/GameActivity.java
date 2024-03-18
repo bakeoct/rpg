@@ -48,10 +48,8 @@ public class GameActivity extends MainActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         assignmentItemDrawable();
-       // MediaPlayerManager.mediaPlayer.stop();
-       // MediaPlayerManager.mediaPlayer.release();
-       // MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.bgmusic);
-       // MediaPlayerManager.mediaPlayer.start();
+        MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.bgmusic);
+        MediaPlayerManager.mediaPlayer.start();
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView right = findViewById(R.id.right_game);
@@ -143,10 +141,16 @@ public class GameActivity extends MainActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 if (map[game.p.y][game.p.x].equals("store")){
+                    MediaPlayerManager.mediaPlayer.stop();
+                    MediaPlayerManager.mediaPlayer.release();
                     goStore();
                 }else if (map[game.p.y][game.p.x].equals("cave1")){
+                    MediaPlayerManager.mediaPlayer.stop();
+                    MediaPlayerManager.mediaPlayer.release();
                     goCave_1();
                 }else if (map[game.p.y][game.p.x].equals("people_home_1")){
+                    MediaPlayerManager.mediaPlayer.stop();
+                    MediaPlayerManager.mediaPlayer.release();
                     goPeople_home_1(audio);
                 }
             }

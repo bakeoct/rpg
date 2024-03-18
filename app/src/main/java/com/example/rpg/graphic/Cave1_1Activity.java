@@ -57,10 +57,8 @@ public class Cave1_1Activity extends MainActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cave1_1);
-       /* MediaPlayerManager.mediaPlayer.stop();
-        MediaPlayerManager.mediaPlayer.release();
         MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.cavemusic);
-        MediaPlayerManager.mediaPlayer.start();*/
+        MediaPlayerManager.mediaPlayer.start();
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView right = findViewById(R.id.right_cave1_1);
@@ -158,6 +156,8 @@ public class Cave1_1Activity extends MainActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 if (map[game.p.y][game.p.x].equals("back_cave_1")){
+                    MediaPlayerManager.mediaPlayer.stop();
+                    MediaPlayerManager.mediaPlayer.release();
                     goCave1();
                 }else if (map[game.p.y][game.p.x].equals("treasure_chest_ladder")){
                     getTreasure(handler,runnable);

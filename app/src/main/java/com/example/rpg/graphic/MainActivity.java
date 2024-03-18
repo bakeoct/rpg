@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button conthinew = findViewById(R.id.conthinew);
-        //MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.bgmusic);
-       // MediaPlayerManager.mediaPlayer.start();
         final MediaPlayer ON_STONE_AUDIO = MediaPlayer.create(this, R.raw.stone);//stone
         final MediaPlayer ON_WOOD_AUDIO = MediaPlayer.create(this, R.raw.wood);//wood
         final MediaPlayer IN_SEA_AUDIO = MediaPlayer.create(this, R.raw.sea);//海

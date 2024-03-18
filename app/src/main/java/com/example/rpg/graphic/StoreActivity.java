@@ -30,8 +30,6 @@ public class StoreActivity extends MainActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
-        MediaPlayerManager.mediaPlayer.stop();
-        MediaPlayerManager.mediaPlayer.release();
         MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.storemusic);
         MediaPlayerManager.mediaPlayer.setVolume(0.5f,0.5f);
         MediaPlayerManager.mediaPlayer.start();
@@ -145,6 +143,9 @@ public class StoreActivity extends MainActivity implements Serializable {
                 go_shopping.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        MediaPlayerManager.mediaPlayer.setVolume(1.0f,1.0f);
+                        MediaPlayerManager.mediaPlayer.stop();
+                        MediaPlayerManager.mediaPlayer.release();
                         Intent intent = new Intent(StoreActivity.this, TransitionActivity.class);
                         startActivity(intent);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

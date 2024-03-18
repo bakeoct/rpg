@@ -59,10 +59,8 @@ public class PeopleHomeActivity extends MainActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people_home1);
-       /* MediaPlayerManager.mediaPlayer.stop();
-        MediaPlayerManager.mediaPlayer.release();
         MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.homemusic);
-        MediaPlayerManager.mediaPlayer.start();*/
+        MediaPlayerManager.mediaPlayer.start();
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView right = findViewById(R.id.right_people_home1);
@@ -156,8 +154,12 @@ public class PeopleHomeActivity extends MainActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 if (map[game.p.y][game.p.x].equals("back_world")){
+                    MediaPlayerManager.mediaPlayer.stop();
+                    MediaPlayerManager.mediaPlayer.release();
                     goMainWorld(audio);
                 }else if (map[game.p.y][game.p.x].equals("treasure_chest_ship")){
+                    MediaPlayerManager.mediaPlayer.stop();
+                    MediaPlayerManager.mediaPlayer.release();
                     getTreasure(handler,runnable);
                 }
             }

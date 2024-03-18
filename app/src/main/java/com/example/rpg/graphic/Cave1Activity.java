@@ -45,10 +45,8 @@ public class Cave1Activity extends MainActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cave1);
-        /*MediaPlayerManager.mediaPlayer.stop();
-        MediaPlayerManager.mediaPlayer.release();
         MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.cavemusic);
-        MediaPlayerManager.mediaPlayer.start();*/
+        MediaPlayerManager.mediaPlayer.start();
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView right = findViewById(R.id.right_cave1);
@@ -60,7 +58,6 @@ public class Cave1Activity extends MainActivity implements Serializable {
         GridLayout gridLayout = findViewById(R.id.gridLayout_cave1);
         ImageView enemy_monster = findViewById(R.id.enemy_monster);
         ImageView yuusya = findViewById(R.id.yuusya_cave1);
-        GameActivity game_activity = new GameActivity();
         yuusya.bringToFront();
         enemy_monster.bringToFront();
         game.get_enemey_monster = getMonsterRandomly(enemy_monster);
@@ -144,8 +141,12 @@ public class Cave1Activity extends MainActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 if (map[game.p.y][game.p.x].equals("cave1_1")){
+                    MediaPlayerManager.mediaPlayer.stop();
+                    MediaPlayerManager.mediaPlayer.release();
                     goCave1_1();
                 }else if (map[game.p.y][game.p.x].equals("back_world")){
+                    MediaPlayerManager.mediaPlayer.stop();
+                    MediaPlayerManager.mediaPlayer.release();
                     goMainMap();
                 }
             }
