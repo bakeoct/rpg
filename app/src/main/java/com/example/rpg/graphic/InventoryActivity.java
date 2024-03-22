@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.graphic.TransitionActivity.save_transition_activity;
 import static com.example.rpg.graphic.TransitionActivity.transition_activity;
+import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -27,6 +28,7 @@ import com.example.rpg.Calc.Item.Item;
 import com.example.rpg.Calc.Item.MonsterItem;
 import com.example.rpg.Calc.Monsters.Monster2;
 import com.example.rpg.R;
+import com.example.rpg.sound.MediaPlayerManager;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -149,6 +151,9 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayerManager.mediaPlayer.stop();
+                MediaPlayerManager.mediaPlayer.release();
+                saveWriteAndRead.write();
                 click_number_of_object = 0;
                 Intent intent = new Intent(InventoryActivity.this, TransitionActivity.class);
                 startActivity(intent);

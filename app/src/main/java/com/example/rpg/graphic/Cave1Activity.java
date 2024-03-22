@@ -150,6 +150,8 @@ public class Cave1Activity extends AppCompatActivity implements Serializable {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayerManager.mediaPlayer.stop();
+                MediaPlayerManager.mediaPlayer.release();
                 saveWriteAndRead.write();
                 Intent intent = new Intent(Cave1Activity.this, TransitionActivity.class);
                 startActivity(intent);

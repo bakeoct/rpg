@@ -149,6 +149,8 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayerManager.mediaPlayer.stop();
+                MediaPlayerManager.mediaPlayer.release();
                 saveWriteAndRead.write();
                 Intent intent = new Intent(GameActivity.this, TransitionActivity.class);
                 startActivity(intent);

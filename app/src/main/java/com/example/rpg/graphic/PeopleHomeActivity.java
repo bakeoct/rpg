@@ -40,7 +40,6 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
     public ImageView treasure_imageView = null;
     public int[] treasure_images = {R.drawable.open_treasure_chest, R.drawable.treasure_chest}; // 切り替える画像リソース
     public ArrayList<MediaPlayer> treasure_audio;
-    public SoundPool sound_pool;
     public final Handler handler = new Handler();
     public final Runnable runnable = new Runnable() {
         @Override
@@ -79,10 +78,10 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
         audio.add(OPEN_DOOR_AUDIO);
         audio.add(OPEN_TREASURE_CHEST_AUDIO);
         this.treasure_audio = audio;
-       /* MediaPlayerManager.mediaPlayer.stop();
+        MediaPlayerManager.mediaPlayer.stop();
         MediaPlayerManager.mediaPlayer.release();
         MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.homemusic);
-        MediaPlayerManager.mediaPlayer.start();*/
+        MediaPlayerManager.mediaPlayer.start();
         int image_size = getResources().getDimensionPixelSize(R.dimen.image_size);
         int margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView right = findViewById(R.id.right_people_home1);
@@ -168,8 +167,14 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MediaPlayerManager.mediaPlayer.stop();
+                MediaPlayerManager.mediaPlayer.release();
                 saveWriteAndRead.write();
-                finish();
+                saveWriteAndRead.write();
+                Intent intent = new Intent(PeopleHomeActivity.this, TransitionActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                transition_activity = new MainActivity();
             }
         });
         do_button.setOnClickListener(new View.OnClickListener() {
