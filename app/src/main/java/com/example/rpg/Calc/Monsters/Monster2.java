@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.Monsters.DragonKing.dragon_king;
+import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.Gorlem.gorlem;
 import static com.example.rpg.Calc.Monsters.MetalSlime.metal_slime;
 import static com.example.rpg.Calc.Monsters.PutiSlime.puti_slime;
@@ -16,7 +17,6 @@ import com.example.rpg.R;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
-import static com.example.rpg.Calc.Monsters.EnemeyMonster.monster_place;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -90,41 +90,41 @@ public abstract class Monster2 implements Serializable {
                 monster_cara_now = "gorlem";
             }
         }else if (monster_cara_now.equals("dragon_king")){
-            if (monster_place.equals("over")) {
+            if (enemey_monster.monster_place.equals("over")) {
                 enemy_monster.setImageResource(R.drawable.dragon_king);
-            } else if (monster_place.equals("right")) {
+            } else if (enemey_monster.monster_place.equals("right")) {
                 enemy_monster.setImageResource(R.drawable.dragon_king_right);
-            } else if (monster_place.equals("left")) {
+            } else if (enemey_monster.monster_place.equals("left")) {
                 enemy_monster.setImageResource(R.drawable.dragon_king_left);
             } else {
                 enemy_monster.setImageResource(R.drawable.dragon_king_under);
             }
         }else if (monster_cara_now.equals("metal_slime")){
-            if (monster_place.equals("over")) {
+            if (enemey_monster.monster_place.equals("over")) {
                 enemy_monster.setImageResource(R.drawable.metal_slime);
-            } else if (monster_place.equals("right")) {
+            } else if (enemey_monster.monster_place.equals("right")) {
                 enemy_monster.setImageResource(R.drawable.metal_slime_right);
-            } else if (monster_place.equals("left")) {
+            } else if (enemey_monster.monster_place.equals("left")) {
                 enemy_monster.setImageResource(R.drawable.metal_slime_left);
             } else {
                 enemy_monster.setImageResource(R.drawable.metal_slime_under);
             }
         }else if (monster_cara_now.equals("puti_slime")){
-            if (monster_place.equals("over")) {
+            if (enemey_monster.monster_place.equals("over")) {
                 enemy_monster.setImageResource(R.drawable.puti_slime);
-            } else if (monster_place.equals("right")) {
+            } else if (enemey_monster.monster_place.equals("right")) {
                 enemy_monster.setImageResource(R.drawable.puti_slime_right);
-            } else if (monster_place.equals("left")) {
+            } else if (enemey_monster.monster_place.equals("left")) {
                 enemy_monster.setImageResource(R.drawable.puti_slime_left);
             } else {
                 enemy_monster.setImageResource(R.drawable.puti_slime_under);
             }
         }else {
-            if (monster_place.equals("over")) {
+            if (enemey_monster.monster_place.equals("over")) {
                 enemy_monster.setImageResource(R.drawable.gorlem);
-            } else if (monster_place.equals("right")) {
+            } else if (enemey_monster.monster_place.equals("right")) {
                 enemy_monster.setImageResource(R.drawable.gorlem_right);
-            } else if (monster_place.equals("left")) {
+            } else if (enemey_monster.monster_place.equals("left")) {
                 enemy_monster.setImageResource(R.drawable.gorlem_left);
             } else {
                 enemy_monster.setImageResource(R.drawable.gorlem_under);

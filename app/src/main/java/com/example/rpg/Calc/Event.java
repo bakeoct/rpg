@@ -33,7 +33,10 @@ public class Event implements Serializable{
     public void eventPerson(String serveget_map_code, ArrayList<MediaPlayer> audio) {
         //これをmapに送って二つメソッド動かす
         String get_map_code = map.getMapCode(game.p.x, game.p.y,game.p.area);
-        if (get_map_code.equals("崖") || get_map_code.equals("cliff_with_cliff")) {
+        if (get_map_code.equals("崖") || get_map_code.equals("cliff_on_jyari")) {
+            if (get_map_code.equals("cliff_on_jyari")) {
+                get_map_code = "崖";
+            }
             if (!(get_map_code.equals(serveget_map_code))) {
                 notPoint(game.store.ladder,get_map_code,audio);
             }else {
@@ -51,8 +54,8 @@ public class Event implements Serializable{
             }else {
                 sound.startSounds(get_map_code,audio);
             }
-        } else if (get_map_code.equals("glass") || get_map_code.equals("wood") || get_map_code.equals("stone") || get_map_code.equals("glass_with_cliff")) {
-            if (get_map_code.equals("glass_with_cliff")){
+        } else if (get_map_code.equals("glass") || get_map_code.equals("wood") || get_map_code.equals("stone") || get_map_code.equals("cliff_on_glass")) {
+            if (get_map_code.equals("cliff_on_glass")){
                 get_map_code = "glass";
             }
             sound.startSounds(get_map_code,audio);

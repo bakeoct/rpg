@@ -19,13 +19,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Person2 implements Serializable {
-    public ArrayList<Monster2> monsters2 =new ArrayList<Monster2>();
+    public ArrayList<Monster2> monsters2 =new ArrayList<>();
     public int lv=1;
-    public int have_experince_point = 0;
-    public int need_experince_point = 100;
-    public ArrayList<FieldItem> field_items =new ArrayList<FieldItem>();
-    public ArrayList<MonsterItem> monster_items =new ArrayList<MonsterItem>();
-    public ArrayList<FightItem> fight_items =new ArrayList<FightItem>();
+    public int have_experience_point = 0;
+    public int need_experience_point = 100;
+    public ArrayList<FieldItem> field_items =new ArrayList<>();
+    public ArrayList<MonsterItem> monster_items =new ArrayList<>();
+    public ArrayList<FightItem> fight_items =new ArrayList<>();
     public ArrayList<Item> items =new ArrayList<>();
     public int money=100;
     public Item have_item = null;
@@ -34,13 +34,13 @@ public class Person2 implements Serializable {
     public int y=6;
     public int serve_x = 12;
     public int serve_y = 6;
-    public int choose_item;
+    public int choose_item = 0;
     public Person2() {
         this.monsters2.add(metal_slime);
         this.monsters2.add(gorlem);
-        items.addAll(field_items);
-        items.addAll(fight_items);
-        items.addAll(monster_items);
+        this.items.addAll(field_items);
+        this.items.addAll(fight_items);
+        this.items.addAll(monster_items);
     }
     public void walk(ImageView yuusya){
         if (place.equals("right")){

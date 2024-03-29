@@ -1,7 +1,6 @@
 package com.example.rpg.graphic;
 
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
-import static com.example.rpg.Calc.Monsters.EnemeyMonster.monster_place;
 import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
 import static com.example.rpg.sound.MediaPlayerManager.sound_effect;
 import static com.example.rpg.sound.Sound.sound;
@@ -81,7 +80,7 @@ public class GameActivity extends AppCompatActivity implements Serializable {
         ImageView inventory_button = findViewById(R.id.inventory_button_inventory);
         ImageView enemy_monster = findViewById(R.id.enemy_monster);
         ImageView yuusya = findViewById(R.id.yuusya_game);
-        System.out.println(monster_place);
+        System.out.println(enemey_monster.monster_place);
         MediaPlayerManager.sound_effect = MediaPlayer.create(this,R.raw.glass);
         game.get_enemey_monster = getMonsterRandomly(enemy_monster);
         String[][] map = world_map;
@@ -201,6 +200,10 @@ public class GameActivity extends AppCompatActivity implements Serializable {
             myImageDrawable = getResources().getDrawable(R.drawable.cave_entrance, null);
         } else if (map[i][j].equals("people_home_1")) {
             myImageDrawable = getResources().getDrawable(R.drawable.home, null);
+        } else if (map[i][j].equals("cliff_on_glass")) {
+            myImageDrawable = getResources().getDrawable(R.drawable.cliff_on_glass, null);
+        } else if (map[i][j].equals("cliff_on_jyari")) {
+            myImageDrawable = getResources().getDrawable(R.drawable.cliff_on_jyari, null);
         }
         return myImageDrawable;
     }

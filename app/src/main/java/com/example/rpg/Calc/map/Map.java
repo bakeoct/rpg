@@ -20,6 +20,8 @@ import static com.example.rpg.Calc.map.World_map.*;
         public static final String W = "wood";//wood
         public static final String SN = "stone";//Stone;
         public static final String BCV1 = "back_cave_1";//BackCave1;
+        public static final String CG = "cliff_on_glass";
+        public static final String CJ = "cliff_on_jyari";
 
         public String getMapCode(int pointx, int pointy,String area) {
             String map_place_code = null;

@@ -2,7 +2,6 @@ package com.example.rpg.graphic;
 
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
-import static com.example.rpg.Calc.Monsters.EnemeyMonster.monster_place;
 import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
 import static com.example.rpg.Calc.map.PersonHome1.*;
 import static com.example.rpg.Calc.treasure.TreasureChestShip.treasure_chest_ship;
@@ -93,7 +92,7 @@ public class PeopleHomeActivity extends AppCompatActivity implements Serializabl
         GridLayout gridLayout = findViewById(R.id.gridLayout_people_home1);
         ImageView enemy_monster = findViewById(R.id.enemy_monster);
         ImageView yuusya = findViewById(R.id.yuusya_people_home1);
-        System.out.println(monster_place);
+        System.out.println(enemey_monster.monster_place);
         game.get_enemey_monster = getMonsterRandomly(enemy_monster);
         //マップの画面表示
         String[][] map = people_home1;//どのマップを使うのか指定

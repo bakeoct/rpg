@@ -7,7 +7,6 @@ import static com.example.rpg.Calc.skill.LittleFire.little_fire;
 import static com.example.rpg.Calc.skill.ShortageMP.shortage_mp;
 import static com.example.rpg.Calc.skill.Throw.throw_attack;
 import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
-import static com.example.rpg.graphic.BattleManagerActivity.context;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -239,7 +238,7 @@ public class MonsterTask implements AnimationTask{
             for (Monster2 monster : game.p.monsters2) {
                 monster.have_experince_point += game.get_enemey_monster.can_get_experince_point;
             }
-            game.p.have_experince_point +=game.get_enemey_monster.can_get_experince_point;
+            game.p.have_experience_point +=game.get_enemey_monster.can_get_experince_point;
             game.level.upLevel(game.p);
             if  (game.get_enemey_monster.name.equals("竜王") && game.mission_dragon_king.progress){
                 game.mission_sab.missionProgres(game.mission_dragon_king);

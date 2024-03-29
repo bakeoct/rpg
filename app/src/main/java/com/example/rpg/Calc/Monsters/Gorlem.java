@@ -12,15 +12,15 @@ import java.io.Serializable;
 public class Gorlem extends Monster2  implements Serializable {
     public static Gorlem gorlem = new Gorlem();
     public Gorlem(){
-        this.limit_hp=900;
+        this.limit_hp=9;
         this.limit_mp=3000;
         this.defence=0;
         this.up_leberu=0;
         this.leberu = 1;
-        this.hp=900;
+        this.hp=9;
         this.attack=700;
         this.mp=3000;
-        this.judge_sente=10;
+        this.judge_sente=1;
         this.name="ゴ－レム";
         this.is_alive=true;
         this.fellow=true;

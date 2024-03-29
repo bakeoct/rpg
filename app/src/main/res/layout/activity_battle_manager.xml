@@ -279,5 +279,29 @@
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/finish_button" />
 
+    <ImageView
+        android:id="@+id/gameover"
+        android:layout_width="827dp"
+        android:layout_height="484dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.509"
+        app:srcCompat="@drawable/gameover" />
+
+    <ImageView
+        android:id="@+id/retry"
+        android:layout_width="241dp"
+        android:layout_height="123dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.763"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.194"
+        app:srcCompat="@drawable/retry" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

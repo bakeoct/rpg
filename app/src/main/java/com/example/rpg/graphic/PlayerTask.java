@@ -26,7 +26,7 @@ import static com.example.rpg.Calc.skill.LittleFire.little_fire;
 import static com.example.rpg.Calc.skill.ShortageMP.shortage_mp;
 import static com.example.rpg.Calc.skill.Throw.throw_attack;
 import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
-import static com.example.rpg.graphic.BattleManagerActivity.context;
+import static com.example.rpg.graphic.BattleManagerActivity.my_side_monster_number;
 
 import java.util.ArrayList;
 
@@ -261,19 +261,20 @@ public class PlayerTask implements AnimationTask{
         die_ally_monster.setRotation(DIE_ROTATION);
         die_ally_monster.setImageDrawable(resources.getDrawable(monster.monster_drawable_damage_ally[0]));
         handler.postDelayed(() ->{
-            if (battle_manager_activity.my_side_monster_number < game.p.monsters2.size() - 1) {
-                battle_manager_activity.my_side_monster_number++;
+            if (my_side_monster_number < game.p.monsters2.size() - 1) {
+                my_side_monster_number++;
                 die_ally_monster.setRotation(default_rotation);
                 default_rotation = 0;
-                die_ally_monster.setImageDrawable(resources.getDrawable(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).monster_drawable_usually[2]));
-                ber_gauge.get(0).get(0).setProgress((int)setPercent(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).hp,game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_hp));
-                text_gauge.get(0).get(0).setText(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).hp+"/"+game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_hp);
-                ber_gauge.get(0).get(1).setProgress((int)setPercent(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).mp,game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_mp));
-                text_gauge.get(0).get(1).setText(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).mp+"/"+game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_mp);
+                die_ally_monster.setImageDrawable(resources.getDrawable(game.p.monsters2.get(my_side_monster_number).monster_drawable_usually[2]));
+                ber_gauge.get(0).get(0).setProgress((int)setPercent(game.p.monsters2.get(my_side_monster_number).hp,game.p.monsters2.get(my_side_monster_number).limit_hp));
+                text_gauge.get(0).get(0).setText(game.p.monsters2.get(my_side_monster_number).hp+"/"+game.p.monsters2.get(my_side_monster_number).limit_hp);
+                ber_gauge.get(0).get(1).setProgress((int)setPercent(game.p.monsters2.get(my_side_monster_number).mp,game.p.monsters2.get(my_side_monster_number).limit_mp));
+                text_gauge.get(0).get(1).setText(game.p.monsters2.get(my_side_monster_number).mp+"/"+game.p.monsters2.get(my_side_monster_number).limit_mp);
                 fight_button.setVisibility(View.VISIBLE);
                 item_button.setVisibility(View.VISIBLE);
                 run_button.setVisibility(View.VISIBLE);
             }else {
+                my_side_monster_number++;
                 fight_button.setVisibility(View.GONE);
                 item_button.setVisibility(View.GONE);
                 run_button.setVisibility(View.GONE);

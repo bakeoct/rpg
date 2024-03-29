@@ -8,10 +8,10 @@ public class Level implements Serializable {
     public void upLevel(Person2 p){
         while (true) {
             boolean endflg = true;
-            if (p.have_experince_point >= p.need_experince_point) {
+            if (p.have_experience_point >= p.need_experience_point) {
                 p.lv++;
-                p.have_experince_point -= p.need_experince_point;
-                p.need_experince_point *= 2;
+                p.have_experience_point -= p.need_experience_point;
+                p.need_experience_point *= 2;
                 endflg = false;
             }
             for (Monster2 monster2 : p.monsters2) {

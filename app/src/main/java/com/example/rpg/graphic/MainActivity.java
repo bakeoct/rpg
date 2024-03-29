@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.graphic.GameActivity.game_activity;
@@ -27,10 +28,10 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button conthinew = findViewById(R.id.conthinew);
+        ImageView continue_button = findViewById(R.id.continue_button);
         MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.bgmusic);
         MediaPlayerManager.mediaPlayer.start();
-    conthinew.setOnClickListener(new View.OnClickListener() {
+    continue_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 game.readSave();

@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 public class EnemeyMonster implements Serializable {
-    public static String monster_place = "over";
+    public String monster_place = "over";
     public static EnemeyMonster enemey_monster =new EnemeyMonster();
     public int x=12;
     public int y=4;
