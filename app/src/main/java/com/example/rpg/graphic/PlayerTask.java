@@ -229,24 +229,24 @@ public class PlayerTask implements AnimationTask{
          default_rotation = (int)damage_monster.getRotation();
          damage_monster.setRotation(DAMAGE_ROTATION);
          frame_layout_monster_power_up.addView(effect);
-        damage_monster.setImageDrawable(resources.getDrawable(game.get_enemey_monster.monster_drawable_damage_enemy[0]));
+        damage_monster.setImageDrawable(resources.getDrawable(game.get_enemy_monster.monster_drawable_damage_enemy[0]));
         Bitmap effect_img = BitmapFactory.decodeResource(resources, R.drawable.damage);
         Matrix matrix = new Matrix();
         matrix.preScale(-1, 1);
         Bitmap bitmap = Bitmap.createBitmap(effect_img, 0, 0, effect_img.getWidth(), effect_img.getHeight(), matrix, false);
         effect.setImageBitmap(bitmap);
-        ber_gauge.get(1).get(0).setProgress((int)setPercent(game.get_enemey_monster.hp,game.get_enemey_monster.limit_hp));
-        text_gauge.get(1).get(0).setText(game.get_enemey_monster.hp+"/"+game.get_enemey_monster.limit_hp);
+        ber_gauge.get(1).get(0).setProgress((int)setPercent(game.get_enemy_monster.hp,game.get_enemy_monster.limit_hp));
+        text_gauge.get(1).get(0).setText(game.get_enemy_monster.hp+"/"+game.get_enemy_monster.limit_hp);
         ber_gauge.get(0).get(1).setProgress((int)setPercent(monster.mp,monster.limit_mp));
         text_gauge.get(0).get(1).setText(monster.mp+"/"+monster.limit_mp);
         handler.postDelayed(() -> {
             damage_monster.setRotation(default_rotation);
             default_rotation = 0;
             frame_layout_monster_power_up.removeAllViews();
-            damage_monster.setImageDrawable(resources.getDrawable(game.get_enemey_monster.monster_drawable_usually[1]));
+            damage_monster.setImageDrawable(resources.getDrawable(game.get_enemy_monster.monster_drawable_usually[1]));
             effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
             monster_die_effect = true;
-            if (!player_first && game.get_enemey_monster.hp != 0) {
+            if (!player_first && game.get_enemy_monster.hp != 0) {
                 fight_button.setVisibility(View.VISIBLE);
                 item_button.setVisibility(View.VISIBLE);
                 run_button.setVisibility(View.VISIBLE);

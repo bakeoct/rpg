@@ -18,6 +18,7 @@ public class Gorlem extends Monster2  implements Serializable {
         this.up_leberu=0;
         this.leberu = 1;
         this.hp=9;
+        this.all_skill.add(throw_attack);
         this.attack=700;
         this.mp=3000;
         this.judge_sente=1;
@@ -27,7 +28,6 @@ public class Gorlem extends Monster2  implements Serializable {
         this.can_get_experince_point = 3000;
         this.need_experince_point = 300;
         this.all_skill.add(hit_attack);
-        this.all_skill.add(throw_attack);
         this.monster_drawable_usually = new int[]{R.drawable.gorlem,R.drawable.gorlem_left,R.drawable.gorlem_right,R.drawable.gorlem_under};
         this.monster_drawable_damage_enemy = new int[]{R.drawable.gorlem_left_damage};
         this.monster_drawable_damage_ally = new int[]{R.drawable.gorlem_right_damage};

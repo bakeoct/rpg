@@ -5,7 +5,7 @@ import com.example.rpg.Calc.Monsters.Monster2;
 import java.io.Serializable;
 
 public class Level implements Serializable {
-    public void upLevel(Person2 p){
+    public void upLevel(Person p){
         while (true) {
             boolean endflg = true;
             if (p.have_experience_point >= p.need_experience_point) {

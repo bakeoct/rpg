@@ -4,8 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <GridLayout
+        android:id="@+id/map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="9"
+        android:gravity="bottom|center"
+        android:rowCount="10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.498" />
+
     <ImageView
-        android:id="@+id/yuusya_people_home1"
+        android:id="@+id/hero"
         android:layout_width="32dp"
         android:layout_height="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,82 +42,8 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/dragon_king" />
 
-    <GridLayout
-        android:id="@+id/gridLayout_people_home1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:columnCount="9"
-        android:gravity="bottom|center"
-        android:rowCount="10"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498" />
-
     <ImageView
-        android:id="@+id/left_people_home1"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.769"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.759"
-        app:srcCompat="@drawable/left" />
-
-    <ImageView
-        android:id="@+id/over_people_home1"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.815"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.675"
-        app:srcCompat="@drawable/over" />
-
-    <ImageView
-        android:id="@+id/right_people_home1"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.861"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.759"
-        app:srcCompat="@drawable/right" />
-
-    <ImageView
-        android:id="@+id/under_people_home1"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.815"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.844"
-        app:srcCompat="@drawable/under" />
-
-    <ImageView
-        android:id="@+id/do_button_people_home1"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.183"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.675"
-        app:srcCompat="@drawable/do_button" />
-
-    <ImageView
-        android:id="@+id/setting_people_home1"
+        android:id="@+id/setting"
         android:layout_width="31dp"
         android:layout_height="34dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -113,4 +53,77 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/kkrn_icon_haguruma_3" />
+
+    <ImageView
+        android:id="@+id/inventory_button2"
+        android:layout_width="31dp"
+        android:layout_height="31dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.165"
+        app:srcCompat="@drawable/inventry_button" />
+
+    <GridLayout
+        android:id="@+id/controller"
+        android:layout_width="579dp"
+        android:layout_height="123dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/do_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_row="0"
+            android:layout_column="5"
+            app:srcCompat="@drawable/do_button" />
+
+        <Button
+            android:id="@+id/left"
+            android:layout_width="60dp"
+            android:layout_height="120dp"
+            android:layout_row="0"
+            android:layout_rowSpan="2"
+            android:layout_column="0"
+            android:text="◀"
+            android:textColor="#000000"
+            app:backgroundTint="#DDDDDDFF" />
+
+        <Button
+            android:id="@+id/over"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:text="▲"
+            android:textColor="#000000"
+            app:backgroundTint="#DDDDDDFF" />
+
+        <Button
+            android:id="@+id/right"
+            android:layout_width="60dp"
+            android:layout_height="120dp"
+            android:layout_row="0"
+            android:layout_rowSpan="2"
+            android:layout_column="2"
+            android:text="▶"
+            android:textColor="#000000"
+            app:backgroundTint="#DDDDDDFF" />
+
+        <Button
+            android:id="@+id/under"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:text="▼"
+            android:textColor="#000000"
+            app:backgroundTint="#DDDDDDFF" />
+
+    </GridLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -46,9 +46,9 @@
 if (random.nextBoolean()) {
 }else {
                     System.out.println("仲間になった！！");
-                    monsters2_have_person.add(enemeymonster);
-                    System.out.println(enemeymonster.name + "(性別." + enemeymonster.seibetu + ")" + "  レベルは" + enemeymonster.leberu + "です");
-                    enemeymonster = ramdomMonster.randomMonsters(enemy_monsters);
-                    ramdomMonster.randomNewEnemeyMonster(enemeyMonster);
-                    enemeyMonster.position = new Position(enemeyMonster.position.x, enemeyMonster.position.y);
+                    monsters2_have_person.add(enemymonster);
+                    System.out.println(enemymonster.name + "(性別." + enemymonster.seibetu + ")" + "  レベルは" + enemymonster.leberu + "です");
+                    enemymonster = ramdomMonster.randomMonsters(enemy_monsters);
+                    ramdomMonster.randomNewEnemyMonster(enemyMonster);
+                    enemyMonster.position = new Position(enemyMonster.position.x, enemyMonster.position.y);
                 }

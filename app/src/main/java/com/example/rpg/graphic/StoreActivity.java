@@ -2,17 +2,15 @@ package com.example.rpg.graphic;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import static com.example.rpg.Calc.Game.game;
-import static com.example.rpg.graphic.GameActivity.game_activity;
+import static com.example.rpg.graphic.map_activity.GameActivity.game_activity;
 import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,11 +28,11 @@ public class StoreActivity extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
-        MediaPlayerManager.mediaPlayer.stop();
-        MediaPlayerManager.mediaPlayer.release();
-        MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.storemusic);
-        MediaPlayerManager.mediaPlayer.setVolume(0.5f,0.5f);
-        MediaPlayerManager.mediaPlayer.start();
+        MediaPlayerManager.media_player.stop();
+        MediaPlayerManager.media_player.release();
+        MediaPlayerManager.media_player = MediaPlayer.create(this, R.raw.storemusic);
+        MediaPlayerManager.media_player.setVolume(0.5f,0.5f);
+        MediaPlayerManager.media_player.start();
         ArrayList<TextView> display_buyitems =new ArrayList<>();
         ArrayList<TextView> display_sellitems =new ArrayList<>();
         TextView buy =findViewById(R.id.buy);
@@ -148,7 +146,7 @@ public class StoreActivity extends AppCompatActivity implements Serializable {
                         Intent intent = new Intent(StoreActivity.this, TransitionActivity.class);
                         startActivity(intent);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                        transition_activity = game_activity;
+                        transition_activity.to_activity = game_activity;
                     }
                 });
             }

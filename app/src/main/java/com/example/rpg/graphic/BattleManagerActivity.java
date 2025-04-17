@@ -2,21 +2,21 @@ package com.example.rpg.graphic;
 
 import static com.example.rpg.Calc.BattleManager.setPercent;
 import static com.example.rpg.Calc.Game.game;
-import static com.example.rpg.Calc.Monsters.EnemeyMonster.enemey_monster;
 import static com.example.rpg.Calc.Monsters.Gorlem.gorlem;
 import static com.example.rpg.Calc.Monsters.MetalSlime.metal_slime;
-import static com.example.rpg.graphic.GameActivity.monster_cara_now;
-import static com.example.rpg.graphic.TransitionActivity.save_transition_activity;
+import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
+import static com.example.rpg.Calc.Monsters.Monster2.setImageResource;
+import static com.example.rpg.graphic.MainActivity.main_activity;
+import static com.example.rpg.graphic.map_activity.GameActivity.monster_cara_now;
+
 import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -29,7 +29,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rpg.Calc.Item.FightItem;
-import com.example.rpg.Calc.Monsters.EnemeyMonster;
 import com.example.rpg.Calc.Monsters.Gorlem;
 import com.example.rpg.Calc.Monsters.MetalSlime;
 import com.example.rpg.Calc.Monsters.Monster2;
@@ -38,7 +37,6 @@ import com.example.rpg.R;
 import com.example.rpg.sound.MediaPlayerManager;
 
 import java.util.ArrayList;
-import java.util.Queue;
 
 public class BattleManagerActivity extends AppCompatActivity {
     public static BattleManagerActivity battle_manager_activity = new BattleManagerActivity();
@@ -49,10 +47,10 @@ public class BattleManagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battle_manager);
-        MediaPlayerManager.mediaPlayer.stop();
-        MediaPlayerManager.mediaPlayer.release();
-        MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.battlemusic);
-        MediaPlayerManager.mediaPlayer.start();
+        MediaPlayerManager.media_player.stop();
+        MediaPlayerManager.media_player.release();
+        MediaPlayerManager.media_player = MediaPlayer.create(this, R.raw.battlemusic);
+        MediaPlayerManager.media_player.start();
         int attack_margin = getResources().getDimensionPixelSize(R.dimen.image_margin);
         ImageView monster_of_player = findViewById(R.id.monster_of_player);
         ImageView enemy_monster = findViewById(R.id.enemy_monster);
@@ -105,16 +103,17 @@ public class BattleManagerActivity extends AppCompatActivity {
         battle_chat_text.setText("戦いだ！");
         battle_chat.addView(battle_chat_text);
         monster_of_player.setImageDrawable(mySideMonsterDrawable());
-        enemy_monster.setImageDrawable(enemyMonsterDrawable());
+        game.enemy_monster.monster_place = "left";
+        setImageResource();
 
         ber_gauge.get(0).get(0).setProgress((int)setPercent(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).hp,game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_hp));
         text_gauge.get(0).get(0).setText(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).hp+"/"+game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_hp);
         ber_gauge.get(0).get(1).setProgress((int)setPercent(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).mp,game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_mp));
         text_gauge.get(0).get(1).setText(game.p.monsters2.get(battle_manager_activity.my_side_monster_number).mp+"/"+game.p.monsters2.get(battle_manager_activity.my_side_monster_number).limit_mp);
-        ber_gauge.get(1).get(0).setProgress((int)setPercent(game.get_enemey_monster.hp,game.get_enemey_monster.limit_hp));
-        text_gauge.get(1).get(0).setText(game.get_enemey_monster.hp+"/"+game.get_enemey_monster.limit_hp);
-        ber_gauge.get(1).get(1).setProgress((int)setPercent(game.get_enemey_monster.mp,game.get_enemey_monster.limit_mp));
-        text_gauge.get(1).get(1).setText(game.get_enemey_monster.mp+"/"+game.get_enemey_monster.limit_mp);
+        ber_gauge.get(1).get(0).setProgress((int)setPercent(game.get_enemy_monster.hp,game.get_enemy_monster.limit_hp));
+        text_gauge.get(1).get(0).setText(game.get_enemy_monster.hp+"/"+game.get_enemy_monster.limit_hp);
+        ber_gauge.get(1).get(1).setProgress((int)setPercent(game.get_enemy_monster.mp,game.get_enemy_monster.limit_mp));
+        text_gauge.get(1).get(1).setText(game.get_enemy_monster.mp+"/"+game.get_enemy_monster.limit_mp);
 
         ImageView image_view_effect = new ImageView(this);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
@@ -182,32 +181,20 @@ public class BattleManagerActivity extends AppCompatActivity {
         }
         return drawable;
     }
-    private Drawable enemyMonsterDrawable(){
-        Drawable drawable = null;
-        if (game.get_enemey_monster.name.equals("竜王")){
-            drawable = getResources().getDrawable(R.drawable.dragon_king_left);
-        }else if (game.get_enemey_monster.name.equals("メタルスライム")){
-            drawable = getResources().getDrawable(R.drawable.metal_slime_left);
-        }else if (game.get_enemey_monster.name.equals("ゴ－レム")){
-            drawable = getResources().getDrawable(R.drawable.gorlem_left);
-        }else if (game.get_enemey_monster.name.equals("プチスライム")){
-            drawable = getResources().getDrawable(R.drawable.puti_slime_left);
-        }
-        return drawable;
-    }
     public void finishBattle(){
         if (my_side_monster_number < game.p.monsters2.size()) {
             monster_cara_now = null;
-            enemey_monster.randomNewEnemeyMonster();
+            game.get_enemy_monster = getMonsterRandomly();
+            game.enemy_monster.randomNewEnemyMonster();
             startActivity(new Intent(BattleManagerActivity.this, TransitionActivity.class));
-            transition_activity = save_transition_activity;
+            transition_activity.to_activity = transition_activity.save_transition_activity;
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }else {
             for (ImageView view : game_over_list){
-                MediaPlayerManager.mediaPlayer.stop();
-                MediaPlayerManager.mediaPlayer.release();
-                MediaPlayerManager.mediaPlayer = MediaPlayer.create(this, R.raw.futta_gameover);
-                MediaPlayerManager.mediaPlayer.start();
+                MediaPlayerManager.media_player.stop();
+                MediaPlayerManager.media_player.release();
+                MediaPlayerManager.media_player = MediaPlayer.create(this, R.raw.futta_gameover);
+                MediaPlayerManager.media_player.start();
                 view.setVisibility(View.VISIBLE);
                 view.startAnimation(AnimationUtils.loadAnimation(this,R.anim.alpha_fadein));
             }
@@ -232,12 +219,12 @@ public class BattleManagerActivity extends AppCompatActivity {
         game.p.monsters2.clear();
         metal_slime = new MetalSlime();
         gorlem = new Gorlem();
-        enemey_monster.area = "メインマップ";
-        enemey_monster.monster_serve_x = 12;
-        enemey_monster.monster_serve_y = 4;
-        enemey_monster.x = 12;
-        enemey_monster.y = 4;
-        enemey_monster.monster_place = "over";
+        game.enemy_monster.area = "メインマップ";
+        game.enemy_monster.monster_serve_x = 12;
+        game.enemy_monster.monster_serve_y = 4;
+        game.enemy_monster.x = 12;
+        game.enemy_monster.y = 4;
+        game.enemy_monster.monster_place = "over";
         game.p.monsters2.add(metal_slime);
         game.p.monsters2.add(gorlem);
         game.p.items.clear();
@@ -245,8 +232,8 @@ public class BattleManagerActivity extends AppCompatActivity {
         game.p.field_items.clear();
         game.p.fight_items.clear();
         game.p.monster_items.clear();
-        game.p.x = 12;
-        game.p.y = 6;
+        game.p.mpx = 12;
+        game.p.mpy = 6;
         game.p.serve_x = 12;
         game.p.serve_y = 6;
         game.p.have_item = null;
@@ -258,7 +245,7 @@ public class BattleManagerActivity extends AppCompatActivity {
         monster_cara_now = null;
         my_side_monster_number = 0;
         startActivity(new Intent(BattleManagerActivity.this, TransitionActivity.class));
-        transition_activity = new MainActivity();
+        transition_activity.to_activity = main_activity;
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

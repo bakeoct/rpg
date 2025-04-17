@@ -2,6 +2,8 @@ package com.example.rpg.Calc;
 
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.graphic.BattleManagerActivity.battle_manager_activity;
+
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.view.View;
@@ -22,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class BattleManager implements Serializable {
-
     public boolean meet_enemy_monster = false;
     public static boolean player_first = false;
     public static boolean player_die_effect = false;
@@ -149,7 +150,7 @@ public class BattleManager implements Serializable {
     }
     public boolean setPlayerFirst(boolean sente,Monster2 monster) {
         System.out.println(monster.use_skill.long_or_short + " " + monster.use_skill.name+ " "+ sente);
-        if (monster.use_skill.long_or_short.equals(game.get_enemey_monster.use_skill.long_or_short)) {
+        if (monster.use_skill.long_or_short.equals(game.get_enemy_monster.use_skill.long_or_short)) {
             if (sente){
                 player_first = true;
             }else {
@@ -166,10 +167,10 @@ public class BattleManager implements Serializable {
     }
 
     public void battle(Monster2 monster2, LinearLayout battle_chat, ImageView monster_of_player,ImageView enemy_monster, TextView battle_chat_text, ImageView effect,Resources resources,FrameLayout frame_layout_player,FrameLayout frame_layout_monster,FrameLayout frame_layout_throw,ImageView fight_button,ImageView item_button,ImageView run_button,ImageView finish_button,FrameLayout frame_layout_player_power_up,FrameLayout frame_layout_monster_power_up, ArrayList<ArrayList<ProgressBar>> ber_gauge,ArrayList<ArrayList<TextView>> text_gauge) {
-        boolean sente = judgeSente(monster2.judge_sente, game.get_enemey_monster.judge_sente);
+        boolean sente = judgeSente(monster2.judge_sente, game.get_enemy_monster.judge_sente);
         setPlayerFirst(sente,monster2);
         System.out.println(monster2.use_skill.name+"iiiii");
-        turn(monster2, game.get_enemey_monster,battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,fight_button,item_button,run_button,finish_button,frame_layout_player_power_up,frame_layout_monster_power_up,ber_gauge,text_gauge);
+        turn(monster2, game.get_enemy_monster,battle_chat,monster_of_player,enemy_monster,battle_chat_text,effect,resources,frame_layout_player,frame_layout_monster,frame_layout_throw,fight_button,item_button,run_button,finish_button,frame_layout_player_power_up,frame_layout_monster_power_up,ber_gauge,text_gauge);
         alive(battle_chat,battle_chat_text,monster2);
     }
 
@@ -188,8 +189,8 @@ public class BattleManager implements Serializable {
     }
 
     public void alive(LinearLayout battle_chat,TextView battle_chat_text,Monster2 monster2) {
-        if (game.get_enemey_monster.hp<=0) {
-            battle_chat_text.setText(game.get_enemey_monster.name + "を倒した");
+        if (game.get_enemy_monster.hp<=0) {
+            battle_chat_text.setText(game.get_enemy_monster.name + "を倒した");
             battle_chat_text.setTextColor(Color.RED);
             battle_chat.removeAllViews();
             battle_chat.addView(battle_chat_text);
@@ -259,6 +260,6 @@ public class BattleManager implements Serializable {
     }
     public void chooseEnemySkill(){
         Random random =new Random();
-        game.get_enemey_monster.use_skill = game.get_enemey_monster.all_skill.get(random.nextInt(game.get_enemey_monster.all_skill.size()));
+        game.get_enemy_monster.use_skill = game.get_enemy_monster.all_skill.get(random.nextInt(game.get_enemy_monster.all_skill.size()));
     }
 }

@@ -60,7 +60,7 @@ public class MonsterTask implements AnimationTask{
         this.item_button = item_button;
         this.run_button = run_button;
         this.finish_button = finish_button;
-        the_skill_of.effect_drawable = game.get_enemey_monster.use_skill.effect_drawable;
+        the_skill_of.effect_drawable = game.get_enemy_monster.use_skill.effect_drawable;
         this.frame_layout_throw = frame_layout_throw;
         this.default_frame_layout_monster = (int)frame_layout_monster.getX();
         this.monster_of_player = monster_of_player;
@@ -72,13 +72,13 @@ public class MonsterTask implements AnimationTask{
 
     @Override
     public void start(Runnable onComplete) {
-        if (game.get_enemey_monster.hp > 0 || !monster_die_effect) {
-            if (game.get_enemey_monster.mp >= game.get_enemey_monster.use_skill.consumption_mp) {
-                if (game.get_enemey_monster.use_skill == hit_attack) {
+        if (game.get_enemy_monster.hp > 0 || !monster_die_effect) {
+            if (game.get_enemy_monster.mp >= game.get_enemy_monster.use_skill.consumption_mp) {
+                if (game.get_enemy_monster.use_skill == hit_attack) {
                     hitEffect(onComplete);
-                } else if (game.get_enemey_monster.use_skill == throw_attack) {
+                } else if (game.get_enemy_monster.use_skill == throw_attack) {
                     throwEffect(onComplete);
-                } else if (game.get_enemey_monster.use_skill == little_fire) {
+                } else if (game.get_enemy_monster.use_skill == little_fire) {
                     littleFireEffect(onComplete);
                 }
             } else {
@@ -100,7 +100,7 @@ public class MonsterTask implements AnimationTask{
             frame_layout_monster.removeAllViews();
             image_switching_number = 0;
             effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
-            game.get_enemey_monster.use_skill = null;
+            game.get_enemy_monster.use_skill = null;
             damageEffect(onComplete);// ダメージのエフェクトを表示
         }else {
             Bitmap effect_img = BitmapFactory.decodeResource(resources, the_skill_of.effect_drawable[image_switching_number]);
@@ -126,7 +126,7 @@ public class MonsterTask implements AnimationTask{
             }
             image_switching_number = 0;
             effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
-            game.get_enemey_monster.use_skill = null;
+            game.get_enemy_monster.use_skill = null;
             damageEffect(onComplete);
         }else {
             for (FrameLayout frameLayout : frame_throw_motion) {
@@ -153,7 +153,7 @@ public class MonsterTask implements AnimationTask{
                 frame_layout_monster.setX(default_frame_layout_monster);
                 image_switching_number = 0;
                 fire_effect_switching = 0;
-                game.get_enemey_monster.use_skill = null;
+                game.get_enemy_monster.use_skill = null;
                 effect.setImageDrawable(resources.getDrawable(R.drawable.invisible_panel));
                 damageEffect(onComplete);
             }else {
@@ -214,8 +214,8 @@ public class MonsterTask implements AnimationTask{
         player_die_effect = true;
         ber_gauge.get(0).get(0).setProgress((int)setPercent(monster.hp,monster.limit_hp));
         text_gauge.get(0).get(0).setText(monster.hp+"/"+monster.limit_hp);
-        ber_gauge.get(1).get(1).setProgress((int)setPercent(game.get_enemey_monster.mp,game.get_enemey_monster.limit_mp));
-        text_gauge.get(1).get(1).setText(game.get_enemey_monster.mp+"/"+game.get_enemey_monster.limit_mp);
+        ber_gauge.get(1).get(1).setProgress((int)setPercent(game.get_enemy_monster.mp,game.get_enemy_monster.limit_mp));
+        text_gauge.get(1).get(1).setText(game.get_enemy_monster.mp+"/"+game.get_enemy_monster.limit_mp);
         handler.postDelayed(() -> {
             monster_of_player.setRotation(default_rotation);
             default_rotation = 0;
@@ -233,14 +233,14 @@ public class MonsterTask implements AnimationTask{
     @Override
     public void dieEffect(Runnable onComplete) {
         die_enemy_monster.setRotation(DIE_ROTATION);
-        die_enemy_monster.setImageDrawable(resources.getDrawable(game.get_enemey_monster.monster_drawable_damage_enemy[0]));
+        die_enemy_monster.setImageDrawable(resources.getDrawable(game.get_enemy_monster.monster_drawable_damage_enemy[0]));
         handler.postDelayed(() ->{
             for (Monster2 monster : game.p.monsters2) {
-                monster.have_experince_point += game.get_enemey_monster.can_get_experince_point;
+                monster.have_experince_point += game.get_enemy_monster.can_get_experince_point;
             }
-            game.p.have_experience_point +=game.get_enemey_monster.can_get_experince_point;
+            game.p.have_experience_point +=game.get_enemy_monster.can_get_experince_point;
             game.level.upLevel(game.p);
-            if  (game.get_enemey_monster.name.equals("竜王") && game.mission_dragon_king.progress){
+            if  (game.get_enemy_monster.name.equals("竜王") && game.mission_dragon_king.progress){
                 game.mission_sab.missionProgres(game.mission_dragon_king);
                 System.out.println(game.mission_dragon_king.name+"を達成した！");
                 //Storeで報酬を入手できる

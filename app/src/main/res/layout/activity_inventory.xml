@@ -7,7 +7,7 @@
 
 
     <ImageView
-        android:id="@+id/inventory_button_inventory"
+        android:id="@+id/inventory_button"
         android:layout_width="31dp"
         android:layout_height="31dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +43,7 @@
         app:srcCompat="@drawable/player_inventry_button" />
 
     <ImageView
-        android:id="@+id/setting_inventory"
+        android:id="@+id/setting"
         android:layout_width="31dp"
         android:layout_height="31dp"
         app:layout_constraintBottom_toBottomOf="parent"

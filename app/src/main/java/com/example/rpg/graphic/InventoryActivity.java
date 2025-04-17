@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -16,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import static com.example.rpg.Calc.Game.game;
-import static com.example.rpg.graphic.TransitionActivity.save_transition_activity;
+import static com.example.rpg.graphic.MainActivity.main_activity;
 import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 
@@ -28,10 +27,8 @@ import com.example.rpg.Calc.Item.Item;
 import com.example.rpg.Calc.Item.MonsterItem;
 import com.example.rpg.Calc.Monsters.Monster2;
 import com.example.rpg.R;
-import com.example.rpg.sound.MediaPlayerManager;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class InventoryActivity extends AppCompatActivity implements Serializable {
@@ -71,8 +68,8 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
 
         LinearLayout item_aria_linear = findViewById(R.id.item_aria_linear);
         RelativeLayout item_aria_relative = findViewById(R.id.item_aria_relative);
-        ImageView inventory_button = findViewById(R.id.inventory_button_inventory);
-        ImageView setting = findViewById(R.id.setting_inventory);
+        ImageView inventory_button = findViewById(R.id.inventory_button);
+        ImageView setting = findViewById(R.id.setting);
         LinearLayout take_item = findViewById(R.id.take_item);
         LinearLayout kind_of_monster_linear = findViewById(R.id.kind_of_monster_linear);
         ImageView monster_inventory = findViewById(R.id.monster_inventory);
@@ -145,20 +142,20 @@ public class InventoryActivity extends AppCompatActivity implements Serializable
                 Intent intent = new Intent(InventoryActivity.this, TransitionActivity.class);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                transition_activity = save_transition_activity;
+                transition_activity.to_activity = transition_activity.save_transition_activity;
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaPlayerManager.mediaPlayer.stop();
-                MediaPlayerManager.mediaPlayer.release();
+                game.mpm.media_player.stop();
+                game.mpm.media_player.release();
                 saveWriteAndRead.write();
                 click_number_of_object = 0;
                 Intent intent = new Intent(InventoryActivity.this, TransitionActivity.class);
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                transition_activity = new MainActivity();
+                transition_activity.to_activity = main_activity;
             }
         });
         selected_monster.setOnClickListener(new View.OnClickListener() {
