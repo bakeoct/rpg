@@ -50,8 +50,6 @@ public class NavMesh {
         } else {
             dire_y = "behind";
         }
-        System.out.println(dire_x);
-        System.out.println(dire_y);
         if (Math.abs(dx) < Math.abs(dy)) {
 
             switch (dire_y) {

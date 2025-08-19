@@ -1,31 +1,25 @@
-package com.example.rpg;
+package com.example.rpg.Calc.controlKey;
 
 import static com.example.rpg.Calc.Game.game;
 
-import android.app.Activity;
 import android.content.Context;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.rpg.R;
 import com.example.rpg.graphic.map_activity.super_activity.MapActivity;
 
 import java.io.Serializable;
 
 public class ControlKey extends AppCompatActivity implements Serializable {
-    public Button right;
-    public Button left;
-    public Button over;
-    public Button under;
+
+    public JoyStickView joy_stick;
     public ImageView setting;
     public ImageView do_button;
     public ImageView inventory_button;
     public ControlKey(MapActivity activity){
-        right = activity.findViewById(R.id.right);
-        over = activity.findViewById(R.id.over);
-        under = activity.findViewById(R.id.under);
-        left = activity.findViewById(R.id.left);
+        joy_stick = activity.findViewById(R.id.joystickView);
         setting = activity.findViewById(R.id.setting);
         do_button = activity.findViewById(R.id.do_button);
         inventory_button = activity.findViewById(R.id.inventory_button);

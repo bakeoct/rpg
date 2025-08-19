@@ -42,62 +42,66 @@ public class Player extends Entity implements Serializable {
         this.items.addAll(monster_items);
     }
 
-    public void walk(int walk_texture_number) {
+    public void walk(int walk_texture_number,float xPercent,float yPercent) {
         knowWhereTail();
-        switch (direction) {
-            case "right":
-                if (walk_texture_number == 1) {
-                    game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_right_walk));
-                } else if (walk_texture_number == 2) {
-                    game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_right));
-                }
-                if (game.event.notPlayerEnter(this.x + speed,this.y)) {
-                    System.out.println("再度選んでくださいp");
-                } else {
-                    this.x += speed;
-                }
-                break;
-            case "left":
-                if (walk_texture_number == 1) {
-                    game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_left));
-                } else if (walk_texture_number == 2) {
-                    game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_left_walk));
-                }
-                if (game.event.notPlayerEnter(this.x - speed,this.y)) {
-                    System.out.println("再度選んでくださいp");
-                } else {
-                    this.x -= speed;
-                }
-                break;
-            case "under":
-                if (walk_texture_number == 1) {
-                    game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_under_walk_1));
-                } else if (walk_texture_number == 2) {
-                    game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_under_walk_2));
-                }
-                if (game.event.notPlayerEnter(this.x,this.y + speed)) {
-                    System.out.println("再度選んでくださいp");
-                } else {
-                    this.y += speed;
-                }
-                break;
+        direction(walk_texture_number,xPercent,yPercent);
+        if (game.event.notPlayerEnter(this.x + speed * xPercent,this.y + speed * yPercent)) {
+            System.out.println("再度選んでくださいp");
+        } else {
+            this.x += speed * xPercent;
+            this.y += speed * yPercent;
+        }
+        image.setX(this.x);
+        image.setY(this.y);
+        serve_mpx = mpx;
+        serve_mpy = mpy;
+    }
+    private String direction(int walk_texture_number,float xPercent,float yPercent){
+        String dire_x = null;
+        String dire_y = null;
+        if (0 < xPercent) {
+            dire_x = "right";
+        } else {
+            dire_x = "left";
+        }
+        if (0 < yPercent) {
+            dire_y = "behind";
+        } else {
+            dire_y = "over";
+        }
+        String d = null;
+        if (Math.abs(xPercent) < Math.abs(yPercent)){
+            d = dire_y;
+        }else {
+            d = dire_x;
+        }
+        switch (d){
             case "over":
                 if (walk_texture_number == 1) {
                     game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_over_walk_1));
                 } else if (walk_texture_number == 2) {
                     game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_over_walk_2));
                 }
-                if (game.event.notPlayerEnter(this.x,this.y - speed)) {
-                    System.out.println("再度選んでくださいp");
-                } else {
-                    this.y -= speed;
+            case "behind":
+                if (walk_texture_number == 1) {
+                    game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_under_walk_1));
+                } else if (walk_texture_number == 2) {
+                    game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_under_walk_2));
                 }
-                break;
+            case "right":
+                if (walk_texture_number == 1) {
+                    game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_right_walk));
+                } else if (walk_texture_number == 2) {
+                    game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_right));
+                }
+            case "left":
+                if (walk_texture_number == 1) {
+                    game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_left));
+                } else if (walk_texture_number == 2) {
+                    game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_left_walk));
+                }
         }
-        image.setX(this.x);
-        image.setY(this.y);
-        serve_mpx = mpx;
-        serve_mpy = mpy;
+        return d;
     }
 
     private void knowWhereTail() {

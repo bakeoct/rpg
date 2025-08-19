@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.rpg.ControlKey;
+import com.example.rpg.Calc.controlKey.ControlKey;
 import com.example.rpg.R;
 import com.example.rpg.graphic.TransitionActivity;
 import com.example.rpg.graphic.map_activity.super_activity.MapActivity;

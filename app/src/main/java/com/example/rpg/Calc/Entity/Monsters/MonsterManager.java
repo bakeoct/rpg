@@ -184,7 +184,6 @@ public class MonsterManager extends AppCompatActivity implements Serializable {
                 monster.x += monster.speed;
                 monster.image.setImageResource(monster.monster_drawable[2]);
                 if (game.event.notMonsterEnter(monster)){
-                    System.out.println("再度選んでくださいm");
                     monster.x -= monster.speed;
                 }
                 knowWhereTail(monster);
@@ -193,7 +192,6 @@ public class MonsterManager extends AppCompatActivity implements Serializable {
                 monster.x -= monster.speed;
                 monster.image.setImageResource(monster.monster_drawable[1]);
                 if (game.event.notMonsterEnter(monster)){
-                    System.out.println("再度選んでくださいm");
                     monster.x += monster.speed;
                 }
                 knowWhereTail(monster);
@@ -202,7 +200,6 @@ public class MonsterManager extends AppCompatActivity implements Serializable {
                 monster.y += monster.speed;
                 monster.image.setImageResource(monster.monster_drawable[0]);
                 if (game.event.notMonsterEnter(monster)){
-                    System.out.println("再度選んでくださいm");
                     monster.y -= monster.speed;
                 }
                 knowWhereTail(monster);
@@ -211,7 +208,6 @@ public class MonsterManager extends AppCompatActivity implements Serializable {
                 monster.y -= monster.speed;
                 monster.image.setImageResource(monster.monster_drawable[3]);
                 if (game.event.notMonsterEnter(monster)){
-                    System.out.println("再度選んでくださいm");
                     monster.y += monster.speed;
                 }
                 knowWhereTail(monster);
