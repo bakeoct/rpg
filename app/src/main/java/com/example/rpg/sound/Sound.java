@@ -21,23 +21,23 @@ import java.util.ArrayList;
 
 public class Sound extends AppCompatActivity implements Serializable {
 
-    public void startSounds(Tail place) {
-        MediaPlayer sound_to_play = sortingSounds(place);
+    public void startSounds(String tail_id) {
+        MediaPlayer sound_to_play = sortingSounds(tail_id);
         sound_to_play.start();
     }
-    public MediaPlayer sortingSounds(Tail place) {
+    public MediaPlayer sortingSounds(String tail_id) {
         MediaPlayer sound_to_play = null;
-        if(place.tail_id.equals("stone")) {//Stone
+        if(tail_id.equals("stone")) {//Stone
             sound_to_play = game.mpm.audio.get(0);
-        }else if(place.tail_id.equals("wood")) {
+        }else if(tail_id.equals("wood")) {
             sound_to_play = game.mpm.audio.get(1);
-        }else if(place.tail_id.equals("ocean")) {
+        }else if(tail_id.equals("ocean")) {
             sound_to_play = game.mpm.audio.get(2);
-        }else if (place.tail_id.equals("grave")) {
+        }else if (tail_id.equals("grave")) {
                 sound_to_play = game.mpm.audio.get(3);
-        }else if(place.tail_id.equals("glass")) {
+        }else if(tail_id.equals("glass")) {
             sound_to_play = game.mpm.audio.get(4);
-        } else if(place.equals("treasure_box")) {
+        } else if(equals("treasure_box")) {
             sound_to_play = game.mpm.audio.get(7);
         }
         return sound_to_play;

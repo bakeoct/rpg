@@ -59,7 +59,7 @@ public class StoreActivity extends AppCompatActivity implements Serializable {
             display_buyitems.add(shopping_item);
         }
         //ready_sell
-        for (Item item : game.p.items) {
+        for (Item item : game.player.items) {
             TextView shopping_item = new TextView(this);
             shopping_item.setTextColor(Color.WHITE);
             shopping_item.setText(item.name);
@@ -113,7 +113,7 @@ public class StoreActivity extends AppCompatActivity implements Serializable {
                         serif.setText("何を売るんだ？");
                         addNewTextViewSell();
                         display_shopping_items.bringToFront();
-                        for (int i = 0; i < game.p.items.size(); i++) {
+                        for (int i = 0; i < game.player.items.size(); i++) {
                             int sell_items = i;
                             display_shopping_items.getChildAt(sell_items).setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -165,11 +165,11 @@ public class StoreActivity extends AppCompatActivity implements Serializable {
     }
     private void addNewTextViewSell(){
         LinearLayout linearContainer = findViewById(R.id.group_items);
-        System.out.println(game.p.items.size()+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        for (int i = 0; i < game.p.items.size(); i++) {
+        System.out.println(game.player.items.size()+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        for (int i = 0; i < game.player.items.size(); i++) {
             TextView textView = new TextView(this);
             textView.setTextColor(Color.RED);
-            textView.setText(game.p.items.get(i).name);
+            textView.setText(game.player.items.get(i).name);
             linearContainer.addView(textView);
         }
     }

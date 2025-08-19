@@ -1,20 +1,19 @@
-package com.example.rpg.Calc.Monsters;
+package com.example.rpg.Calc.Entity.Monsters;
 
-import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.Calc.skill.Hit.hit_attack;
 import static com.example.rpg.Calc.skill.LittleFire.little_fire;
 import static com.example.rpg.Calc.skill.Throw.throw_attack;
 
-import com.example.rpg.Calc.skill.Hit;
-import com.example.rpg.Calc.skill.LittleFire;
-import com.example.rpg.Calc.skill.Throw;
+import com.example.rpg.Calc.Entity.Monsters.super_monster.Monster;
 import com.example.rpg.R;
 
 import java.io.Serializable;
 
-public class PutiSlime extends Monster2 implements Serializable {
-    public static PutiSlime puti_slime = new PutiSlime();
+public class PutiSlime extends Monster implements Serializable {
     public PutiSlime(){
+        this.detection_distance = 300;
+        this.frequency_move_bound = 2000;
+        this.minimum_frequency_move = 66;
         this.limit_hp=3980;
         this.limit_mp=700;
         this.defence=0;
@@ -24,7 +23,7 @@ public class PutiSlime extends Monster2 implements Serializable {
         this.attack=50;
         this.mp=700;
         this.judge_sente=7;
-        this.name="プチスライム";
+        this.name="puti_slime";
         this.is_alive=true;
         this.fellow=false;
         this.can_get_experince_point = 2000;
@@ -32,11 +31,10 @@ public class PutiSlime extends Monster2 implements Serializable {
         this.all_skill.add(hit_attack);
         this.all_skill.add(throw_attack);
         this.all_skill.add(little_fire);
-        this.monster_drawable_usually = new int[]{R.drawable.puti_slime,R.drawable.puti_slime_left,R.drawable.puti_slime_right,R.drawable.puti_slime_under};
-        this.monster_drawable_damage_enemy = new int[]{R.drawable.puti_slime_left_damage};
-        this.monster_drawable_damage_ally = new int[]{R.drawable.puti_slime_right_damage};
+        speed = 5;
+        this.monster_drawable = new int[]{R.drawable.puti_slime,R.drawable.puti_slime_left,R.drawable.puti_slime_right,R.drawable.puti_slime_under};
     }
-    public static String look(Monster2 monster){
+    public static String look(Monster monster){
         return monster.name;
     }
 }

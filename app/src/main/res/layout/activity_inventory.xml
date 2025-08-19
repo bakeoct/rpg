@@ -90,7 +90,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.312"
-        app:srcCompat="@drawable/yuusya" />
+        app:srcCompat="@drawable/player_over" />
 
     <ImageView
         android:id="@+id/inventory_of_monster"

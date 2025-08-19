@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import static com.example.rpg.Calc.Game.game;
-import static com.example.rpg.Calc.Monsters.Monster2.getMonsterRandomly;
 import static com.example.rpg.graphic.map_activity.GameActivity.game_activity;
 import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 import static com.example.rpg.sound.MediaPlayerManager.media_player;
@@ -16,7 +15,6 @@ import static com.example.rpg.sound.MediaPlayerManager.media_player;
 import android.media.MediaPlayer;
 
 import com.example.rpg.R;
-import com.example.rpg.sound.MediaPlayerManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         ImageView continue_button = findViewById(R.id.continue_button);
         media_player = MediaPlayer.create(this, R.raw.bgmusic);
         media_player.start();
-        game.get_enemy_monster = getMonsterRandomly();
     continue_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

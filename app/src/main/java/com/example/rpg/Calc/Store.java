@@ -6,7 +6,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import static com.example.rpg.Calc.Game.game;
 import android.widget.TextView;
-import com.example.rpg.Calc.Error.Finish;
+
 import com.example.rpg.Calc.Item.*;
 import com.example.rpg.Calc.Item.monsteritem.DragonKingMerchandise;
 import com.example.rpg.Calc.Item.monsteritem.GorlemMerchandise;
@@ -15,18 +15,11 @@ import com.example.rpg.Calc.Item.monsteritem.PutiSlimeMerchandise;
 import com.example.rpg.Calc.Mission.Mission;
 import com.example.rpg.Calc.Mission.MissionDragonKing;
 import com.example.rpg.Calc.Mission.MissionSab;
-import com.example.rpg.Calc.Monsters.*;
-import com.example.rpg.Calc.treasure.TreasureChestLadder;
-import com.example.rpg.R;
-import com.example.rpg.graphic.StoreActivity;
-import android.view.ViewGroup;
-
-import org.w3c.dom.Text;
+import com.example.rpg.Calc.Entity.Monsters.*;
+import com.example.rpg.Calc.Entity.Monsters.super_monster.Monster;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
 
 public class Store implements Serializable {
     public int store_lv=1;
@@ -93,7 +86,7 @@ public class Store implements Serializable {
                             try {
                                 int sell_number = Integer.parseInt(choose_number.getText().toString());
                                 if (sell_number >= 1) {
-                                    if (game.p.items.get(sell_items).have_point >= sell_number){
+                                    if (game.player.items.get(sell_items).have_point >= sell_number){
                                         sell_click((TextView) shopping_items.getChildAt(sell_items), sell_number,serif);
                                         correct = true;
                                     }else {
@@ -121,12 +114,12 @@ public class Store implements Serializable {
                     mission.get_reward = false;
                     System.out.println("お！、お前" + mission.name + "のミッションを達成しているな");
                     System.out.println("ほら報酬だ！");
-                    game.p.money += mission.reward;
+                    game.player.money += mission.reward;
                 }
             }
             if (!endflg) {
                 System.out.println("ミッションを受けるんだな");
-                missionSab.receive(game.p, this.mission_all);
+                missionSab.receive(game.player, this.mission_all);
                 System.out.println(this.mission_all.get(0).progress);
             }
         }
@@ -137,9 +130,9 @@ public class Store implements Serializable {
             System.out.println("じゃあな");
         }
         public static boolean getAfterMoney (Item item, int buy_number){
-        boolean have_enough_money = game.p.money >= item.buy_price * buy_number;
+        boolean have_enough_money = game.player.money >= item.buy_price * buy_number;
             if (have_enough_money) {
-                game.p.money -= item.buy_price * buy_number;
+                game.player.money -= item.buy_price * buy_number;
                 getItems(item, buy_number);
             }
             return have_enough_money;
@@ -149,17 +142,17 @@ public class Store implements Serializable {
                 item.have = true;
                 for (MonsterItem alive_item : game.store.monster_items_all) {
                     if (alive_item == item) {
-                        game.p.monsters2.add(inMonster(item));
+                        game.player.monsters2.add(inMonster(item));
                     }
                 }
                 if (item instanceof FightItem) {
-                    game.p.fight_items.add((FightItem) item);
+                    game.player.fight_items.add((FightItem) item);
                 } else if (item instanceof FieldItem) {
-                    game.p.field_items.add((FieldItem) item);
+                    game.player.field_items.add((FieldItem) item);
                 } else {
-                    game.p.monster_items.add((MonsterItem) item);
+                    game.player.monster_items.add((MonsterItem) item);
                 }
-                game.p.items.add(item);
+                game.player.items.add(item);
             }
             item.have_point += buy_number;
             return item.have_point;
@@ -172,25 +165,25 @@ public class Store implements Serializable {
             }
         }
         public void sellMath (Item item, int sell_number,TextView serif){
-            game.p.money += item.sell_price * sell_number;
+            game.player.money += item.sell_price * sell_number;
             item.have_point -= sell_number;
             serif.setText(item.name + "を" + "売った");
             if (item.have_point == 0) {
                 item.have = false;
-                for (int i = 0; i < game.p.monsters2.size(); i++) {
-                    if (game.p.monsters2.get(i).name.equals(item.name)) {
-                        game.p.monsters2.remove(i);
+                for (int i = 0; i < game.player.monsters2.size(); i++) {
+                    if (game.player.monsters2.get(i).name.equals(item.name)) {
+                        game.player.monsters2.remove(i);
                     }
                 }
-                for (int i = 0; i < game.p.items.size(); i++) {
-                    if (game.p.items.get(i) == item) {
-                        game.p.items.remove(i);
+                for (int i = 0; i < game.player.items.size(); i++) {
+                    if (game.player.items.get(i) == item) {
+                        game.player.items.remove(i);
                     }
                 }
             }
         }
-        public static Monster2 inMonster (Item item){
-            Monster2 monster2 = null;
+        public static Monster inMonster (Item item){
+            Monster monster2 = null;
             PutiSlime puti_slime = new PutiSlime();
             MetalSlime metal_slime = new MetalSlime();
             Gorlem gorlem = new Gorlem();
@@ -215,7 +208,7 @@ public class Store implements Serializable {
         }
     }
     public void sell_click(TextView want_sell_item,int sell_number,TextView serif){
-        for (Item item : game.p.items) {
+        for (Item item : game.player.items) {
             if (want_sell_item.getText().equals(item.name)) {
                 sellMath(item, sell_number,serif);
                 System.out.println("他はどうだ？");

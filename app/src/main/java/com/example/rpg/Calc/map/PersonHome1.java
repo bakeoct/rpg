@@ -18,14 +18,14 @@ public class PersonHome1 extends Map implements Serializable {
     public static final String BWH = "back_world_home";
     public static Tail[][] people_home1 = {
             {new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail()},
-            {new ErrorTail(),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new TreasureBoxTail(0,"people_home1_1"),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new ErrorTail()},
+            {new ErrorTail(),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new TreasureBoxTail(0,"people_home1_1",0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new ErrorTail()},
             {new ErrorTail(),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new ErrorTail()},
             {new ErrorTail(),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new ErrorTail()},
             {new ErrorTail(),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new ErrorTail()},
             {new ErrorTail(),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new ErrorTail()},
             {new ErrorTail(),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new ErrorTail()},
             {new ErrorTail(),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new WoodTail(0,0),new ErrorTail()},
-            {new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new EntranceAndExitTail(1,"to_main"),new ErrorTail(),new ErrorTail(),new ErrorTail()},
+            {new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new EntranceAndExitTail(1,"to_main",0),new ErrorTail(),new ErrorTail(),new ErrorTail()},
             {new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail()}
     };
 }

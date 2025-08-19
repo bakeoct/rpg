@@ -5,23 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridLayout
-        android:id="@+id/map"
+    <FrameLayout
+        android:id="@+id/entityMap"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:columnCount="23"
-        android:gravity="bottom|center"
-        android:rowCount="13"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
-
-    </GridLayout>
-
+        <GridLayout
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom|center"
+            android:columnCount="23"
+            android:rowCount="13"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"></GridLayout>
+    </FrameLayout>
     <ImageView
         android:id="@+id/hero"
         android:layout_width="26dp"
@@ -32,19 +38,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/yuusya" />
-
-    <ImageView
-        android:id="@+id/enemy_monster"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/dragon_king" />
+        app:srcCompat="@drawable/player_over" />
 
     <ImageView
         android:id="@+id/setting"

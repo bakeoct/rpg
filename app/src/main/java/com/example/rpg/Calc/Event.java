@@ -1,26 +1,20 @@
 package com.example.rpg.Calc;
 
+import com.example.rpg.Calc.Entity.Entity;
 import com.example.rpg.Calc.Item.*;
 import com.example.rpg.Calc.Mission.MissionDragonKing;
+import com.example.rpg.Calc.Entity.Monsters.super_monster.Monster;
 import com.example.rpg.Calc.map.Map;
 
 import static com.example.rpg.Calc.Game.game;
-import static com.example.rpg.Calc.map.PersonHome1.*;
-import com.example.rpg.Calc.Monsters.EnemyMonster;
+
 import com.example.rpg.Calc.map.tail.Tail;
 
-import static com.example.rpg.Calc.map.cave.Cave1_1.*;
-import static com.example.rpg.Calc.map.cave.Cave1.*;
-import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 
-import static com.example.rpg.sound.Sound.*;
-import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_X;
-import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
+import static com.example.rpg.graphic.TransitionActivity.from_activity;
 
-import android.media.MediaPlayer;
-import android.media.SoundPool;
+import android.widget.ImageView;
 
 public class Event implements Serializable{
     public Map map;
@@ -29,85 +23,74 @@ public class Event implements Serializable{
         this.map = map;
         this.mission_dragon_king = missionDragonKing;
     }
-    public void eventPerson(Tail serveget_map_code) {
-        //これをmapに送って二つメソッド動かす
-        Tail get_map_code = map.getMapCode(game.p.mpx, game.p.mpy,game.p.area);
-        if (get_map_code.equals("grave")) {
-            if (get_map_code.floor - serveget_map_code.floor == 1 || get_map_code.floor - serveget_map_code.floor == -1) {
-                notPoint(game.store.ladder,get_map_code);
-            }else {
-                game.sound.startSounds(get_map_code);
-            }
-        } else if (get_map_code.equals("glass")) {
-            if (serveget_map_code.equals("")){
-
-            }
-            if (!(get_map_code.equals(serveget_map_code))) {
-                notPoint(game.store.ladder,get_map_code);
-            }else {
-                game.sound.startSounds(get_map_code);
-            }
-        } else if (get_map_code .equals("海")) {
-            if (!(get_map_code.equals(serveget_map_code))) {
-                notPoint(game.store.ship,get_map_code);
-            }else {
-                game.sound.startSounds(get_map_code);
-            }
-        } else if (get_map_code.equals("glass") || get_map_code.equals("wood") || get_map_code.equals("stone") || get_map_code.equals("cliff_on_glass")) {
-            if (get_map_code.equals("cliff_on_glass")){
-                get_map_code = "glass";
-            }
-            game.sound.startSounds(get_map_code);
-        }  else if (get_map_code .equals("errer")) {
-            game.p.mpx = game.p.serve_x;
-            game.p.mpy = game.p.serve_y;
-            System.out.println("noooo");
-        }
-    }
-    public int eventMonster(int monsteri){
-        String monster_get_map_code = map.getMapCode(game.enemy_monster.x, game.enemy_monster.y,game.enemy_monster.area);
-        if (monster_get_map_code.equals("errer")) {
-            monsteri--;
-            game.enemy_monster.x = game.enemy_monster.monster_serve_x;
-            game.enemy_monster.y = game.enemy_monster.monster_serve_y;
-        }else if (monster_get_map_code.equals("back_world")){
-            if (game.enemy_monster.area.equals("民家1")){
-                game.enemy_monster.x = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_X;
-                game.enemy_monster.y = PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_Y;
-            }else if (game.enemy_monster.area.equals("洞窟1")){
-                game.p.mpx = CAVE1_BACK_MAIN_WORLD_INITIAL_X;
-                game.p.mpy = CAVE1_BACK_MAIN_WORLD_INITIAL_Y;
-            }
-            game.enemy_monster.area = "メインマップ";
-        }else if (monster_get_map_code.equals("people_home_1")){
-            game.enemy_monster.area = "民家1";
-            game.enemy_monster.x = PERSON_HOME1_INITIAL_X;
-            game.enemy_monster.y = PERSON_HOME1_INITIAL_Y;
-        }else if (monster_get_map_code.equals("cave1")) {
-            game.enemy_monster.area = "洞窟1";
-            game.enemy_monster.x = CAVE1_INITIAL_X;
-            game.enemy_monster.y = CAVE1_INITIAL_Y;
-        } else if (monster_get_map_code.equals("cave1_1")) {
-            game.enemy_monster.area = "洞窟1_1";
-            game.enemy_monster.x = CAVE1_1_INITIAL_X;
-            game.enemy_monster.y = CAVE1_1_INITIAL_Y;
-        } else if (monster_get_map_code.equals("back_cave_1")) {
-            if (game.enemy_monster.area.equals("洞窟1_1")){
-                game.enemy_monster.x = CAVE1_1_BACK_CAVE1_INITIAL_X;
-                game.enemy_monster.y = CAVE1_1_BACK_CAVE1_INITIAL_Y;
-            }
-            game.enemy_monster.area = "洞窟1";
-        }
-        return monsteri;
-    }
-    public void notPoint(Item item, Tail get_map_code) {
+    public boolean haveItemDiagnosis(Item item, Tail get_map_code) {
+        boolean cant_enter = false;
         //アイテム（はしごや船など）をインベントリで手に持ったまま崖や海のマスに進む
-        if (item == game.p.have_item) {
-            game.sound.startSounds(get_map_code);
+        if (item == game.player.have_item) {
+            game.sound.startSounds(get_map_code.tail_id);
         }else {
-            System.out.println("再度選んでください");
-            game.p.mpx = game.p.serve_x;
-            game.p.mpy = game.p.serve_y;
+            cant_enter = true;
         }
+        return cant_enter;
+    }
+    public boolean notAppear(float x,float y) {
+        for (int i = 0; i < from_activity.map.length;i++){
+            for(int j = 0; j < from_activity.map[i].length; j++){
+                if (x < (from_activity.map[i][j].image.getX() + game.image_size)
+                        && x + game.image_size > (from_activity.map[i][j].image.getX())
+                        && y < (from_activity.map[i][j].image.getY() + game.image_size)
+                        && y + game.image_size > (from_activity.map[i][j].image.getY())) {
+                    System.out.println("Y座標"+i);
+                    System.out.println("X座標"+j);
+                    System.out.println(from_activity.map[i][j].image.getX());
+                    if (from_activity.map[i][j].tail_id.equals("error") || from_activity.map[i][j].tail_id.equals("ocean")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    public boolean notPlayerEnter(float x,float y){
+        Tail get_map_code = from_activity.map[game.player.mpy][game.player.mpx];
+        for (int i = 0; i < from_activity.map.length;i++){
+            for(int j = 0; j < from_activity.map[i].length; j++){
+                if (x < (from_activity.map[i][j].image.getX() + game.image_size)
+                        && x + game.image_size > (from_activity.map[i][j].image.getX())
+                        && y < (from_activity.map[i][j].image.getY() + game.image_size)
+                        && y + game.image_size > (from_activity.map[i][j].image.getY())) {
+                    if (from_activity.map[i][j].tail_id.equals("error")) {//移動先がエラーゾーンやったときに実行
+                        return true;
+                    } else if (from_activity.map[i][j].tail_id.equals("ocean")) {//移動先が海やったときに実行
+                            return haveItemDiagnosis(game.store.ship, get_map_code);
+                    }else if (get_map_code.floor - from_activity.map[i][j].floor == +-1) { //前の座標との高さ関係
+                        return haveItemDiagnosis(game.store.ladder, get_map_code);
+                    } else if (get_map_code.floor - from_activity.map[i][j].floor == 0) {
+                        game.sound.startSounds(get_map_code.tail_id);
+                    } else {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    public boolean notMonsterEnter(Monster monster){
+        Tail get_map_code = from_activity.map[monster.mpy][monster.mpx];
+        for (int i = 0; i < from_activity.map.length;i++){
+            for(int j = 0; j < from_activity.map[i].length; j++){
+                if (monster.x < (from_activity.map[i][j].image.getX() + game.image_size)
+                        && monster.x + game.image_size > (from_activity.map[i][j].image.getX())
+                        && monster.y < (from_activity.map[i][j].image.getY() + game.image_size)
+                        && monster.y + game.image_size > (from_activity.map[i][j].image.getY())){
+                    if (from_activity.map[i][j].tail_id.equals("error")
+                            || from_activity.map[i][j].tail_id.equals("ocean")
+                            || get_map_code.floor - from_activity.map[i][j].floor != 0) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

@@ -18,13 +18,13 @@ public class Cave1_1 extends Map implements Serializable {
     public static Tail[][] cave1_1 = {
             {new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail()},
             {new ErrorTail(),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new ErrorTail()},
-            {new ErrorTail(),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new TreasureBoxTail(0,"cave1_1"),new ErrorTail()},
+            {new ErrorTail(),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new TreasureBoxTail(0,"cave1_1",0),new ErrorTail()},
             {new ErrorTail(),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new ErrorTail()},
             {new ErrorTail(),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new ErrorTail()},
             {new ErrorTail(),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail()},
             {new ErrorTail(),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail()},
             {new ErrorTail(),new StoneTail(0,0),new StoneTail(0,0),new StoneTail(0,0),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail()},
-            {new ErrorTail(),new ErrorTail(),new EntranceAndExitTail(0,"to_cave1"),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail()},
+            {new ErrorTail(),new ErrorTail(),new EntranceAndExitTail(0,"to_cave1",0),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail()},
             {new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail()},
     };
 }

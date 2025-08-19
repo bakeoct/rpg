@@ -9,6 +9,8 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.rpg.graphic.map_activity.super_activity.MapActivity;
+
 import java.io.Serializable;
 
 public class ControlKey extends AppCompatActivity implements Serializable {
@@ -19,7 +21,7 @@ public class ControlKey extends AppCompatActivity implements Serializable {
     public ImageView setting;
     public ImageView do_button;
     public ImageView inventory_button;
-    public ControlKey(Activity activity){
+    public ControlKey(MapActivity activity){
         right = activity.findViewById(R.id.right);
         over = activity.findViewById(R.id.over);
         under = activity.findViewById(R.id.under);
@@ -27,8 +29,8 @@ public class ControlKey extends AppCompatActivity implements Serializable {
         setting = activity.findViewById(R.id.setting);
         do_button = activity.findViewById(R.id.do_button);
         inventory_button = activity.findViewById(R.id.inventory_button);
-        game.p.image = activity.findViewById(R.id.hero);
-        game.enemy_monster.image = activity.findViewById(R.id.enemy_monster);
+        game.player.image = activity.findViewById(R.id.hero);
         game.map.grid_layout_map = activity.findViewById(R.id.map);
+        activity.entity_map = activity.findViewById(R.id.entityMap);
     }
 }

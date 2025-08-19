@@ -25,13 +25,13 @@ public abstract class Treasure {
             this.open_history = true;
             game.sound.startSounds("treasure_chest");
             if (this.treasure instanceof FightItem) {
-                game.p.fight_items.add((FightItem) this.treasure);
+                game.player.fight_items.add((FightItem) this.treasure);
             } else if (this.treasure instanceof FieldItem) {
-                game.p.field_items.add((FieldItem) this.treasure);
+                game.player.field_items.add((FieldItem) this.treasure);
             } else {
-                game.p.monster_items.add((MonsterItem) this.treasure);
+                game.player.monster_items.add((MonsterItem) this.treasure);
             }
-            game.p.items.add(this.treasure);
+            game.player.items.add(this.treasure);
         }
     }
 }

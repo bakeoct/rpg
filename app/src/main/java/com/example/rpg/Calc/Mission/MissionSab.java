@@ -1,13 +1,13 @@
 package com.example.rpg.Calc.Mission;
 
-import com.example.rpg.Calc.Person;
+import com.example.rpg.Calc.Entity.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MissionSab implements Serializable {
-    public void receive(Person p, ArrayList<Mission> mission_all) {
+    public void receive(Player p, ArrayList<Mission> mission_all) {
         Scanner scanner = new Scanner(System.in);
         int i = 0;
         ArrayList<Mission> missions = new ArrayList<>();

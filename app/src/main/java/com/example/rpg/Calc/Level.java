@@ -1,11 +1,12 @@
 package com.example.rpg.Calc;
 
-import com.example.rpg.Calc.Monsters.Monster2;
+import com.example.rpg.Calc.Entity.Player;
+import com.example.rpg.Calc.Entity.Monsters.super_monster.Monster;
 
 import java.io.Serializable;
 
 public class Level implements Serializable {
-    public void upLevel(Person p){
+    public void upLevel(Player p){
         while (true) {
             boolean endflg = true;
             if (p.have_experience_point >= p.need_experience_point) {
@@ -14,7 +15,7 @@ public class Level implements Serializable {
                 p.need_experience_point *= 2;
                 endflg = false;
             }
-            for (Monster2 monster2 : p.monsters2) {
+            for (Monster monster2 : p.monsters2) {
                 if (monster2.have_experince_point >= monster2.need_experince_point) {
                     monster2.up_leberu++;
                     monster2.leberu++;
@@ -27,7 +28,7 @@ public class Level implements Serializable {
                 break;
             }
         }
-        for (Monster2 monster2 : p.monsters2) {
+        for (Monster monster2 : p.monsters2) {
             for (int i = 0; i < monster2.up_leberu; i++) {
                 monster2.hp *= 1.5;
                 monster2.mp *= 1.5;

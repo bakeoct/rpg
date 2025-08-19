@@ -1,14 +1,5 @@
 package com.example.rpg.graphic;
 
-import android.content.res.Resources;
-import android.os.Handler;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-
-import com.example.rpg.Calc.Monsters.Monster2;
-import com.example.rpg.Calc.skill.Skill;
-import com.example.rpg.R;
-
 import java.util.LinkedList;
 import java.util.Queue;
 
