@@ -9,15 +9,13 @@ import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 import static com.example.rpg.save.SaveWriteAndRead.saveWriteAndRead;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.rpg.Calc.controlKey.ControlKey;
-import com.example.rpg.Calc.controlKey.JoyStickView;
+import com.example.rpg.Calc.controlView.ControlView;
+import com.example.rpg.Calc.controlView.JoyStickView;
 import com.example.rpg.R;
 import com.example.rpg.graphic.TransitionActivity;
 import com.example.rpg.sound.MediaPlayerManager;
@@ -30,7 +28,7 @@ public class Action extends AppCompatActivity implements Serializable, View.OnTo
     private boolean repeat_flg_player = false;
     private float moveX = 0, moveY = 0;
     private MotionEvent e = null;
-    public void setPersonAction(ControlKey control_key) {
+    public void setPersonAction(ControlView control_key) {
         control_key.joy_stick.setJoystickListener(new JoyStickView.JoystickListener() {
             @Override
             public void onJoystickMoved(float xPercent, float yPercent, MotionEvent event) {
@@ -83,31 +81,30 @@ public class Action extends AppCompatActivity implements Serializable, View.OnTo
             case MotionEvent.ACTION_UP:
                 repeat_flg_player = false;
                 break;
-            case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_DOWN:
-                
                 repeat_flg_player = true;
-                int stop_time = 15;
-                int stop_time_amount = 0;
-                int walk_texture_number = 1;
-                try {
-                    Thread.sleep(stop_time); //0.015秒イベント中断。値が小さいほど、高速で連続する
-                } catch (InterruptedException e) {
-                }
-                stop_time_amount += stop_time;
-                game.player.walk(walk_texture_number, moveX, moveY);
-                if (stop_time_amount > 500) {
-                    if (walk_texture_number == 1) {
-                        walk_texture_number = 2;
-                    } else if (walk_texture_number == 2) {
-                        walk_texture_number = 1;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        int stop_time = 15;
+                        int stop_time_amount = 0;
+                        int walk_texture_number = 1;
+                        while (repeat_flg_player) {
+                            try {
+                                Thread.sleep(stop_time); //0.015秒イベント中断。値が小さいほど、高速で連続する
+                            } catch (InterruptedException e) {
+                            }
+                            stop_time_amount += stop_time;
+                            game.player.walk(walk_texture_number,moveX,moveY);
+                            if (stop_time_amount > 500){
+                                if (walk_texture_number == 1) walk_texture_number = 2;
+                                else walk_texture_number = 1;
+                                stop_time_amount = 0;
+                            }
+                        }
                     }
-                    stop_time_amount = 0;
-                    }
+                }).start();
                 break;
-        }
-        if (repeat_flg_player){
-            new Handler().postDelayed(this::movePlayer,16);
         }
     }
     //MonsterAction
@@ -146,6 +143,11 @@ public class Action extends AppCompatActivity implements Serializable, View.OnTo
                             from_activity.monster_on_map.get(which_monster).distance_from_player = game.navmesh.distanceFromPlayer(game.player.image, from_activity.monster_on_map.get(which_monster).image);
                             if (from_activity.monster_on_map.get(which_monster).detection_distance < from_activity.monster_on_map.get(which_monster).distance_from_player) {
                                 repeat_flg_monster.set(which_monster, true);
+                                try {
+                                    Thread.sleep(from_activity.monster_on_map.get(which_monster).getFrequencyMove());
+                                } catch (InterruptedException interruptedException) {
+                                    interruptedException.printStackTrace();
+                                }
                             } else {
                                 game.navmesh.tracking(from_activity.monster_on_map.get(which_monster));
                             }

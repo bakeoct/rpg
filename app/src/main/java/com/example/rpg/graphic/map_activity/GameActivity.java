@@ -5,9 +5,16 @@ import static com.example.rpg.Calc.map.PersonHome1.PERSON_HOME1_INITIAL_Y;
 import static com.example.rpg.graphic.map_activity.PeopleHomeActivity.people_home_1_activity;
 import static com.example.rpg.Calc.map.world_map.World_map.world_map;
 import static com.example.rpg.graphic.TransitionActivity.from_activity;
+
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.WindowMetrics;
+import android.widget.GridLayout;
 
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_X;
 import static com.example.rpg.Calc.map.cave.Cave1.CAVE1_INITIAL_Y;
@@ -17,7 +24,9 @@ import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 
 import static com.example.rpg.Calc.Game.game;
 
-import com.example.rpg.Calc.controlKey.ControlKey;
+import androidx.annotation.RequiresApi;
+
+import com.example.rpg.Calc.controlView.ControlView;
 import com.example.rpg.R;
 import com.example.rpg.graphic.TransitionActivity;
 import com.example.rpg.graphic.map_activity.super_activity.MapActivity;
@@ -34,11 +43,10 @@ public class GameActivity extends MapActivity implements Serializable {
         max_monster_num = 10;
         this.map = world_map;
         game.mpm.playMusic(this, R.raw.bgmusic);
-        ControlKey control_key = new ControlKey(this);
+        ControlView control_key = new ControlView(this);
         game.map.makeMap();
         game.map.setEntity();
         game.action.setPersonAction(control_key);
-
         control_key.do_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

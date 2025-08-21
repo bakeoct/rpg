@@ -14,8 +14,9 @@ import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.GridLayout;
 
-import com.example.rpg.Calc.controlKey.ControlKey;
+import com.example.rpg.Calc.controlView.ControlView;
 import com.example.rpg.R;
 import com.example.rpg.graphic.TransitionActivity;
 import com.example.rpg.graphic.map_activity.super_activity.MapActivity;
@@ -32,7 +33,7 @@ public class Cave1Activity extends MapActivity implements Serializable {
         from_activity = this;
         cave_1_activity.map = cave1;
         game.mpm.playMusic(this,R.raw.cavemusic);
-        ControlKey control_key = new ControlKey(this);
+        ControlView control_key = new ControlView(this);
         game.map.makeMap();
         game.map.setEntity();
         game.action.setPersonAction(control_key);

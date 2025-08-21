@@ -5,7 +5,7 @@ import android.widget.FrameLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.rpg.Calc.Entity.Monsters.super_monster.Monster;
-import com.example.rpg.Calc.controlKey.JoyStickView;
+import com.example.rpg.Calc.controlView.JoyStickView;
 import com.example.rpg.Calc.map.tail.Tail;
 
 import java.io.Serializable;

@@ -10,6 +10,7 @@ import static com.example.rpg.Calc.map.world_map.World_map.*;
 import static com.example.rpg.graphic.TransitionActivity.from_activity;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
 import android.widget.ImageView;
@@ -21,39 +22,35 @@ import com.example.rpg.R;
 import com.example.rpg.graphic.map_activity.super_activity.MapActivity;
 
 public class Map extends AppCompatActivity implements Serializable {
-        public GridLayout grid_layout_map;//モンスターの動きが完成したら消す
+    public GridLayout grid_layout_map;//モンスターの動きが完成したら消す
+    private Runnable runnable;
 
-        public int[] getRange(String area){
-            int[] map =new int[2];
-            if (area.equals("メインマップ")){
-                map[0] = 22;
-                map[1] = 12;
-            }else if (area.equals("民家1")){
-                map[0] = 8;
-                map[1] = 8;
-            }else if (area.equals("洞窟1")){
-                map[0] = 4;
-                map[1] = 8;
-            }else if (area.equals("洞窟1_1")){
-                map[0] = 8;
-                map[1] = 8;
-            }
-            return map;
-        }
-        public void makeMap(){
-            grid_layout_map.removeAllViews();
-            for (int i = 0; i < from_activity.map.length; i++) {
-                for (int j = 0; j < from_activity.map[i].length; j++) {
-                    from_activity.map[i][j].image = new ImageView(from_activity);
-                    from_activity.map[i][j].image.setImageDrawable(from_activity.map[i][j].drawable);
-//                    from_activity.map[i][j].image.setImageDrawable(from_activity.getDrawable(R.drawable.debug));デバックしたい時だけ使う
-                    from_activity.map[i][j].image.setLayoutParams(from_activity.map[i][j].layout_params);
-                    grid_layout_map.addView(from_activity.map[i][j].image);
+    public void makeMap() {
+        grid_layout_map.setRowCount(from_activity.map.length);
+        grid_layout_map.setColumnCount(from_activity.map[0].length);
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                grid_layout_map.removeAllViews();
+                for (int i = 0; i < from_activity.map.length; i++) {
+                    for (int j = 0; j < from_activity.map[i].length; j++) {
+                        from_activity.map[i][j].image = new ImageView(from_activity);
+                        from_activity.map[i][j].image.setImageDrawable(from_activity.map[i][j].drawable);
+                        //from_activity.map[i][j].image.setImageDrawable(from_activity.getDrawable(R.drawable.debug));デバックしたい時だけ使う
+                        from_activity.map[i][j].image.setLayoutParams(from_activity.map[i][j].layout_params);
+                        grid_layout_map.addView(from_activity.map[i][j].image);
+
+                    }
                 }
-            }
-        }
+                System.out.println("a");
 
-    public void setEntity(){
+                new Handler().postDelayed(runnable,1);
+            }
+        };
+        new Handler().post(runnable);
+    }
+
+    public void setEntity() {
         game.map.grid_layout_map.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -69,7 +66,8 @@ public class Map extends AppCompatActivity implements Serializable {
             }
         });
     }
-    private void setCoordinate(){
+
+    private void setCoordinate() {
         for (int i = 0; i < from_activity.map.length; i++) {
             for (int j = 0; j < from_activity.map[i].length; j++) {
                 from_activity.map[i][j].x_start = from_activity.map[i][j].image.getX() + game.map.grid_layout_map.getX();
@@ -79,4 +77,4 @@ public class Map extends AppCompatActivity implements Serializable {
             }
         }
     }
-    }
+}

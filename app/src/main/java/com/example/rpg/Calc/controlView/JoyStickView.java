@@ -1,4 +1,4 @@
-package com.example.rpg.Calc.controlKey;
+package com.example.rpg.Calc.controlView;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -49,7 +49,7 @@ public class JoyStickView extends View {
         canvas.drawCircle(centerX, centerY, baseRadius, paint);
 
         // 内円
-        paint.setARGB(255, 100, 100, 100);
+        paint.setARGB(255, 100, 100, 150);
         canvas.drawCircle(touchX, touchY, hatRadius, paint);
     }
 

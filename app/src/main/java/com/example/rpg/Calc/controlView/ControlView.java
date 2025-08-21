@@ -1,8 +1,7 @@
-package com.example.rpg.Calc.controlKey;
+package com.example.rpg.Calc.controlView;
 
 import static com.example.rpg.Calc.Game.game;
 
-import android.content.Context;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,13 +11,13 @@ import com.example.rpg.graphic.map_activity.super_activity.MapActivity;
 
 import java.io.Serializable;
 
-public class ControlKey extends AppCompatActivity implements Serializable {
+public class ControlView extends AppCompatActivity implements Serializable {
 
     public JoyStickView joy_stick;
     public ImageView setting;
     public ImageView do_button;
     public ImageView inventory_button;
-    public ControlKey(MapActivity activity){
+    public ControlView(MapActivity activity){
         joy_stick = activity.findViewById(R.id.joystickView);
         setting = activity.findViewById(R.id.setting);
         do_button = activity.findViewById(R.id.do_button);

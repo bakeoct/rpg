@@ -8,8 +8,15 @@ import com.example.rpg.R;
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.graphic.TransitionActivity.from_activity;
 
+import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.view.WindowManager;
+import android.view.WindowMetrics;
 import android.widget.ImageView;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -20,6 +27,8 @@ public class Player extends Entity implements Serializable {
     public int lv = 1;
     public int have_experience_point = 0;
     public int need_experience_point = 100;
+    public int screenX;
+    public int screenY;
     public ArrayList<FieldItem> field_items = new ArrayList<>();
     public ArrayList<MonsterItem> monster_items = new ArrayList<>();
     public ArrayList<FightItem> fight_items = new ArrayList<>();
@@ -28,11 +37,12 @@ public class Player extends Entity implements Serializable {
     public Item have_item = null;
     public int choose_item = 0;
 
+
     public Player() {
-        mpx = 12;
-        mpy = 6;
-        serve_mpx = 12;
-        serve_mpy = 6;
+        mpx = 25;
+        mpy = 25;
+        serve_mpx = 25;
+        serve_mpy = 25;
         x = 0;
         y = 0;
         speed = 5;
@@ -40,6 +50,15 @@ public class Player extends Entity implements Serializable {
         this.items.addAll(field_items);
         this.items.addAll(fight_items);
         this.items.addAll(monster_items);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    public void setPlayerOnMap(){
+        WindowMetrics windowMetrics = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getCurrentWindowMetrics();
+        Rect bounds = windowMetrics.getBounds();
+        game.player.screenX = bounds.width() / 2 - game.image_size / 2;
+        game.player.screenY = bounds.height() / 2 - game.image_size / 2;
+        game.player.image.setX(screenX);
+        game.player.image.setY(screenY);
     }
 
     public void walk(int walk_texture_number,float xPercent,float yPercent) {
@@ -82,24 +101,28 @@ public class Player extends Entity implements Serializable {
                 } else if (walk_texture_number == 2) {
                     game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_over_walk_2));
                 }
+                break;
             case "behind":
                 if (walk_texture_number == 1) {
                     game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_under_walk_1));
                 } else if (walk_texture_number == 2) {
                     game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_under_walk_2));
                 }
+                break;
             case "right":
                 if (walk_texture_number == 1) {
                     game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_right_walk));
                 } else if (walk_texture_number == 2) {
                     game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_right));
                 }
+                break;
             case "left":
                 if (walk_texture_number == 1) {
                     game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_left));
                 } else if (walk_texture_number == 2) {
                     game.player.image.setImageDrawable(from_activity.getDrawable(R.drawable.player_left_walk));
                 }
+                break;
         }
         return d;
     }

@@ -8,8 +8,9 @@ import static com.example.rpg.graphic.TransitionActivity.from_activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.GridLayout;
 
-import com.example.rpg.Calc.controlKey.ControlKey;
+import com.example.rpg.Calc.controlView.ControlView;
 import com.example.rpg.R;
 import com.example.rpg.graphic.TransitionActivity;
 import com.example.rpg.graphic.map_activity.super_activity.MapActivity;
@@ -26,7 +27,7 @@ public class PeopleHomeActivity extends MapActivity implements Serializable {
         from_activity = this;
         people_home_1_activity.map = people_home1;
         game.mpm.playMusic(this,R.raw.homemusic);
-        ControlKey control_key = new ControlKey(this);
+        ControlView control_key = new ControlView(this);
         //マップの画面表示
         game.map.makeMap();
         game.map.setEntity();
