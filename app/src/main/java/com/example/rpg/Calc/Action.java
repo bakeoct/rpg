@@ -86,16 +86,16 @@ public class Action extends AppCompatActivity implements Serializable, View.OnTo
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        int stop_time = 15;
+                        final int STOP_TIME = 16;
                         int stop_time_amount = 0;
                         int walk_texture_number = 1;
                         while (repeat_flg_player) {
                             try {
-                                Thread.sleep(stop_time); //0.015秒イベント中断。値が小さいほど、高速で連続する
+                                Thread.sleep(STOP_TIME); //0.015秒イベント中断。値が小さいほど、高速で連続する
                             } catch (InterruptedException e) {
                             }
-                            stop_time_amount += stop_time;
-                            game.player.walk(walk_texture_number,moveX,moveY);
+                            stop_time_amount += STOP_TIME;
+                            game.player.walk(walk_texture_number,moveX,moveY,repeat_flg_player);
                             if (stop_time_amount > 500){
                                 if (walk_texture_number == 1) walk_texture_number = 2;
                                 else walk_texture_number = 1;

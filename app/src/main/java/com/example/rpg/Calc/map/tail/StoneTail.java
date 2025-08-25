@@ -15,7 +15,7 @@ public class StoneTail extends Tail {
         floor = flooR;
         switch (on_it) {
             case 0:
-                drawable = from_activity.getResources().getDrawable(R.drawable.stone, null);
+                drawable = 9;
                 break;
         }
     }

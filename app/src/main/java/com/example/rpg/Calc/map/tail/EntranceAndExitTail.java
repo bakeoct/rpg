@@ -11,13 +11,13 @@ public class EntranceAndExitTail extends Tail {
         floor = flooR;
         switch (wko) {
             case 0:
-                drawable = from_activity.getResources().getDrawable(R.drawable.cave_entrance, null);
+                drawable = 0;
                 break;
             case 1:
-                drawable = from_activity.getResources().getDrawable(R.drawable.door_wood_1, null);
+                drawable = 1;
                 break;
             case 2:
-                drawable = from_activity.getResources().getDrawable(R.drawable.store, null);
+                drawable = 2;
         }
     }
 }

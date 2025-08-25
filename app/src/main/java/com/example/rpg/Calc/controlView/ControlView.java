@@ -23,7 +23,7 @@ public class ControlView extends AppCompatActivity implements Serializable {
         do_button = activity.findViewById(R.id.do_button);
         inventory_button = activity.findViewById(R.id.inventory_button);
         game.player.image = activity.findViewById(R.id.hero);
-        game.map.grid_layout_map = activity.findViewById(R.id.map);
         activity.entity_map = activity.findViewById(R.id.entityMap);
+        activity.draw_map_view = activity.findViewById(R.id.drawMap);
     }
 }

@@ -15,7 +15,7 @@ public class WoodTail extends Tail {
         floor = flooR;
         switch (on_it) {
             case 0:
-                drawable = from_activity.getResources().getDrawable(R.drawable.wood, null);
+                drawable = 11;
                 break;
         }
     }

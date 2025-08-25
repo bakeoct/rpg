@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         setTail();
         assignmentItemDrawable();
         ImageView continue_button = findViewById(R.id.continue_button);
-        media_player = MediaPlayer.create(this, R.raw.bgmusic);
-        media_player.start();
+//        media_player = MediaPlayer.create(this, R.raw.bgmusic);
+//        media_player.start();
     continue_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

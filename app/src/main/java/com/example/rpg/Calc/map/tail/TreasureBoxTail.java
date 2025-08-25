@@ -23,7 +23,7 @@ public class TreasureBoxTail extends Tail {
         floor = flooR;
         switch (wko) {
             case 0:
-                drawable = from_activity.getResources().getDrawable(R.drawable.treasure_chest, null);
+                drawable = 10;
                 break;
         }
         HANDLER = new Handler();

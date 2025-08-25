@@ -1,21 +1,15 @@
 package com.example.rpg.Calc.map.world_map;
 
 import java.io.Serializable;
-import static com.example.rpg.Calc.map.PersonHome1.*;
 
-import com.example.rpg.Calc.map.Map;
-import com.example.rpg.Calc.map.tail.EntranceAndExitTail;
 import com.example.rpg.Calc.map.tail.ErrorTail;
 import com.example.rpg.Calc.map.tail.GlassTail;
-import com.example.rpg.Calc.map.tail.GravelTail;
 import com.example.rpg.Calc.map.tail.OceanTail;
 import com.example.rpg.Calc.map.tail.StoneTail;
 import com.example.rpg.Calc.map.tail.Tail;
-import com.example.rpg.Calc.map.tail.TreasureBoxTail;
 import com.example.rpg.Calc.map.tail.WoodTail;
-import com.example.rpg.graphic.TransitionActivity;
 
-public class World_map extends Map implements Serializable {
+public class World_map implements Serializable {
     public static Tail[][] world_map = {
             {new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail()},
             {new ErrorTail(),new OceanTail(0,0,false),new OceanTail(0,0,false),new OceanTail(0,0,false),new OceanTail(0,0,false),new OceanTail(0,0,false),new OceanTail(0,0,false),new OceanTail(0,0,false),new OceanTail(0,0,false),new OceanTail(0,0,false),new OceanTail(0,0,false),new OceanTail(0,0,false),new OceanTail(0,0,false),new OceanTail(0,0,false),new OceanTail(0,0,false),new OceanTail(0,0,false),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new ErrorTail()},
@@ -68,4 +62,17 @@ public class World_map extends Map implements Serializable {
             {new ErrorTail(),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new ErrorTail()},
             {new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail()}
     };
+//    public static Tail[][] world_map = {//デバッグ用
+//            {new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail()},
+//            {new ErrorTail(),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new ErrorTail()},
+//            {new ErrorTail(),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new ErrorTail()},
+//            {new ErrorTail(),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new StoneTail(0,1),new ErrorTail()},
+//            {new ErrorTail(),new GlassTail(1,0),new GlassTail(1,0),new GlassTail(1,0),new GlassTail(1,0),new GlassTail(1,0),new GlassTail(1,0),new GlassTail(1,0),new GlassTail(1,0),new ErrorTail()},
+//            {new ErrorTail(),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new ErrorTail()},
+//            {new ErrorTail(),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new ErrorTail()},
+//            {new ErrorTail(),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new ErrorTail()},
+//            {new ErrorTail(),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new GlassTail(0,0),new ErrorTail()},
+//            {new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail(),new ErrorTail()}
+//    };
+
 }

@@ -30,8 +30,9 @@ public class Cave1_1Activity extends MapActivity implements Serializable {
         cave1_1_activity.map = cave1_1;
         game.mpm.playMusic(this,R.raw.cavemusic);
         ControlView control_key = new ControlView(this);
-        game.map.makeMap();
-        game.map.setEntity();
+        game.player.setPlayerOnMap();
+        game.monster_manager.appearMonsterOnMap();
+        game.action.moveMonster();
         game.action.setPersonAction(control_key);
         control_key.do_button.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -218,8 +218,8 @@
 //        game.enemy_monster.area = "メインマップ";
 //        game.enemy_monster.monster_serve_x = 12;
 //        game.enemy_monster.monster_serve_y = 4;
-//        game.enemy_monster.x = 12;
-//        game.enemy_monster.y = 4;
+//        game.enemy_monster.world_x = 12;
+//        game.enemy_monster.world_y = 4;
 //        game.enemy_monster.directly = "over";
 //        game.player.monsters2.add(metal_slime);
 //        game.player.monsters2.add(gorlem);

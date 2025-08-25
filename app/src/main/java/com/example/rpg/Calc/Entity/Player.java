@@ -2,24 +2,14 @@ package com.example.rpg.Calc.Entity;
 
 import com.example.rpg.Calc.Item.*;
 import com.example.rpg.Calc.Entity.Monsters.super_monster.Monster;
-import com.example.rpg.Calc.map.tail.Tail;
 import com.example.rpg.R;
 
 import static com.example.rpg.Calc.Game.game;
 import static com.example.rpg.graphic.TransitionActivity.from_activity;
 
-import android.content.Context;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.view.WindowManager;
-import android.view.WindowMetrics;
-import android.widget.ImageView;
-
-import androidx.annotation.RequiresApi;
+import android.content.res.Resources;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Player extends Entity implements Serializable {
@@ -27,8 +17,8 @@ public class Player extends Entity implements Serializable {
     public int lv = 1;
     public int have_experience_point = 0;
     public int need_experience_point = 100;
-    public int screenX;
-    public int screenY;
+    public int screen_x;
+    public int screen_y;
     public ArrayList<FieldItem> field_items = new ArrayList<>();
     public ArrayList<MonsterItem> monster_items = new ArrayList<>();
     public ArrayList<FightItem> fight_items = new ArrayList<>();
@@ -37,47 +27,47 @@ public class Player extends Entity implements Serializable {
     public Item have_item = null;
     public int choose_item = 0;
 
-
     public Player() {
         mpx = 25;
         mpy = 25;
         serve_mpx = 25;
         serve_mpy = 25;
-        x = 0;
-        y = 0;
+//        mpx = 4;//デバッグ用
+//        mpy = 6;
+//        serve_mpx = 4;
+//        serve_mpy = 6;
         speed = 5;
         direction = "over";
         this.items.addAll(field_items);
         this.items.addAll(fight_items);
         this.items.addAll(monster_items);
     }
-    @RequiresApi(api = Build.VERSION_CODES.R)
     public void setPlayerOnMap(){
-        WindowMetrics windowMetrics = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getCurrentWindowMetrics();
-        Rect bounds = windowMetrics.getBounds();
-        game.player.screenX = bounds.width() / 2 - game.image_size / 2;
-        game.player.screenY = bounds.height() / 2 - game.image_size / 2;
-        game.player.image.setX(screenX);
-        game.player.image.setY(screenY);
+        this.screen_x = from_activity.getResources().getSystem().getDisplayMetrics().widthPixels / 2 - game.image_size / 2;
+        this.screen_y = from_activity.getResources().getSystem().getDisplayMetrics().heightPixels / 2 - game.image_size / 2;
+        game.player.image.setX(screen_x);
+        game.player.image.setY(screen_y);
     }
 
-    public void walk(int walk_texture_number,float xPercent,float yPercent) {
-        knowWhereTail();
-        direction(walk_texture_number,xPercent,yPercent);
-        if (game.event.notPlayerEnter(this.x + speed * xPercent,this.y + speed * yPercent)) {
-            System.out.println("再度選んでくださいp");
-        } else {
-            this.x += speed * xPercent;
-            this.y += speed * yPercent;
+    public void walk(int walk_texture_number,float xPercent,float yPercent,boolean repeat_flg) {
+        if (repeat_flg) {
+            knowWhereTail();
+            direction(walk_texture_number, xPercent, yPercent);
+            if (game.event.notPlayerEnter(this.world_x + speed * xPercent, this.world_y + speed * yPercent)) {
+                System.out.println("再度選んでくださいp");
+                System.out.println();
+                System.out.println();
+            } else {
+                this.world_x += speed * xPercent;
+                this.world_y += speed * yPercent;
+            }
+            serve_mpx = mpx;
+            serve_mpy = mpy;
         }
-        image.setX(this.x);
-        image.setY(this.y);
-        serve_mpx = mpx;
-        serve_mpy = mpy;
     }
     private String direction(int walk_texture_number,float xPercent,float yPercent){
-        String dire_x = null;
-        String dire_y = null;
+        String dire_x;
+        String dire_y;
         if (0 < xPercent) {
             dire_x = "right";
         } else {
@@ -88,7 +78,7 @@ public class Player extends Entity implements Serializable {
         } else {
             dire_y = "over";
         }
-        String d = null;
+        String d;
         if (Math.abs(xPercent) < Math.abs(yPercent)){
             d = dire_y;
         }else {
@@ -130,7 +120,10 @@ public class Player extends Entity implements Serializable {
     private void knowWhereTail() {
         for (int i = 0; i < from_activity.map.length; i++) {
             for (int j = 0; j < from_activity.map[i].length; j++) {
-                if (from_activity.map[i][j].x_start <= game.player.image.getX() + game.image_size / 2 && from_activity.map[i][j].x_end >= game.player.image.getX() + game.image_size / 2 && from_activity.map[i][j].y_start <= game.player.image.getY() + game.image_size / 2 && from_activity.map[i][j].y_end >= game.player.image.getY() + game.image_size / 2) {
+                if (from_activity.map[i][j].x_start <= game.player.screen_x
+                    && from_activity.map[i][j].x_end >= game.player.screen_x
+                    && from_activity.map[i][j].y_start <= game.player.screen_y
+                    && from_activity.map[i][j].y_end >= game.player.screen_y) {
                     this.mpx = j;
                     this.mpy = i;
                 }

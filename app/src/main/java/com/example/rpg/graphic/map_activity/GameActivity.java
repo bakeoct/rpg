@@ -39,13 +39,16 @@ public class GameActivity extends MapActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        game.player.world_x = game.player.mpx * game.image_size;
+        game.player.world_y = game.player.mpy * game.image_size;
         from_activity = this;
         max_monster_num = 10;
         this.map = world_map;
-        game.mpm.playMusic(this, R.raw.bgmusic);
+//        game.mpm.playMusic(this, R.raw.bgmusic);
         ControlView control_key = new ControlView(this);
-        game.map.makeMap();
-        game.map.setEntity();
+        game.player.setPlayerOnMap();
+        game.monster_manager.appearMonsterOnMap();
+        game.action.moveMonster();
         game.action.setPersonAction(control_key);
         control_key.do_button.setOnClickListener(new View.OnClickListener() {
             @Override

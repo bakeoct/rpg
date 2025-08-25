@@ -1,15 +1,13 @@
 package com.example.rpg.Calc.map;
 import java.io.Serializable;
 
-import static com.example.rpg.Calc.map.Map.*;
-
 import com.example.rpg.Calc.map.tail.EntranceAndExitTail;
 import com.example.rpg.Calc.map.tail.ErrorTail;
 import com.example.rpg.Calc.map.tail.Tail;
 import com.example.rpg.Calc.map.tail.TreasureBoxTail;
 import com.example.rpg.Calc.map.tail.WoodTail;
 
-public class PersonHome1 extends Map implements Serializable {
+public class PersonHome1 implements Serializable {
     public static final int PERSON_HOME1_INITIAL_X = 4;
     public static final int PERSON_HOME1_INITIAL_Y = 7;
     public static final int PERSON_HOME1_BACK_MAIN_WORLD_INITIAL_X = 18;

@@ -16,7 +16,7 @@ public class OceanTail extends Tail {
         need_ship = need__ship;
         switch (on_it) {
             case 0:
-                drawable = from_activity.getResources().getDrawable(R.drawable.sea, null);
+                drawable = 8;
                 break;
         }
     }

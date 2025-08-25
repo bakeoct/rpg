@@ -26,10 +26,13 @@ public class NavMesh {
         float len = distanceFromPlayer(game.player.image, monster.image);
         if (50f < len) {//この数値はモンスターをプレイヤーの手前で止めるもの
             direction(dx, dy, monster);
-            monster.x += dx * monster.speed / len;
-            monster.y += dy * monster.speed / len;
-            monster.image.setX(monster.x);
-            monster.image.setY(monster.y);
+            float x = monster.speed / len * dx;
+            float y = monster.speed / len * dy;
+            if (!(game.event.notMonsterEnter(monster,x,y))){
+                monster.world_x += monster.speed / len * dx;
+                monster.world_y += monster.speed / len * dy;
+            }
+            knowWhereTail(monster);
         }
         try {
             Thread.sleep(25); //0.1秒イベント中断。値が小さいほど、高速で連続する
@@ -40,12 +43,12 @@ public class NavMesh {
     private void direction(float dx, float dy, Monster monster) {
         String dire_x;
         String dire_y;
-        if (game.player.x < monster.x) {
+        if (game.player.world_x < monster.world_x) {
             dire_x = "left";
         } else {
             dire_x = "right";
         }
-        if (game.player.y < monster.y) {
+        if (game.player.world_y < monster.world_y) {
             dire_y = "over";
         } else {
             dire_y = "behind";
@@ -97,6 +100,19 @@ public class NavMesh {
                 direction = "over";
         }
         return direction;
+    }
+    public void knowWhereTail(Monster monster){
+        for (int i = 0; i < from_activity.map.length;i++){
+            for(int j = 0; j < from_activity.map[i].length; j++){
+                if (from_activity.map[i][j].x_start <= monster.image.getX() + game.image_size / 2
+                        && from_activity.map[i][j].x_end >= monster.image.getX()
+                        && from_activity.map[i][j].y_start <= monster.image.getY() + game.image_size / 2
+                        && from_activity.map[i][j].y_end >= monster.image.getY() ){
+                    monster.mpx = j;
+                    monster.mpy = i;
+                }
+            }
+        }
     }
 
 }

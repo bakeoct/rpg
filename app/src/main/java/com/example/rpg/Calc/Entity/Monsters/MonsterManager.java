@@ -5,7 +5,6 @@ import static com.example.rpg.graphic.TransitionActivity.from_activity;
 
 import android.graphics.drawable.Drawable;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,11 +62,11 @@ public class MonsterManager extends AppCompatActivity implements Serializable {
     }
     private void setMonsterInitialCoordinates(int end_flg, Monster monster){
         Random random = new Random();
-        float graphic_x = 0;
-        float graphic_y = 0;
+        int graphic_x = 0;
+        int graphic_y = 0;
         while(end_flg == 0) {
-            graphic_x = (game.map.grid_layout_map.getX() - game.image_size / 2) + game.image_size * monster.mpx + random.nextInt(game.image_size);
-            graphic_y = (game.map.grid_layout_map.getY() - game.image_size / 2) + game.image_size * monster.mpy + random.nextInt(game.image_size);
+            graphic_x = from_activity.map[0][0].x_start + game.image_size * monster.mpx + random.nextInt(game.image_size) + game.player.screen_x;
+            graphic_y = from_activity.map[0][0].y_start + game.image_size * monster.mpy + random.nextInt(game.image_size) + game.player.screen_y;
             end_flg++;
             if (game.event.notAppear(graphic_x,graphic_y)){
                 end_flg = 0;
@@ -75,8 +74,8 @@ public class MonsterManager extends AppCompatActivity implements Serializable {
         }
         monster.image.setX(graphic_x);
         monster.image.setY(graphic_y);
-        monster.x = graphic_x;
-        monster.y = graphic_y;
+        monster.world_x = graphic_x;
+        monster.world_y = graphic_y;
     }
     private Drawable setMonsterImage(Monster monster) {
         Drawable drawable = null;
@@ -166,55 +165,49 @@ public class MonsterManager extends AppCompatActivity implements Serializable {
 //        Random random_new_enemy_monster =new Random();
 //        Map map =new Map();
 //        int[] range = map.getRange(this.area);
-//        int x = random_new_enemy_monster.nextInt(range[0]);
-//        int y = random_new_enemy_monster.nextInt(range[1]);
-//        Tail price =map.getMapCode(x,y,this.area);
+//        int world_x = random_new_enemy_monster.nextInt(range[0]);
+//        int world_y = random_new_enemy_monster.nextInt(range[1]);
+//        Tail price =map.getMapCode(world_x,world_y,this.area);
 //        while (price.tail_id.equals("error")){
-//            x =random_new_enemy_monster.nextInt(range[0]);
-//            y = random_new_enemy_monster.nextInt(range[1]);
-//            price =map.getMapCode(x,y,this.area);
+//            world_x =random_new_enemy_monster.nextInt(range[0]);
+//            world_y = random_new_enemy_monster.nextInt(range[1]);
+//            price =map.getMapCode(world_x,world_y,this.area);
 //        }
-//        this.x = x;
-//        this.y = y;
+//        this.world_x = world_x;
+//        this.world_y = world_y;
 //    }
     public Monster walk(Monster monster){
         Tail serve_get_map_code = from_activity.map[monster.mpy][monster.mpx];
         switch (monster.direction){
             case "right":
-                monster.x += monster.speed;
                 monster.image.setImageResource(monster.monster_drawable[2]);
-                if (game.event.notMonsterEnter(monster)){
-                    monster.x -= monster.speed;
+                if (!(game.event.notMonsterEnter(monster,monster.speed,monster.speed))){
+                    monster.world_x += monster.speed;
                 }
-                knowWhereTail(monster);
+                game.navmesh.knowWhereTail(monster);
                 break;
             case "left":
-                monster.x -= monster.speed;
                 monster.image.setImageResource(monster.monster_drawable[1]);
-                if (game.event.notMonsterEnter(monster)){
-                    monster.x += monster.speed;
+                if (!(game.event.notMonsterEnter(monster,-monster.speed,-monster.speed))){
+                    monster.world_x -= monster.speed;
                 }
-                knowWhereTail(monster);
+                game.navmesh.knowWhereTail(monster);
                 break;
             case "under":
-                monster.y += monster.speed;
                 monster.image.setImageResource(monster.monster_drawable[0]);
-                if (game.event.notMonsterEnter(monster)){
-                    monster.y -= monster.speed;
+                if (!(game.event.notMonsterEnter(monster,monster.speed,monster.speed))){
+                    monster.world_y += monster.speed;
                 }
-                knowWhereTail(monster);
+                game.navmesh.knowWhereTail(monster);
                 break;
             case "over":
-                monster.y -= monster.speed;
                 monster.image.setImageResource(monster.monster_drawable[3]);
-                if (game.event.notMonsterEnter(monster)){
-                    monster.y += monster.speed;
+                if (game.event.notMonsterEnter(monster,-monster.speed,-monster.speed)){
+                    monster.world_y -= monster.speed;
                 }
-                knowWhereTail(monster);
+                game.navmesh.knowWhereTail(monster);
                 break;
         }
-        monster.image.setX(monster.x);
-        monster.image.setY(monster.y);
         monster.serve_mpx = monster.mpx;
         monster.serve_mpy = monster.mpy;
         return monster;
@@ -227,17 +220,5 @@ public class MonsterManager extends AppCompatActivity implements Serializable {
         monsterList.add(new PutiSlime());
         return monsterList;
     }
-    private void knowWhereTail(Monster monster){
-        for (int i = 0; i < from_activity.map.length;i++){
-            for(int j = 0; j < from_activity.map[i].length; j++){
-                if (from_activity.map[i][j].x_start <= monster.image.getX() + game.image_size / 2
-                        && from_activity.map[i][j].x_end >= monster.image.getX() + game.image_size / 2
-                        && from_activity.map[i][j].y_start <= monster.image.getY() + game.image_size / 2
-                        && from_activity.map[i][j].y_end >= monster.image.getY() + game.image_size / 2 ){
-                    monster.mpx = j;
-                    monster.mpy = i;
-                }
-            }
-        }
-    }
+
 }

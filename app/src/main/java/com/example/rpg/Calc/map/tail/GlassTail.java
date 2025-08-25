@@ -15,10 +15,10 @@ public class GlassTail extends Tail {
         floor = flooR;
         switch (on_it) {
             case 0:
-                drawable =  from_activity.getResources().getDrawable(R.drawable.glass, null);
+                drawable =  4;
                 break;
             case 1:
-                drawable = from_activity.getResources().getDrawable(R.drawable.cliff_on_glass, null);
+                drawable = 5;
                 break;
         }
     }

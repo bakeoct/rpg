@@ -12,6 +12,6 @@ import com.example.rpg.R;
 public class ErrorTail extends Tail {
     public ErrorTail(){
         tail_id = "error";
-        drawable = from_activity.getResources().getDrawable(R.drawable.errerzone, null);
+        drawable = 3;
     }
 }

@@ -29,8 +29,9 @@ public class PeopleHomeActivity extends MapActivity implements Serializable {
         game.mpm.playMusic(this,R.raw.homemusic);
         ControlView control_key = new ControlView(this);
         //マップの画面表示
-        game.map.makeMap();
-        game.map.setEntity();
+        game.player.setPlayerOnMap();
+        game.monster_manager.appearMonsterOnMap();
+        game.action.moveMonster();
         game.action.setPersonAction(control_key);
         control_key.do_button.setOnClickListener(new View.OnClickListener() {
             @Override

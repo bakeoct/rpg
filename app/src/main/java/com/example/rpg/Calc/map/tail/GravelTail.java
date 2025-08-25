@@ -15,10 +15,10 @@ public class GravelTail extends Tail {
             floor = flooR;
             switch (on_it) {
                 case 0:
-                    drawable = from_activity.getResources().getDrawable(R.drawable.jyari, null);
+                    drawable = 6;
                     break;
                 case 1:
-                    drawable = from_activity.getResources().getDrawable(R.drawable.cliff_on_jyari, null);
+                    drawable = 7;
                     break;
             }
         }
