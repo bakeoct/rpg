@@ -20,7 +20,7 @@ public class Gorlem extends Monster implements Serializable {
         this.leberu = 1;
         this.hp=9;
         this.all_skill.add(throw_attack);
-        this.attack=700;
+        this.attack=7000;
         this.mp=3000;
         this.judge_sente=1;
         this.name="golem";

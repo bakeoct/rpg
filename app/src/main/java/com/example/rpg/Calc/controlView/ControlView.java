@@ -2,7 +2,10 @@ package com.example.rpg.Calc.controlView;
 
 import static com.example.rpg.Calc.Game.game;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +20,7 @@ public class ControlView extends AppCompatActivity implements Serializable {
     public ImageView setting;
     public ImageView do_button;
     public ImageView inventory_button;
+    public ProgressBar hp_bar;
     public ControlView(MapActivity activity){
         joy_stick = activity.findViewById(R.id.joystickView);
         setting = activity.findViewById(R.id.setting);
@@ -25,5 +29,7 @@ public class ControlView extends AppCompatActivity implements Serializable {
         game.player.image = activity.findViewById(R.id.hero);
         activity.entity_map = activity.findViewById(R.id.entityMap);
         activity.draw_map_view = activity.findViewById(R.id.drawMap);
+        hp_bar = activity.findViewById(R.id.hp_bar);
+        hp_bar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
     }
 }

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.WindowMetrics;
@@ -35,6 +36,7 @@ import java.io.Serializable;
 
 public class GameActivity extends MapActivity implements Serializable {
     public static GameActivity game_activity = new GameActivity();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +47,7 @@ public class GameActivity extends MapActivity implements Serializable {
         max_monster_num = 10;
         this.map = world_map;
 //        game.mpm.playMusic(this, R.raw.bgmusic);
-        ControlView control_key = new ControlView(this);
+        control_key = new ControlView(this);
         game.player.setPlayerOnMap();
         game.monster_manager.appearMonsterOnMap();
         game.action.moveMonster();

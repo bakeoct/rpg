@@ -15,11 +15,8 @@ public abstract class Monster extends Entity implements Serializable {
     public float distance_from_player;
     public long minimum_frequency_move;
     public int frequency_move_bound;
-    public int hp;
-    public int limit_hp;
     public int mp;
     public int limit_mp;
-    public int attack;
     public int defence;
     public int up_leberu;
     public String name;

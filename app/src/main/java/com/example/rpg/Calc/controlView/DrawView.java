@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -20,6 +21,8 @@ import com.example.rpg.Calc.Entity.Monsters.super_monster.Monster;
 import com.example.rpg.R;
 
 import java.text.AttributedCharacterIterator;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
     private Thread gameThread;
@@ -41,20 +44,32 @@ public class DrawView extends SurfaceView implements SurfaceHolder.Callback {
             if (!holder.getSurface().isValid()) {
                 return;
             }
+            long FPS = 1000000000 / 60;
+            long old_time = System.nanoTime();
             while (isPlaying) {
-                //マップの描画
-                Canvas canvas = holder.lockCanvas();
-                canvas.drawColor(Color.BLACK);
-                for (int i = 0; i < from_activity.map.length; i++) {
-                    for (int j = 0; j < from_activity.map[i].length; j++) {
-                        drawMap(canvas, i, j);
+                long now = System.nanoTime();
+                if (now - old_time >= FPS) {
+                    //マップの描画
+                    Canvas canvas = holder.lockCanvas();
+                    canvas.drawColor(Color.BLACK);
+                    for (int i = 0; i < from_activity.map.length; i++) {
+                        for (int j = 0; j < from_activity.map[i].length; j++) {
+                            drawMap(canvas, i, j);
+                        }
                     }
-                }
-                holder.unlockCanvasAndPost(canvas);
-                //monsterの座標変更
-                for (Monster monster : from_activity.monster_on_map) {
-                    monster.image.setX(monster.world_x - game.player.world_x + game.player.screen_x);
-                    monster.image.setY(monster.world_y - game.player.world_y + game.player.screen_y);
+                    holder.unlockCanvasAndPost(canvas);
+                    from_activity.control_key.joy_stick.setJoystickListener(new JoyStickView.JoystickListener() {
+                        @Override
+                        public void onJoystickMoved(float xPercent, float yPercent, MotionEvent event) {
+                            game.action.movePlayer(event,xPercent,yPercent);
+                        }
+                    });
+                    game.action.moveMonster();
+                    //monsterの座標変更
+                    for (Monster monster : from_activity.monster_on_map) {
+                        monster.image.setX(monster.world_x - game.player.world_x + game.player.screen_x);
+                        monster.image.setY(monster.world_y - game.player.world_y + game.player.screen_y);
+                    }
                 }
             }
         }

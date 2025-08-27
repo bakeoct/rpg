@@ -27,16 +27,24 @@ public class NavMesh {
         if (50f < len) {//この数値はモンスターをプレイヤーの手前で止めるもの
             direction(dx, dy, monster);
             float x = monster.speed / len * dx;
-            float y = monster.speed / len * dy;
-            if (!(game.event.notMonsterEnter(monster,x,y))){
+            if (!(game.event.notMonsterEnter(monster,x,0))){
                 monster.world_x += monster.speed / len * dx;
+            }
+            float y = monster.speed / len * dy;
+            if (!(game.event.notMonsterEnter(monster,0,y))){
                 monster.world_y += monster.speed / len * dy;
             }
             knowWhereTail(monster);
-        }
-        try {
-            Thread.sleep(25); //0.1秒イベント中断。値が小さいほど、高速で連続する
-        } catch (InterruptedException e) {
+            try {
+                Thread.sleep(25); //0.025秒イベント中断。値が小さいほど、高速で連続する
+            } catch (InterruptedException e) {
+            }
+        }else {
+            attack(monster);
+            try {
+                Thread.sleep(1000); //0.1秒イベント中断。値が小さいほど、高速で連続する
+            } catch (InterruptedException e) {
+            }
         }
     }
 
@@ -112,6 +120,17 @@ public class NavMesh {
                     monster.mpy = i;
                 }
             }
+        }
+    }
+
+    private void attack(Monster monster){
+        game.player.hp -= monster.attack;
+        int percent = (int)(100 * game.player.hp / game.player.limit_hp);
+        from_activity.control_key.hp_bar.setProgress(percent);
+        game.player.knockBack();
+        game.player.changeHpBarColor();
+        if (game.player.hp <= 0) {
+            game.player.gameOver();
         }
     }
 

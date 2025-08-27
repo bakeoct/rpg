@@ -20,7 +20,7 @@ public class MetalSlime extends Monster implements Serializable{
         this.up_leberu=0;
         this.hp = 2;
         this.leberu = 1;
-        this.attack=6;
+        this.attack=6000;
         this.mp=8000;
         this.judge_sente=20;
         this.name="metal_slime";

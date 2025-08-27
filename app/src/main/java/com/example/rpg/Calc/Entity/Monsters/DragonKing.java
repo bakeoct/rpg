@@ -20,7 +20,7 @@ public class DragonKing extends Monster implements Serializable {
         this.defence=0;
         this.judge_sente=7;
         this.name="dragon_king";
-        this.attack=300;
+        this.attack=3000;
         this.up_leberu=0;
         this.leberu=1;
         this.is_alive=true;

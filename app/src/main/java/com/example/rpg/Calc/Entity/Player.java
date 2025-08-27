@@ -3,11 +3,20 @@ package com.example.rpg.Calc.Entity;
 import com.example.rpg.Calc.Item.*;
 import com.example.rpg.Calc.Entity.Monsters.super_monster.Monster;
 import com.example.rpg.R;
+import com.example.rpg.graphic.TransitionActivity;
+import com.example.rpg.graphic.map_activity.GameActivity;
 
 import static com.example.rpg.Calc.Game.game;
+import static com.example.rpg.graphic.MainActivity.main_activity;
 import static com.example.rpg.graphic.TransitionActivity.from_activity;
+import static com.example.rpg.graphic.TransitionActivity.transition_activity;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,6 +45,10 @@ public class Player extends Entity implements Serializable {
 //        mpy = 6;
 //        serve_mpx = 4;
 //        serve_mpy = 6;
+        hp = 20000;
+        attack = 25;
+        limit_hp = 20000;
+        limit_attack = 25;
         speed = 5;
         direction = "over";
         this.items.addAll(field_items);
@@ -53,14 +66,19 @@ public class Player extends Entity implements Serializable {
         if (repeat_flg) {
             knowWhereTail();
             direction(walk_texture_number, xPercent, yPercent);
-            if (game.event.notPlayerEnter(this.world_x + speed * xPercent, this.world_y + speed * yPercent)) {
+            //x移動
+            if (game.event.notPlayerEnter(this.world_x + speed * xPercent, this.world_y)) {
                 System.out.println("再度選んでくださいp");
-                System.out.println();
-                System.out.println();
             } else {
                 this.world_x += speed * xPercent;
+            }
+            //y移動
+            if (game.event.notPlayerEnter(this.world_x, this.world_y + speed * yPercent)) {
+                System.out.println("再度選んでくださいp");
+            } else {
                 this.world_y += speed * yPercent;
             }
+            //上の二つの移動で斜め移動を表現
             serve_mpx = mpx;
             serve_mpy = mpy;
         }
@@ -129,5 +147,20 @@ public class Player extends Entity implements Serializable {
                 }
             }
         }
+    }
+    public void knockBack(){
+
+    }
+    public void changeHpBarColor(){
+        if ((double)this.hp / this.limit_hp <= 0.25){
+            from_activity.control_key.hp_bar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+        }else if ((double)this.hp / this.limit_hp <= 0.5){
+            from_activity.control_key.hp_bar.getProgressDrawable().setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN);
+        }else {
+            from_activity.control_key.hp_bar.getProgressDrawable().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+        }
+    }
+    public void gameOver(){
+
     }
 }

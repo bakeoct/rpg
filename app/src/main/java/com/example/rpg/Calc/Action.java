@@ -26,18 +26,7 @@ import java.util.ArrayList;
 public class Action extends AppCompatActivity implements Serializable, View.OnTouchListener {
     //PlayerAction
     private boolean repeat_flg_player = false;
-    private float moveX = 0, moveY = 0;
-    private MotionEvent e = null;
     public void setPersonAction(ControlView control_key) {
-        control_key.joy_stick.setJoystickListener(new JoyStickView.JoystickListener() {
-            @Override
-            public void onJoystickMoved(float xPercent, float yPercent, MotionEvent event) {
-                moveX = xPercent;
-                moveY = yPercent;
-                e = event;
-                movePlayer();
-            }
-        });
         control_key.setting.setOnTouchListener(this);
         control_key.inventory_button.setOnTouchListener(this);
     }
@@ -76,7 +65,7 @@ public class Action extends AppCompatActivity implements Serializable, View.OnTo
         transition_activity.save_transition_activity = transition_activity.from_activity;
     }
 
-    private void movePlayer() {
+    public void movePlayer(MotionEvent e,float move_X,float move_Y) {
         switch (e.getAction()) {
             case MotionEvent.ACTION_UP:
                 repeat_flg_player = false;
@@ -95,7 +84,7 @@ public class Action extends AppCompatActivity implements Serializable, View.OnTo
                             } catch (InterruptedException e) {
                             }
                             stop_time_amount += STOP_TIME;
-                            game.player.walk(walk_texture_number,moveX,moveY,repeat_flg_player);
+                            game.player.walk(walk_texture_number,move_X,move_Y,repeat_flg_player);
                             if (stop_time_amount > 500){
                                 if (walk_texture_number == 1) walk_texture_number = 2;
                                 else walk_texture_number = 1;
