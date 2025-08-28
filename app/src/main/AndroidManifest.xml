@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".graphic.GameActivity"
+            android:name=".graphic.map_activity.GameActivity"
             android:screenOrientation="landscape"
             />
         <activity
@@ -28,11 +28,11 @@
             android:screenOrientation="landscape"
             />
         <activity
-            android:name=".graphic.Cave1Activity"
+            android:name=".graphic.map_activity.Cave1Activity"
             android:screenOrientation="landscape"
             />
         <activity
-            android:name=".graphic.Cave1_1Activity"
+            android:name=".graphic.map_activity.Cave1_1Activity"
             android:screenOrientation="landscape"
             />
         <activity
@@ -40,15 +40,11 @@
             android:screenOrientation="landscape"
             />
         <activity
-            android:name=".graphic.PeopleHomeActivity"
+            android:name=".graphic.map_activity.PeopleHomeActivity"
             android:screenOrientation="landscape"
             />
         <activity
             android:name=".graphic.TransitionActivity"
-            android:screenOrientation="landscape"
-            />
-        <activity
-            android:name=".graphic.BattleManagerActivity"
             android:screenOrientation="landscape"
             />
     </application>

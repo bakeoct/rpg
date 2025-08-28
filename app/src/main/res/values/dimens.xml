@@ -1,5 +1,5 @@
 <resources>
-    <dimen name="image_size">25dp</dimen>
+    <dimen name="image_size">26dp</dimen>
     <dimen name="image_margin">0dp</dimen>
     <dimen name="image_inventory_size">50dp</dimen>
     <dimen name="image_inventory_margin">20dp</dimen>

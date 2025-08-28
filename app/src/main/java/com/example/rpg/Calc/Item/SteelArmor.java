@@ -11,7 +11,7 @@ public class SteelArmor extends FightItem implements Serializable {
         this.sell_price=25;
         this.code="steelarmor";
         this.item_lv = 1;
-        this.up_defence = 60000;
+        this.up_defence = 600000000;
         this.item_group = "armor";
         this.can_hold = false;
 

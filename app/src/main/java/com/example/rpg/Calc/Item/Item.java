@@ -1,8 +1,12 @@
 package com.example.rpg.Calc.Item;
 
+import static com.example.rpg.Calc.Game.game;
+
 import android.graphics.drawable.Drawable;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.rpg.R;
 
 import java.io.Serializable;
 
